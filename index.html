@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Spoken English Test — 2026</title>
+    <title>English Grammar Mock Test — 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -71,11 +71,11 @@
             <div style="height:4px;background:var(--accent);"></div>
             <div style="padding:32px 32px 24px;">
                 <div style="text-align:center;margin-bottom:28px;">
-                    <div style="font-size:36px;margin-bottom:12px;">📝</div>
-                    <h1 style="font-size:1.5rem;font-weight:800;"> Spoken English Test 2026</h1>
-                    <p style="color:var(--sub);font-size:14px;margin-top:4px;"></p>
+                    <div style="font-size:36px;margin-bottom:12px;">✍️</div>
+                    <h1 style="font-size:1.5rem;font-weight:800;">Mock Test 2026</h1>
+                    <p style="color:var(--sub);font-size:14px;margin-top:4px;">English Grammar Proficiency Exam</p>
                     <div style="display:flex;justify-content:center;gap:16px;margin-top:14px;">
-                        <span style="font-size:12px;color:var(--muted);">⏱ 30 min</span>
+                        <span style="font-size:12px;color:var(--muted);">⏱ 60 min</span>
                         <span style="font-size:12px;color:var(--muted);">❓ 25 Questions</span>
                         <span style="font-size:12px;color:var(--muted);">MCQ</span>
                     </div>
@@ -84,9 +84,30 @@
                     <label class="sec-label" style="display:block;margin-bottom:6px;">Full Name</label>
                     <input type="text" id="stdName" placeholder="Enter your full name" class="inp">
                 </div>
-                <div style="margin-bottom:20px;">
-                    <label class="sec-label" style="display:block;margin-bottom:6px;">Roll Number</label>
-                    <input type="text" id="stdRoll" placeholder="e.g. 01" class="inp">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+                    <div>
+                        <label class="sec-label" style="display:block;margin-bottom:6px;">Class</label>
+                        <select id="stdClass" class="inp" style="cursor:pointer;">
+                            <option value="">— Select Class —</option>
+                            <option value="Class 5">Class 5</option>
+                            <option value="Class 6">Class 6</option>
+                            <option value="Class 7">Class 7</option>
+                            <option value="Class 8">Class 8</option>
+                            <option value="Class 9">Class 9</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="sec-label" style="display:block;margin-bottom:6px;">Division</label>
+                        <select id="stdDivision" class="inp" style="cursor:pointer;">
+                            <option value="">— Select Division —</option>
+                            <option value="A">Division A</option>
+                            <option value="B">Division B</option>
+                            <option value="C">Division C</option>
+                            <option value="D">Division D</option>
+                            <option value="E">Division E</option>
+                            <option value="F">Division F</option>
+                        </select>
+                    </div>
                 </div>
                 <button onclick="startTest()" class="btn-primary" style="width:100%;padding:13px;">Start Test →</button>
                 <button onclick="viewScore()" style="width:100%;margin-top:10px;background:#f0fdf4;color:var(--green);border:1.5px solid #bbf7d0;border-radius:8px;padding:12px;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;">📊 View My Score</button>
@@ -100,7 +121,7 @@
             <p class="sec-label" style="margin-bottom:10px;">Instructions</p>
             <ul style="list-style:none;font-size:13px;color:var(--sub);line-height:2.1;">
                 <li>• Each correct answer carries <strong style="color:var(--text);">+1 mark</strong></li>
-                <li>• The Duration of the Test is 25-30minutes</li>
+                <li>• No negative marking for wrong or skipped answers</li>
                 <li>• You can review &amp; change answers before submission</li>
                 <li>• Use the palette to jump between questions</li>
                 <li>• Test auto-submits when time expires</li>
@@ -121,7 +142,7 @@
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
             <span id="progressPill" style="font-size:13px;color:var(--sub);">0 / 25 answered</span>
-            <div id="timer" class="mono timer-normal" style="padding:8px 18px;border-radius:7px;font-size:20px;font-weight:700;min-width:100px;text-align:center;">30:00</div>
+            <div id="timer" class="mono timer-normal" style="padding:8px 18px;border-radius:7px;font-size:20px;font-weight:700;min-width:100px;text-align:center;">60:00</div>
         </div>
     </header>
     <div class="prog-track no-print"><div id="progressBar" class="prog-fill" style="width:0%"></div></div>
@@ -270,7 +291,24 @@
         <!-- Records panel -->
         <div id="panel-records">
             <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
-                <input type="text" id="adminSearch" oninput="filterTable()" placeholder="Search by name or roll…" class="inp" style="flex:1;min-width:180px;padding:9px 13px;">
+                <input type="text" id="adminSearch" oninput="filterTable()" placeholder="Search by name…" class="inp" style="flex:1;min-width:180px;padding:9px 13px;">
+                <select id="adminFilterClass" onchange="filterTable()" class="inp" style="width:auto;padding:9px 13px;">
+                    <option value="all">All Classes</option>
+                    <option value="Class 5">Class 5</option>
+                    <option value="Class 6">Class 6</option>
+                    <option value="Class 7">Class 7</option>
+                    <option value="Class 8">Class 8</option>
+                    <option value="Class 9">Class 9</option>
+                </select>
+                <select id="adminFilterDiv" onchange="filterTable()" class="inp" style="width:auto;padding:9px 13px;">
+                    <option value="all">All Divisions</option>
+                    <option value="A">Division A</option>
+                    <option value="B">Division B</option>
+                    <option value="C">Division C</option>
+                    <option value="D">Division D</option>
+                    <option value="E">Division E</option>
+                    <option value="F">Division F</option>
+                </select>
                 <select id="adminFilter" onchange="filterTable()" class="inp" style="width:auto;padding:9px 13px;">
                     <option value="all">All Results</option>
                     <option value="pass">Pass Only</option>
@@ -284,7 +322,8 @@
                 <div style="overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;font-size:13px;">
                         <thead><tr style="background:var(--bg);">
-                            <th style="padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);cursor:pointer;" class="sec-label" onclick="sortTable('roll')">Roll # ↕</th>
+                            <th style="padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);cursor:pointer;" class="sec-label" onclick="sortTable('class')">Class ↕</th>
+                            <th style="padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);cursor:pointer;" class="sec-label" onclick="sortTable('division')">Div ↕</th>
                             <th style="padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);cursor:pointer;" class="sec-label" onclick="sortTable('name')">Name ↕</th>
                             <th style="padding:12px 16px;text-align:center;border-bottom:1px solid var(--border);cursor:pointer;" class="sec-label" onclick="sortTable('score')">Score ↕</th>
                             <th style="padding:12px 16px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">%</th>
@@ -358,16 +397,37 @@
     <div class="modal">
         <div style="padding:22px 26px;border-bottom:1px solid var(--border);">
             <h3 style="font-size:1.1rem;font-weight:800;">📊 Score Lookup</h3>
-            <p style="font-size:13px;color:var(--sub);margin-top:3px;">Enter the exact name &amp; roll number from your test</p>
+            <p style="font-size:13px;color:var(--sub);margin-top:3px;">Enter the exact name, class &amp; division from your test</p>
         </div>
         <div style="padding:22px 26px;">
             <div style="margin-bottom:12px;">
                 <label class="sec-label" style="display:block;margin-bottom:6px;">Full Name</label>
                 <input type="text" id="svName" placeholder="Enter your name" class="inp">
             </div>
-            <div style="margin-bottom:16px;">
-                <label class="sec-label" style="display:block;margin-bottom:6px;">Roll Number</label>
-                <input type="text" id="svRoll" placeholder="e.g. 01" class="inp">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                <div>
+                    <label class="sec-label" style="display:block;margin-bottom:6px;">Class</label>
+                    <select id="svClass" class="inp" style="cursor:pointer;">
+                        <option value="">— Select Class —</option>
+                        <option value="Class 5">Class 5</option>
+                        <option value="Class 6">Class 6</option>
+                        <option value="Class 7">Class 7</option>
+                        <option value="Class 8">Class 8</option>
+                        <option value="Class 9">Class 9</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="sec-label" style="display:block;margin-bottom:6px;">Division</label>
+                    <select id="svDivision" class="inp" style="cursor:pointer;">
+                        <option value="">— Select Division —</option>
+                        <option value="A">Division A</option>
+                        <option value="B">Division B</option>
+                        <option value="C">Division C</option>
+                        <option value="D">Division D</option>
+                        <option value="E">Division E</option>
+                        <option value="F">Division F</option>
+                    </select>
+                </div>
             </div>
             <button id="fetchBtn" onclick="fetchScore()" class="btn-green" style="width:100%;padding:13px;font-size:14px;">Fetch My Score →</button>
             <button onclick="closeScoreModal()" style="width:100%;margin-top:8px;background:none;border:none;font-size:13px;color:var(--muted);padding:8px;cursor:pointer;font-family:inherit;">Cancel</button>
@@ -421,47 +481,40 @@ const TOTAL_Q  = 25;
 const PASS_MARK= 13;
 
 const questions=[
-    // Q1-5: Fill in the blanks with an article
-    {q:"Q1. (Fill in the blank with an article)\nI saw ___ elephant in the zoo.",a:["a","an","the","none of these"],correct:1},
-    {q:"Q2. (Fill in the blank with an article)\nShe has ___ red dress.",a:["a","an","the","none of these"],correct:0},
-    {q:"Q3. (Fill in the blank with an article)\nHe is ___ honest boy.",a:["a","an","the","none of these"],correct:1},
-    {q:"Q4. (Fill in the blank with an article)\nThis is ___ apple.",a:["a","an","the","none of these"],correct:1},
-    {q:"Q5. (Fill in the blank with an article)\nMy father bought ___ car.",a:["a","an","the","none of these"],correct:0},
-    // Q6-10: Choose correct helping verb
-    {q:"Q6. (Choose the correct helping verb)\nHe ....... very short.",a:["were","was","are","none of these"],correct:1},
-    {q:"Q7. (Choose the correct helping verb)\nI ___ a student.",a:["am","is","are","none of these"],correct:0},
-    {q:"Q8. (Choose the correct helping verb)\nShe ___ my sister.",a:["am","is","are","none of these"],correct:1},
-    {q:"Q9. (Choose the correct helping verb)\nThey ___ playing cricket.",a:["was","were","have","has"],correct:1},
-    {q:"Q10. (Choose the correct helping verb)\nWe ___ happy today.",a:["am","is","are","none of these"],correct:2},
-    // Q11-12: Fill in the blanks with a modal
-    {q:"Q11. (Fill in the blank with a modal)\nHe ___ a new car.",a:["has","have","was","none of these"],correct:0},
-    {q:"Q12. (Fill in the blank with a modal)\n......... I help you with your homework?",a:["Shall","Should","Might","Will"],correct:0},
-    // Q13-14: Response questions
-    {q:"Q13. (Fill in the blank with a modal)\n......... you solve this puzzle?",a:["May","Shall","Can","Should"],correct:2},
-    {q:"Q14. (Choose a correct positive response)\nMay I have your book?",a:["Yes, of course.","Yes, you will.","Sorry you can't.","Yes, you might."],correct:0},
-    // Q15-18: Plural forms
-    {q:"Q15. (Choose a correct negative response)\nShall we meet tomorrow?",a:["No, we won't.","Yes, why not.","Yes we will.","No, we shouldn't."],correct:0},
-    {q:"Q16. (Choose the correct plural form)\na bench",a:["bechies","benchves","benches","benchess"],correct:2},
-    {q:"Q17. (Choose the correct plural form)\na boy",a:["boys","boies","boves","boes"],correct:0},
-    {q:"Q18. (Choose the correct plural form)\na man",a:["mans","men","mens","manes"],correct:1},
-    // Q19-21: Odd man out
-    {q:"Q19. (Choose the correct plural form)\na fly",a:["flies","fles","fless","a flies"],correct:0},
-    {q:"Q20. (Find the odd man out)\n1. pen  2. pencil  3. chalk  4. eat",a:["pen","pencil","chalk","eat"],correct:3},
-    {q:"Q21. (Find the odd man out)\n1. blue  2. play  3. read  4. run ",a:["blue","play","read","beautiful"],correct:0},
-    // Q22-25: Wh-question words
-    {q:"Q22. (Find the odd man out)\n1. easily  2. silently  3. good  4. badly",a:["easily","silently","good","badly"],correct:2},
-    {q:"Q23. (Choose a suitable Wh-question word)\n.............. students are there?",a:["How much","How many","How","Who"],correct:1},
-    {q:"Q24. (Choose a suitable Wh-question word)\n.............. is your house?",a:["When","Why","Who","Where"],correct:3},
-    {q:"Q25. (Choose a suitable Wh-question word)\n.............. does your school start?",a:["Who","Whose","When","Whom"],correct:2},
+    {q:"Choose the correct form: Neither of the boys ____ present.",a:["was","were","been","have"],correct:0},
+    {q:"Identify the synonym of 'Abundant'.",a:["Scarcity","Plentiful","Rare","Few"],correct:1},
+    {q:"He is ______ M.A. in English.",a:["a","an","the","no article"],correct:1},
+    {q:"I have been living here ____ 2010.",a:["for","since","from","in"],correct:1},
+    {q:"The passive voice of 'Shut the door' is:",a:["Let the door shut","Let the door be shut","The door is shut","Shutted the door"],correct:1},
+    {q:"Which one is correctly spelled?",a:["Occurence","Occurrence","Occurance","Occurrance"],correct:1},
+    {q:"If it rains, we ____ the match.",a:["cancel","would cancel","will cancel","cancelled"],correct:2},
+    {q:"She is senior ____ me.",a:["than","to","from","of"],correct:1},
+    {q:"He said, 'I am ill.' Change to indirect speech:",a:["He said that he is ill","He said that he was ill","He says he is ill","He told he was ill"],correct:1},
+    {q:"Bread and butter ____ my favorite breakfast.",a:["are","is","were","being"],correct:1},
+    {q:"Choose the correct spelling:",a:["Differentiation","Differrentiation","Diferentiation","Differntiation"],correct:0},
+    {q:"The antonym of 'Loquacious' is:",a:["Talkative","Verbose","Taciturn","Garrulous"],correct:2},
+    {q:"Which sentence uses the correct article? ______ honest man is always respected.",a:["A","An","The","No article needed"],correct:1},
+    {q:"She ____ the project before the deadline arrived.",a:["has completed","had completed","was completing","will complete"],correct:1},
+    {q:"Choose the correctly punctuated sentence:",a:["Its a fine day isnt it.","It's a fine day, isn't it?","Its a fine day isn't it?","It's a fine day isn't it."],correct:1},
+    {q:"The teacher along with the students ____ present.",a:["were","are","is","have been"],correct:2},
+    {q:"'Burning the midnight oil' means:",a:["Setting fire to lamps","Wasting resources","Working late into the night","Being careless"],correct:2},
+    {q:"Identify the error: 'He is one of the student who work hard.'",a:["one of","the student","who work hard","He is"],correct:1},
+    {q:"Convert to passive: 'The police arrested the thief.'",a:["The thief was arrested by the police.","The thief is arrested by police.","The thief had arrested by the police.","The police were arrested by the thief."],correct:0},
+    {q:"Which word is a conjunction?",a:["Quickly","Although","Beautiful","Swiftly"],correct:1},
+    {q:"Choose the correct preposition: She is good ____ mathematics.",a:["in","on","at","with"],correct:2},
+    {q:"The plural of 'Criterion' is:",a:["Criterions","Criterias","Criteria","Criterian"],correct:2},
+    {q:"'Had he studied harder, he would have passed.' This is a ____ conditional.",a:["Zero","First","Second","Third"],correct:3},
+    {q:"Identify the figure of speech: 'The wind whispered through the trees.'",a:["Simile","Metaphor","Personification","Hyperbole"],correct:2},
+    {q:"Which sentence is in the future perfect tense?",a:["She will go to school.","She is going to school.","She will have gone to school by noon.","She has gone to school."],correct:2}
 ];
 
 /* ═══════════════════════════ STATE ═══════════════════════════ */
-let currentUser={name:"",roll:""};
+let currentUser={name:"",className:"",division:""};
 let currentIdx=0;
 let responses=Array(TOTAL_Q).fill(null);
 let visited=Array(TOTAL_Q).fill(false);
 let marked=Array(TOTAL_Q).fill(false);
-let timeRemaining=30*60;
+let timeRemaining=60*60;
 let timerInterval;
 let adminData=[];
 let sortCol=null,sortAsc=true;
@@ -480,7 +533,7 @@ function showToast(msg,type='info'){
 }
 
 /* ═══════════════════════════ PDF GENERATION ═══════════════════════════ */
-function generatePDF(name, roll, score, correct, wrong, skipped, responsesArr){
+function generatePDF(name, className, division, score, correct, wrong, skipped, responsesArr){
     const {jsPDF} = window.jspdf;
     const doc = new jsPDF({orientation:'portrait', unit:'mm', format:'a4', compress:true});
     const W=210, M=15;
@@ -505,7 +558,7 @@ function generatePDF(name, roll, score, correct, wrong, skipped, responsesArr){
     doc.setTextColor(17,24,39); doc.setFontSize(11); doc.setFont('helvetica','bold');
     doc.text(name,M+5,y+8);
     doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(107,114,128);
-    doc.text(`Roll No: ${roll}`,M+5,y+15);
+    doc.text(`${className}  |  Division: ${division}`,M+5,y+15);
     doc.text(`Total Questions: ${TOTAL_Q}  |  Pass Mark: ${PASS_MARK}/${TOTAL_Q}`,W/2,y+15,{align:'center'});
 
     const accuracy=((score/TOTAL_Q)*100).toFixed(1);
@@ -561,7 +614,7 @@ function generatePDF(name, roll, score, correct, wrong, skipped, responsesArr){
             // mini header on new page
             doc.setFillColor(37,99,235); doc.rect(0,0,W,8,'F');
             doc.setTextColor(255,255,255); doc.setFontSize(7); doc.setFont('helvetica','bold');
-            doc.text(`${name} — Roll: ${roll} — continued`,M,5.5);
+            doc.text(`${name} — ${className} Div ${division} — continued`,M,5.5);
             doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(17,24,39);
         }
         const ok=res===questions[i].correct, sk=res===null;
@@ -643,11 +696,14 @@ async function uploadPDFToStorage(base64Data, filename){
 /* ═══════════════════════════ AUTH & NAVIGATION ═══════════════════════════ */
 function startTest(){
     const name=document.getElementById('stdName').value.trim();
-    const roll=document.getElementById('stdRoll').value.trim();
-    if(!name||!roll)return showToast('Please enter your Name and Roll Number.','warn');
-    currentUser={name,roll};
+    const className=document.getElementById('stdClass').value;
+    const division=document.getElementById('stdDivision').value;
+    if(!name)return showToast('Please enter your Full Name.','warn');
+    if(!className)return showToast('Please select your Class.','warn');
+    if(!division)return showToast('Please select your Division.','warn');
+    currentUser={name,className,division};
     document.getElementById('headerName').innerText=name;
-    document.getElementById('headerRoll').innerText='Roll: '+roll;
+    document.getElementById('headerRoll').innerText=className+' — Div '+division;
     show('loginPage',false);show('testPage',true);
     initPalette();visited[0]=true;renderQuestion();startTimer();
 }
@@ -752,7 +808,7 @@ async function finalSubmit(){
     const emoji=score>=22?'🏆':score>=18?'🥇':score>=13?'🎓':score>=8?'📚':'💪';
 
     document.getElementById('resultEmoji').innerText=emoji;
-    document.getElementById('resNameDisplay').innerText=`${currentUser.name}  ·  Roll No: ${currentUser.roll}`;
+    document.getElementById('resNameDisplay').innerText=`${currentUser.name}  ·  ${currentUser.className} — Div ${currentUser.division}`;
     document.getElementById('resScore').innerText=`${score}/${TOTAL_Q}`;
     document.getElementById('resAccuracy').innerText=`${accuracy}%`;
     document.getElementById('resStatus').innerHTML=passed?`<span style="color:var(--green);">PASS ✓</span>`:`<span style="color:var(--red);">FAIL ✗</span>`;
@@ -764,16 +820,16 @@ async function finalSubmit(){
 
     show('testPage',false);show('resultPage',true);
 
-    // ── Save score to DB
+    // ── Save score to DB (class_name + division stored)
     try{
         await fetch(SB_URL,{
             method:'POST',
             headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
-            body:JSON.stringify({student_name:currentUser.name,roll_no:currentUser.roll,score})
+            body:JSON.stringify({student_name:currentUser.name,class_name:currentUser.className,division:currentUser.division,score})
         });
     }catch(e){console.error('DB error',e);}
 
-    // ── Generate + Upload PDF
+    // ── Generate + Upload PDF (stored in class/division folder)
     const banner=document.getElementById('pdfBanner');
     banner.style.display='flex';
     banner.style.background='#eff6ff';
@@ -782,11 +838,11 @@ async function finalSubmit(){
     banner.innerHTML='<span style="font-size:16px;">⏳</span> Generating &amp; uploading your PDF report…';
 
     try{
-        const safeRoll=currentUser.roll.replace(/[^a-zA-Z0-9_-]/g,'_');
+        const safeClass=currentUser.className.replace(/\s+/g,'_');
         const safeName=currentUser.name.replace(/[^a-zA-Z0-9_-]/g,'_').substring(0,30);
-        const filename=`report_${safeRoll}_${safeName}.pdf`;
+        const filename=`${safeClass}/${currentUser.division}/report_${safeClass}_Div${currentUser.division}_${safeName}.pdf`;
 
-        const b64=generatePDF(currentUser.name,currentUser.roll,score,correct,wrong,skipped,responses);
+        const b64=generatePDF(currentUser.name,currentUser.className,currentUser.division,score,correct,wrong,skipped,responses);
         await uploadPDFToStorage(b64,filename);
 
         banner.style.background='#f0fdf4';
@@ -827,11 +883,13 @@ function renderRecordsTable(data){
     body.innerHTML=data.map(item=>{
         const pct=((item.score/TOTAL_Q)*100).toFixed(0),pass=item.score>=PASS_MARK;
         const date=new Date(item.created_at).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'});
-        const safeRoll=item.roll_no.toString().replace(/[^a-zA-Z0-9_-]/g,'_');
-        const safeName=item.student_name.replace(/[^a-zA-Z0-9_-]/g,'_').substring(0,30);
-        const fname=`report_${safeRoll}_${safeName}.pdf`;
+        const safeClass=(item.class_name||'Unknown').replace(/\s+/g,'_');
+        const safeDiv=item.division||'A';
+        const safeName=(item.student_name||'').replace(/[^a-zA-Z0-9_-]/g,'_').substring(0,30);
+        const fname=`${safeClass}/${safeDiv}/report_${safeClass}_Div${safeDiv}_${safeName}.pdf`;
         return `<tr style="border-bottom:1px solid var(--border);transition:background 0.1s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
-            <td style="padding:13px 16px;" class="mono">${item.roll_no}</td>
+            <td style="padding:13px 16px;font-weight:600;color:var(--accent);">${item.class_name||'—'}</td>
+            <td style="padding:13px 16px;text-align:center;"><span style="background:#eff6ff;color:var(--accent);border:1px solid #bfdbfe;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;">Div ${item.division||'—'}</span></td>
             <td style="padding:13px 16px;font-weight:600;">${item.student_name}</td>
             <td style="padding:13px 16px;text-align:center;">
                 <div style="display:flex;align-items:center;gap:8px;justify-content:center;">
@@ -848,7 +906,7 @@ function renderRecordsTable(data){
             <td style="padding:13px 16px;text-align:right;">
                 <div style="display:flex;gap:5px;justify-content:flex-end;flex-wrap:wrap;">
                     <button onclick="updateScore(${item.id})" class="btn-ghost" style="padding:5px 10px;font-size:11px;border-color:#bfdbfe;color:var(--accent);">Save</button>
-                    <button onclick="adminViewPdf('${fname}','${item.student_name}','${item.roll_no}')" class="btn-ghost" style="padding:5px 10px;font-size:11px;border-color:#ddd6fe;color:var(--purple);">📄 PDF</button>
+                    <button onclick="adminViewPdf('${fname}','${item.student_name}','${item.class_name} Div ${item.division}')" class="btn-ghost" style="padding:5px 10px;font-size:11px;border-color:#ddd6fe;color:var(--purple);">📄 PDF</button>
                     <button onclick="deleteEntry(${item.id},'${fname}')" class="btn-danger" style="padding:5px 10px;font-size:11px;">Delete</button>
                 </div>
             </td>
@@ -861,7 +919,7 @@ function renderLeaderboard(){
         const pct=((r.score/TOTAL_Q)*100).toFixed(0),pass=r.score>=PASS_MARK;
         return `<div style="display:flex;align-items:center;gap:14px;padding:14px;border-radius:8px;border:1px solid ${i===0?'#fde68a':'var(--border)'};background:${i<3?'#fafafa':'var(--white)'};margin-bottom:8px;">
             <div style="font-size:${i<3?'1.6rem':'0.95rem'};width:36px;text-align:center;font-weight:800;color:var(--sub);">${i<3?medals[i]:'#'+(i+1)}</div>
-            <div style="flex:1;"><div style="font-weight:700;font-size:14px;">${r.student_name}</div><div style="color:var(--sub);font-size:12px;">Roll: ${r.roll_no}</div></div>
+            <div style="flex:1;"><div style="font-weight:700;font-size:14px;">${r.student_name}</div><div style="color:var(--sub);font-size:12px;">${r.class_name||'—'} · Div ${r.division||'—'}</div></div>
             <div style="text-align:right;"><div class="mono" style="font-size:1.2rem;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${r.score}/${TOTAL_Q}</div><div style="font-size:12px;color:var(--sub);">${pct}%</div></div>
             <span class="${pass?'badge-pass':'badge-fail'}">${pass?'PASS':'FAIL'}</span>
         </div>`;
@@ -891,11 +949,42 @@ function renderAnalytics(){
     const scores=adminData.map(r=>r.score).sort((a,b)=>a-b);
     const median=scores.length%2===0?((scores[scores.length/2-1]+scores[scores.length/2])/2).toFixed(1):scores[Math.floor(scores.length/2)];
     const avg=(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1);
-    document.getElementById('classSummary').innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;">
+
+    // Class + Division breakdown
+    const classMap={};
+    adminData.forEach(r=>{
+        const key=`${r.class_name||'Unknown'} — Div ${r.division||'?'}`;
+        if(!classMap[key])classMap[key]={count:0,total:0,passed:0};
+        classMap[key].count++;classMap[key].total+=r.score;
+        if(r.score>=PASS_MARK)classMap[key].passed++;
+    });
+    const classRows=Object.entries(classMap).sort((a,b)=>a[0].localeCompare(b[0])).map(([key,v])=>`
+        <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px;font-weight:700;color:var(--accent);">${key}</td>
+            <td style="padding:10px 14px;text-align:center;" class="mono">${v.count}</td>
+            <td style="padding:10px 14px;text-align:center;" class="mono">${(v.total/v.count).toFixed(1)}</td>
+            <td style="padding:10px 14px;text-align:center;"><span class="badge-pass">${v.passed} PASS</span></td>
+            <td style="padding:10px 14px;text-align:center;"><span class="badge-fail">${v.count-v.passed} FAIL</span></td>
+        </tr>`).join('');
+
+    document.getElementById('classSummary').innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:16px;">
         <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Avg</div><div class="mono" style="font-size:1.5rem;font-weight:800;color:var(--amber);">${avg}</div></div>
         <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Median</div><div class="mono" style="font-size:1.5rem;font-weight:800;color:var(--accent);">${median}</div></div>
         <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Highest</div><div class="mono" style="font-size:1.5rem;font-weight:800;color:var(--green);">${Math.max(...scores)}</div></div>
         <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Lowest</div><div class="mono" style="font-size:1.5rem;font-weight:800;color:var(--red);">${Math.min(...scores)}</div></div>
+    </div>
+    <div style="overflow-x:auto;margin-top:4px;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead><tr style="background:var(--bg);">
+                <th style="padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Class / Division</th>
+                <th style="padding:10px 14px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">Students</th>
+                <th style="padding:10px 14px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">Avg Score</th>
+                <th style="padding:10px 14px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">Passed</th>
+                <th style="padding:10px 14px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">Failed</th>
+            </tr></thead>
+            <tbody>${classRows}</tbody>
+        </table>
     </div>`;
 }
 
@@ -904,36 +993,84 @@ async function loadPdfList(){
     const body=document.getElementById('pdfListBody');
     body.innerHTML='<p style="color:var(--muted);text-align:center;padding:24px;font-size:13px;">Loading…</p>';
     try{
+        // List all files recursively by fetching with no prefix limit
         const res=await fetch(SB_STORAGE_LIST,{
             method:'POST',
             headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
-            body:JSON.stringify({prefix:'',limit:200,sortBy:{column:'created_at',order:'desc'}})
+            body:JSON.stringify({prefix:'',limit:1000,sortBy:{column:'created_at',order:'desc'}})
         });
-        const files=await res.json();
-        if(!Array.isArray(files)||files.length===0){
+        const topItems=await res.json();
+        if(!Array.isArray(topItems)){
+            body.innerHTML='<p style="color:var(--red);text-align:center;padding:32px;font-size:13px;">Error loading reports.</p>';
+            return;
+        }
+
+        // Collect all files: top-level files + files inside class/div folders
+        let allFiles=[];
+        for(const item of topItems){
+            if(item.id===null){
+                // It's a "folder" — list its contents
+                const subRes=await fetch(SB_STORAGE_LIST,{
+                    method:'POST',
+                    headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
+                    body:JSON.stringify({prefix:item.name+'/',limit:500,sortBy:{column:'created_at',order:'desc'}})
+                });
+                const subItems=await subRes.json();
+                if(Array.isArray(subItems)){
+                    for(const sub of subItems){
+                        if(sub.id===null){
+                            // Two levels deep: Class_X/DivY/
+                            const deepRes=await fetch(SB_STORAGE_LIST,{
+                                method:'POST',
+                                headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
+                                body:JSON.stringify({prefix:item.name+'/'+sub.name+'/',limit:500,sortBy:{column:'created_at',order:'desc'}})
+                            });
+                            const deepItems=await deepRes.json();
+                            if(Array.isArray(deepItems)){
+                                deepItems.forEach(f=>{ if(f.id) allFiles.push({...f, fullPath:item.name+'/'+sub.name+'/'+f.name}); });
+                            }
+                        } else {
+                            allFiles.push({...sub, fullPath:item.name+'/'+sub.name});
+                        }
+                    }
+                }
+            } else {
+                allFiles.push({...item, fullPath:item.name});
+            }
+        }
+
+        if(!allFiles.length){
             body.innerHTML='<p style="color:var(--muted);text-align:center;padding:32px;font-size:13px;">No PDF reports stored yet.</p>';
             return;
         }
+
         body.innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:13px;">
             <thead><tr style="background:var(--bg);">
-                <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Filename</th>
+                <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Student / Report</th>
+                <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Class & Div</th>
                 <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Size</th>
                 <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Uploaded</th>
                 <th style="padding:11px 16px;text-align:right;border-bottom:1px solid var(--border);" class="sec-label">Actions</th>
             </tr></thead>
-            <tbody>${files.map(f=>{
+            <tbody>${allFiles.map(f=>{
                 const kb=(f.metadata?.size/1024||0).toFixed(1);
                 const dt=f.created_at?new Date(f.created_at).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'}):'—';
-                const nameDisplay=f.name.replace('report_','').replace('.pdf','').replace(/_/g,' ');
+                // Parse class and division from path: Class_X/A/report_Class_X_DivA_Name.pdf
+                const parts=(f.fullPath||f.name).split('/');
+                const classLabel=parts.length>=2?parts[0].replace(/_/g,' '):'—';
+                const divLabel=parts.length>=3?'Div '+parts[1]:'—';
+                const rawName=parts[parts.length-1].replace(/^report_/,'').replace(/\.pdf$/,'').replace(/_/g,' ');
+                const escapedPath=(f.fullPath||f.name).replace(/'/g,"\\'");
                 return `<tr style="border-bottom:1px solid var(--border);transition:background 0.1s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
-                    <td style="padding:12px 16px;font-weight:600;">📄 ${nameDisplay}</td>
+                    <td style="padding:12px 16px;font-weight:600;">📄 ${rawName}</td>
+                    <td style="padding:12px 16px;"><span style="background:#eff6ff;color:var(--accent);border:1px solid #bfdbfe;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;">${classLabel}</span> <span style="background:#f5f3ff;color:var(--purple);border:1px solid #ddd6fe;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;margin-left:4px;">${divLabel}</span></td>
                     <td style="padding:12px 16px;color:var(--sub);">${kb} KB</td>
                     <td style="padding:12px 16px;color:var(--sub);">${dt}</td>
                     <td style="padding:12px 16px;text-align:right;">
                         <div style="display:flex;gap:6px;justify-content:flex-end;">
-                            <button onclick="adminViewPdf('${f.name}','${nameDisplay}','')" class="btn-ghost" style="padding:5px 12px;font-size:12px;border-color:#ddd6fe;color:var(--purple);">👁 View</button>
-                            <button onclick="adminDownloadPdf('${f.name}')" class="btn-ghost" style="padding:5px 12px;font-size:12px;border-color:#bfdbfe;color:var(--accent);">⬇ Download</button>
-                            <button onclick="adminDeletePdf('${f.name}')" class="btn-danger" style="padding:5px 12px;font-size:12px;">🗑 Delete</button>
+                            <button onclick="adminViewPdf('${escapedPath}','${rawName}','')" class="btn-ghost" style="padding:5px 12px;font-size:12px;border-color:#ddd6fe;color:var(--purple);">👁 View</button>
+                            <button onclick="adminDownloadPdf('${escapedPath}')" class="btn-ghost" style="padding:5px 12px;font-size:12px;border-color:#bfdbfe;color:var(--accent);">⬇ Download</button>
+                            <button onclick="adminDeletePdf('${escapedPath}')" class="btn-danger" style="padding:5px 12px;font-size:12px;">🗑 Delete</button>
                         </div>
                     </td>
                 </tr>`;
@@ -949,14 +1086,14 @@ function getPdfPublicUrl(filename){
 }
 
 // Admin: view PDF (with download + delete buttons)
-function adminViewPdf(filename, name, roll){
+function adminViewPdf(filename, name, classDiv){
     currentPdfFile=filename;
     document.getElementById('pdfViewerTitle').innerText=`PDF Report — ${name}`;
-    document.getElementById('pdfViewerSub').innerText=roll?`Roll No: ${roll}`:'';
+    document.getElementById('pdfViewerSub').innerText=classDiv||'';
     document.getElementById('pdfViewerFrame').src=getPdfPublicUrl(filename);
     const dl=document.getElementById('pdfDownloadLink');
     dl.href=getPdfPublicUrl(filename);
-    dl.download=filename;
+    dl.download=filename.split('/').pop(); // just the filename part for download
     dl.style.display='inline-flex';
     document.getElementById('pdfAdminDeleteBtn').style.display='inline-flex';
     document.getElementById('pdfViewerModal').style.display='flex';
@@ -1017,24 +1154,28 @@ async function clearAllRecords(){
 function filterTable(){
     const q=document.getElementById('adminSearch').value.trim().toLowerCase();
     const f=document.getElementById('adminFilter').value;
+    const fc=document.getElementById('adminFilterClass').value;
+    const fd=document.getElementById('adminFilterDiv').value;
     renderRecordsTable(adminData.filter(r=>{
-        const mQ=!q||r.student_name.toLowerCase().includes(q)||String(r.roll_no).toLowerCase().includes(q);
+        const mQ=!q||r.student_name.toLowerCase().includes(q);
         const mF=f==='all'||(f==='pass'&&r.score>=PASS_MARK)||(f==='fail'&&r.score<PASS_MARK);
-        return mQ&&mF;
+        const mC=fc==='all'||(r.class_name===fc);
+        const mD=fd==='all'||(r.division===fd);
+        return mQ&&mF&&mC&&mD;
     }));
 }
 function sortTable(col){
     if(sortCol===col)sortAsc=!sortAsc;else{sortCol=col;sortAsc=true;}
     renderRecordsTable([...adminData].sort((a,b)=>{
-        const va=col==='score'?a.score:col==='roll'?a.roll_no:a.student_name;
-        const vb=col==='score'?b.score:col==='roll'?b.roll_no:b.student_name;
+        const va=col==='score'?a.score:col==='class'?a.class_name:col==='division'?a.division:a.student_name;
+        const vb=col==='score'?b.score:col==='class'?b.class_name:col==='division'?b.division:b.student_name;
         return sortAsc?(va>vb?1:-1):(va<vb?1:-1);
     }));
 }
 function exportCSV(){
     if(!adminData.length)return showToast('No data to export.','warn');
-    const h='Roll No,Name,Score,Percentage,Status,Submitted At\n';
-    const rows=adminData.map(r=>`${r.roll_no},"${r.student_name}",${r.score},${((r.score/TOTAL_Q)*100).toFixed(1)}%,${r.score>=PASS_MARK?'PASS':'FAIL'},"${new Date(r.created_at).toLocaleString('en-IN')}"`).join('\n');
+    const h='Class,Division,Name,Score,Percentage,Status,Submitted At\n';
+    const rows=adminData.map(r=>`"${r.class_name||''}","${r.division||''}","${r.student_name}",${r.score},${((r.score/TOTAL_Q)*100).toFixed(1)}%,${r.score>=PASS_MARK?'PASS':'FAIL'},"${new Date(r.created_at).toLocaleString('en-IN')}"`).join('\n');
     const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([h+rows],{type:'text/csv'})),download:`results_${new Date().toISOString().slice(0,10)}.csv`});
     a.click();showToast('CSV exported!','success');
 }
@@ -1052,45 +1193,51 @@ function startAdminClock(){
 
 /* ═══════════════════════════ SCORE VIEWER (Candidate) ═══════════════════════════ */
 function viewScore(){
-    const name=document.getElementById('stdName').value.trim(),roll=document.getElementById('stdRoll').value.trim();
+    const name=document.getElementById('stdName').value.trim();
+    const cls=document.getElementById('stdClass').value;
+    const div=document.getElementById('stdDivision').value;
     if(name)document.getElementById('svName').value=name;
-    if(roll)document.getElementById('svRoll').value=roll;
+    if(cls)document.getElementById('svClass').value=cls;
+    if(div)document.getElementById('svDivision').value=div;
     document.getElementById('scoreResult').style.display='none';
     document.getElementById('scoreModal').style.display='flex';
 }
 function closeScoreModal(){document.getElementById('scoreModal').style.display='none';}
 
 async function fetchScore(){
-    const name=document.getElementById('svName').value.trim(),roll=document.getElementById('svRoll').value.trim();
-    if(!name||!roll)return showToast('Enter both Name and Roll Number.','warn');
+    const name=document.getElementById('svName').value.trim();
+    const cls=document.getElementById('svClass').value;
+    const div=document.getElementById('svDivision').value;
+    if(!name||!cls||!div)return showToast('Enter your Name, Class and Division.','warn');
     const btn=document.getElementById('fetchBtn');btn.innerText='Fetching…';btn.disabled=true;
     try{
-        const res=await fetch(`${SB_URL}?roll_no=eq.${encodeURIComponent(roll)}&order=created_at.desc`,{headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
+        const res=await fetch(`${SB_URL}?class_name=eq.${encodeURIComponent(cls)}&division=eq.${encodeURIComponent(div)}&order=created_at.desc`,{headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
         const data=await res.json();
         const record=data.find(r=>r.student_name.trim().toLowerCase()===name.toLowerCase());
-        const div=document.getElementById('scoreResult');div.style.display='block';
+        const divEl=document.getElementById('scoreResult');divEl.style.display='block';
 
         if(!record){
-            div.innerHTML=`<div style="text-align:center;"><div style="font-size:36px;margin-bottom:10px;">🔍</div><p style="color:var(--red);font-weight:700;font-size:15px;">No record found</p><p style="color:var(--sub);font-size:13px;margin-top:6px;">Name and Roll Number must exactly match what you entered during the test.</p></div>`;
+            divEl.innerHTML=`<div style="text-align:center;"><div style="font-size:36px;margin-bottom:10px;">🔍</div><p style="color:var(--red);font-weight:700;font-size:15px;">No record found</p><p style="color:var(--sub);font-size:13px;margin-top:6px;">Name, Class and Division must exactly match what you entered during the test.</p></div>`;
         }else{
             const score=record.score,pct=((score/TOTAL_Q)*100).toFixed(1),pass=score>=PASS_MARK;
             const dt=new Date(record.created_at).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'});
 
-            // Build PDF view button (view-only, no download/delete)
-            const safeRoll=record.roll_no.toString().replace(/[^a-zA-Z0-9_-]/g,'_');
-            const safeName=record.student_name.replace(/[^a-zA-Z0-9_-]/g,'_').substring(0,30);
-            const pdfFname=`report_${safeRoll}_${safeName}.pdf`;
+            const safeClass=(record.class_name||'Unknown').replace(/\s+/g,'_');
+            const safeDiv=record.division||'A';
+            const safeName=(record.student_name||'').replace(/[^a-zA-Z0-9_-]/g,'_').substring(0,30);
+            const pdfFname=`${safeClass}/${safeDiv}/report_${safeClass}_Div${safeDiv}_${safeName}.pdf`;
             const pdfUrl=getPdfPublicUrl(pdfFname);
 
-            div.innerHTML=`
+            divEl.innerHTML=`
                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
                     <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px;text-align:center;"><div class="sec-label" style="margin-bottom:4px;">Score</div><div class="mono" style="font-size:1.6rem;font-weight:800;color:var(--accent);">${score}/${TOTAL_Q}</div></div>
                     <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px;text-align:center;"><div class="sec-label" style="margin-bottom:4px;">Accuracy</div><div class="mono" style="font-size:1.6rem;font-weight:800;color:var(--amber);">${pct}%</div></div>
-                    <div style="bsackground:${pass?'#f0fdf4':'#fff5f5'};border:1px solid ${pass?'#bbf7d0':'#fecaca'};border-radius:8px;padding:14px;text-align:center;"><div class="sec-label" style="margin-bottom:4px;">Status</div><div style="font-size:1.3rem;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${pass?'PASS ✓':'FAIL ✗'}</div></div>
+                    <div style="background:${pass?'#f0fdf4':'#fff5f5'};border:1px solid ${pass?'#bbf7d0':'#fecaca'};border-radius:8px;padding:14px;text-align:center;"><div class="sec-label" style="margin-bottom:4px;">Status</div><div style="font-size:1.3rem;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${pass?'PASS ✓':'FAIL ✗'}</div></div>
                 </div>
-                <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:14px;">Submitted: ${dt}</p>
+                <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:8px;">Submitted: ${dt}</p>
+                <p style="font-size:12px;color:var(--accent);text-align:center;font-weight:600;margin-bottom:14px;">${record.class_name} · Division ${record.division}</p>
                 <div style="border-top:1px solid var(--border);padding-top:14px;">
-                    <button onclick="candidateViewPdf('${pdfUrl}','${record.student_name}','${record.roll_no}')" style="width:100%;background:#f5f3ff;color:var(--purple);border:1.5px solid #ddd6fe;border-radius:8px;padding:11px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;">📄 View My PDF Report</button>
+                    <button onclick="candidateViewPdf('${pdfUrl}','${record.student_name}','${record.class_name}','${record.division}')" style="width:100%;background:#f5f3ff;color:var(--purple);border:1.5px solid #ddd6fe;border-radius:8px;padding:11px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;">📄 View My PDF Report</button>
                     <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px;">View only — contact your teacher to download</p>
                 </div>`;
         }
@@ -1102,9 +1249,9 @@ async function fetchScore(){
 }
 
 // Candidate: view-only PDF (no download link, no delete button)
-function candidateViewPdf(url, name, roll){
+function candidateViewPdf(url, name, className, division){
     document.getElementById('pdfViewerTitle').innerText=`My Report — ${name}`;
-    document.getElementById('pdfViewerSub').innerText=`Roll No: ${roll}`;
+    document.getElementById('pdfViewerSub').innerText=`${className} · Division ${division}`;
     document.getElementById('pdfViewerFrame').src=url;
     document.getElementById('pdfDownloadLink').style.display='none';   // NO download for candidate
     document.getElementById('pdfAdminDeleteBtn').style.display='none'; // NO delete for candidate
