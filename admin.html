@@ -175,7 +175,7 @@
         <div id="panel-dashboard" class="panel active">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin-bottom:24px;">
                 <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Total Submissions</div><div class="mono" id="st-total" style="font-size:2rem;font-weight:800;color:var(--accent);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">all time</div></div>
-                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Passed</div><div class="mono" id="st-pass" style="font-size:2rem;font-weight:800;color:var(--green);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">score ≥ 13</div></div>
+                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Passed</div><div class="mono" id="st-pass" style="font-size:2rem;font-weight:800;color:var(--green);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">score ≥ 9</div></div>
                 <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Failed</div><div class="mono" id="st-fail" style="font-size:2rem;font-weight:800;color:var(--red);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">score &lt; 13</div></div>
                 <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Pass Rate</div><div class="mono" id="st-rate" style="font-size:2rem;font-weight:800;color:var(--green);">—</div><div class="prog-track" style="margin-top:8px;"><div id="passRateBar" class="prog-fill" style="width:0%"></div></div></div>
                 <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Average Score</div><div class="mono" id="st-avg" style="font-size:2rem;font-weight:800;color:var(--amber);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">out of 25</div></div>
@@ -518,7 +518,7 @@ const SB_STG  = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/object";
 const SB_LIST = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/object/list/reports";
 const BUCKET  = "reports";
 const TOTAL_Q = 25;
-const PASS_MARK = 13;
+const PASS_MARK = 9;
 const DEFAULT_USER = "anjali";
 const DEFAULT_PASS = "12345";
 const CLASSES   = ['Class 5','Class 6','Class 7','Class 8','Class 9'];
@@ -665,7 +665,7 @@ function renderDashboard(){
     renderRecentList(allData.slice(0,8));
     renderBracketChart(allData);
     document.getElementById('quickStats').innerHTML=`
-        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><span>Pass threshold</span><strong>13 / 25</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><span>Pass threshold</span><strong>9 / 25</strong></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><span>Avg accuracy</span><strong>${((avg/TOTAL_Q)*100).toFixed(1)}%</strong></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><span>Score range</span><strong>${low} – ${top}</strong></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><span>Std deviation</span><strong>${stdDev(scores).toFixed(2)}</strong></div>
@@ -714,8 +714,8 @@ function renderBracketChart(data){
     const brackets=[
         {label:'22–25 (Excellent)', color:'var(--green)',  count:data.filter(r=>r.score>=22).length},
         {label:'18–21 (Good)',      color:'var(--purple)', count:data.filter(r=>r.score>=18&&r.score<22).length},
-        {label:'13–17 (Pass)',      color:'var(--amber)',  count:data.filter(r=>r.score>=13&&r.score<18).length},
-        {label:'0–12  (Fail)',      color:'var(--red)',    count:data.filter(r=>r.score<13).length},
+        {label:'9–17 (Pass)',       color:'var(--amber)',  count:data.filter(r=>r.score>=9&&r.score<18).length},
+        {label:'0–8   (Fail)',      color:'var(--red)',    count:data.filter(r=>r.score<9).length},
     ];
     const max=Math.max(...brackets.map(b=>b.count))||1;
     document.getElementById('bracketChart').innerHTML=brackets.map(b=>`
@@ -923,8 +923,8 @@ function renderAnalytics(){
     const grades=[
         {label:'A+ (22–25)',color:'var(--green)',  count:allData.filter(r=>r.score>=22).length},
         {label:'A  (18–21)',color:'var(--purple)', count:allData.filter(r=>r.score>=18&&r.score<22).length},
-        {label:'B  (13–17)',color:'var(--amber)',  count:allData.filter(r=>r.score>=13&&r.score<18).length},
-        {label:'F  (0–12)', color:'var(--red)',    count:allData.filter(r=>r.score<13).length},
+        {label:'B  (9–17)', color:'var(--amber)',  count:allData.filter(r=>r.score>=9&&r.score<18).length},
+        {label:'F  (0–8)',  color:'var(--red)',    count:allData.filter(r=>r.score<9).length},
     ];
     const maxG=Math.max(...grades.map(g=>g.count))||1;
     document.getElementById('gradeChart').innerHTML=grades.map(g=>`<div class="bar-row"><span style="width:80px;flex-shrink:0;color:var(--sub);">${g.label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round((g.count/maxG)*100)}%;background:${g.color}"></div></div><span class="mono" style="width:28px;text-align:right;font-size:12px;">${g.count}</span><span style="color:var(--muted);font-size:11px;width:32px;text-align:right;">${total?Math.round((g.count/total)*100):0}%</span></div>`).join('');
