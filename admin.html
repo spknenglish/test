@@ -11,41 +11,27 @@
             --bg:#f8f9fa;--white:#fff;--border:#e5e7eb;--border2:#d1d5db;
             --text:#111827;--sub:#6b7280;--muted:#9ca3af;
             --accent:#2563eb;--green:#16a34a;--red:#dc2626;--amber:#d97706;
-            --purple:#7c3aed;--orange:#ea580c;--indigo:#4338ca;
+            --purple:#7c3aed;--orange:#ea580c;--indigo:#4338ca;--teal:#0d9488;
         }
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
         .mono{font-family:'IBM Plex Mono',monospace;}
-
-        /* ── LOGIN SCREEN ── */
         #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
         @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
         .fade-up{animation:fadeUp 0.28s ease forwards;}
-
-        /* ── SIDEBAR ── */
-        #sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:40;transition:transform 0.2s;}
-        #sidebar.collapsed{transform:translateX(-220px);}
-        .nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:14px;font-weight:500;color:var(--sub);cursor:pointer;border-radius:7px;margin:2px 8px;transition:all 0.12s;border:none;background:none;width:calc(100% - 16px);text-align:left;font-family:inherit;}
+        #sidebar{position:fixed;top:0;left:0;width:228px;height:100vh;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:40;transition:transform 0.2s;}
+        #sidebar.collapsed{transform:translateX(-228px);}
+        .nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px;font-size:13.5px;font-weight:500;color:var(--sub);cursor:pointer;border-radius:7px;margin:2px 8px;transition:all 0.12s;border:none;background:none;width:calc(100% - 16px);text-align:left;font-family:inherit;}
         .nav-item:hover{background:var(--bg);color:var(--text);}
         .nav-item.active{background:#eff6ff;color:var(--accent);font-weight:600;}
         .nav-icon{font-size:15px;width:20px;flex-shrink:0;}
-
-        /* ── MAIN ── */
-        #mainContent{margin-left:220px;min-height:100vh;display:flex;flex-direction:column;transition:margin-left 0.2s;}
+        #mainContent{margin-left:228px;min-height:100vh;display:flex;flex-direction:column;transition:margin-left 0.2s;}
         #mainContent.full{margin-left:0;}
-
-        /* ── TOPBAR ── */
         #topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:30;}
-
-        /* ── PANELS ── */
-        .panel{display:none;padding:28px;max-width:1360px;margin:0 auto;width:100%;}
+        .panel{display:none;padding:28px;max-width:1400px;margin:0 auto;width:100%;}
         .panel.active{display:block;}
-
-        /* ── CARDS ── */
         .card{background:var(--white);border:1px solid var(--border);border-radius:10px;}
         .stat-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:20px;}
-
-        /* ── INPUTS / BUTTONS ── */
         .inp{width:100%;border:1.5px solid var(--border2);border-radius:8px;padding:10px 13px;font-size:13px;font-family:inherit;color:var(--text);background:var(--white);outline:none;transition:border-color 0.12s;}
         .inp:focus{border-color:var(--accent);}
         .inp::placeholder{color:var(--muted);}
@@ -56,64 +42,56 @@
         .btn-danger{background:#fef2f2;color:var(--red);border:1.5px solid #fca5a5;border-radius:8px;padding:9px 14px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;}
         .btn-danger:hover{background:#fee2e2;}
         .btn-green{background:var(--green);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;}
-
-        /* ── BADGES ── */
         .badge-pass{background:#dcfce7;color:var(--green);border:1px solid #bbf7d0;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:700;}
         .badge-fail{background:#fee2e2;color:var(--red);border:1px solid #fecaca;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:700;}
+        .badge-class{background:#eff6ff;color:var(--accent);border:1px solid #bfdbfe;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;}
+        .badge-div{background:#f5f3ff;color:var(--purple);border:1px solid #ddd6fe;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;}
         .sec-label{font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);}
-
-        /* ── OVERLAYS ── */
         .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:16px;}
         .overlay.show{display:flex;}
         .modal-box{background:var(--white);border:1px solid var(--border);border-radius:14px;width:100%;max-width:500px;overflow:hidden;}
         .modal-lg{background:var(--white);border:1px solid var(--border);border-radius:14px;width:100%;max-width:820px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;}
-
-        /* ── TABLE ── */
         .data-table{width:100%;border-collapse:collapse;font-size:13px;}
-        .data-table th{padding:11px 15px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg);}
-        .data-table td{padding:12px 15px;border-bottom:1px solid var(--border);}
-        .data-table tr:hover td{background:var(--bg);}
+        .data-table th{padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg);}
+        .data-table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+        .data-table tr:hover td{background:#fafbff;}
         .data-table tr:last-child td{border-bottom:none;}
-
-        /* ── SCROLLBAR ── */
         ::-webkit-scrollbar{width:5px;}
         ::-webkit-scrollbar-track{background:var(--bg);}
         ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
-
-        /* ── NOTIFICATION TOAST ── */
         #toast{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
         .toast-item{padding:11px 18px;border-radius:8px;font-weight:600;font-size:13px;color:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.12);animation:fadeUp 0.2s ease;}
-
-        /* ── PROGRESS BAR ── */
         .prog-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
         .prog-fill{height:4px;background:var(--accent);border-radius:2px;transition:width 0.4s;}
-
-        /* ── LOADING SPINNER ── */
         .spinner{width:20px;height:20px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;}
         @keyframes spin{to{transform:rotate(360deg)}}
-
-        /* ── EMPTY STATE ── */
         .empty-state{text-align:center;padding:56px 24px;color:var(--muted);}
         .empty-state .icon{font-size:40px;margin-bottom:12px;}
-
-        /* ── CHART BAR ── */
         .bar-row{display:flex;align-items:center;gap:10px;font-size:12px;margin-bottom:7px;}
         .bar-track{flex:1;background:var(--border);border-radius:3px;height:16px;overflow:hidden;}
-        .bar-fill{height:100%;border-radius:3px;transition:width 0.4s;}
-
-        /* ── NOTIFICATION BADGE ── */
-        .notif-dot{width:8px;height:8px;background:var(--red);border-radius:50%;display:inline-block;margin-left:4px;vertical-align:middle;}
-
-        @media(max-width:768px){
-            #sidebar{transform:translateX(-220px);}
-            #mainContent{margin-left:0;}
-            #sidebarToggle{display:flex!important;}
-        }
+        .bar-fill{height:100%;border-radius:3px;transition:width 0.5s ease;}
+        /* CLASS COLOR DOTS */
+        .cls-5{background:#dbeafe;color:#1e40af;}
+        .cls-6{background:#fce7f3;color:#9d174d;}
+        .cls-7{background:#d1fae5;color:#065f46;}
+        .cls-8{background:#fef3c7;color:#92400e;}
+        .cls-9{background:#ede9fe;color:#4c1d95;}
+        .div-a{background:#ecfdf5;color:#047857;}
+        .div-b{background:#eff6ff;color:#1d4ed8;}
+        .div-c{background:#fdf4ff;color:#7e22ce;}
+        .div-d{background:#fff7ed;color:#c2410c;}
+        .div-e{background:#f0fdf4;color:#15803d;}
+        .div-f{background:#fef2f2;color:#b91c1c;}
+        /* TAB PILLS */
+        .tab-pill{padding:7px 16px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:var(--white);color:var(--sub);font-family:inherit;transition:all 0.12s;}
+        .tab-pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+        .tab-pill:not(.active):hover{border-color:var(--accent);color:var(--accent);}
+        @media(max-width:768px){#sidebar{transform:translateX(-228px);}#mainContent{margin-left:0;}#sidebarToggle{display:flex!important;}}
     </style>
 </head>
 <body>
 
-<!-- ═══════════════════════ LOGIN ═══════════════════════ -->
+<!-- LOGIN -->
 <div id="loginScreen">
     <div style="width:100%;max-width:380px;" class="fade-up">
         <div class="card" style="overflow:hidden;">
@@ -123,6 +101,7 @@
                     <div style="width:52px;height:52px;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px;">⚡</div>
                     <h1 style="font-size:1.35rem;font-weight:800;">Admin Portal</h1>
                     <p style="color:var(--sub);font-size:13px;margin-top:4px;">English Grammar Mock Test 2026</p>
+                    <p style="color:var(--muted);font-size:12px;margin-top:2px;">Saint Xavier's High School · Sagroli</p>
                 </div>
                 <div style="margin-bottom:14px;">
                     <label class="sec-label" style="display:block;margin-bottom:6px;">Username</label>
@@ -142,12 +121,12 @@
     </div>
 </div>
 
-<!-- ═══════════════════════ ADMIN SHELL ═══════════════════════ -->
+<!-- ADMIN SHELL -->
 <div id="adminShell" style="display:none;">
 
     <!-- SIDEBAR -->
     <nav id="sidebar">
-        <div style="padding:18px 16px;border-bottom:1px solid var(--border);">
+        <div style="padding:16px;border-bottom:1px solid var(--border);">
             <div style="display:flex;align-items:center;gap:10px;">
                 <div style="width:34px;height:34px;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⚡</div>
                 <div>
@@ -156,46 +135,27 @@
                 </div>
             </div>
         </div>
-
         <div style="padding:10px 0;flex:1;overflow-y:auto;">
             <div style="padding:6px 16px 4px;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Overview</div>
-            <button class="nav-item active" id="nav-dashboard" onclick="switchPanel('dashboard')">
-                <span class="nav-icon">📊</span>Dashboard
-            </button>
-            <button class="nav-item" id="nav-records" onclick="switchPanel('records')">
-                <span class="nav-icon">📋</span>Records
-            </button>
-            <button class="nav-item" id="nav-leaderboard" onclick="switchPanel('leaderboard')">
-                <span class="nav-icon">🏆</span>Leaderboard
-            </button>
-
+            <button class="nav-item active" id="nav-dashboard" onclick="switchPanel('dashboard')"><span class="nav-icon">📊</span>Dashboard</button>
+            <button class="nav-item" id="nav-records" onclick="switchPanel('records')"><span class="nav-icon">📋</span>Records</button>
+            <button class="nav-item" id="nav-leaderboard" onclick="switchPanel('leaderboard')"><span class="nav-icon">🏆</span>Leaderboard</button>
             <div style="padding:10px 16px 4px;margin-top:6px;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Analytics</div>
-            <button class="nav-item" id="nav-analytics" onclick="switchPanel('analytics')">
-                <span class="nav-icon">📈</span>Analytics
-            </button>
-            <button class="nav-item" id="nav-reports" onclick="switchPanel('reports')">
-                <span class="nav-icon">📄</span>PDF Reports
-            </button>
-
+            <button class="nav-item" id="nav-analytics" onclick="switchPanel('analytics')"><span class="nav-icon">📈</span>Analytics</button>
+            <button class="nav-item" id="nav-classview" onclick="switchPanel('classview')"><span class="nav-icon">🏫</span>Class & Division</button>
+            <button class="nav-item" id="nav-reports" onclick="switchPanel('reports')"><span class="nav-icon">📄</span>PDF Reports</button>
             <div style="padding:10px 16px 4px;margin-top:6px;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Tools</div>
-            <button class="nav-item" id="nav-broadcast" onclick="switchPanel('broadcast')">
-                <span class="nav-icon">📢</span>Announcements
-            </button>
-            <button class="nav-item" id="nav-settings" onclick="switchPanel('settings')">
-                <span class="nav-icon">⚙️</span>Settings
-            </button>
+            <button class="nav-item" id="nav-broadcast" onclick="switchPanel('broadcast')"><span class="nav-icon">📢</span>Announcements</button>
+            <button class="nav-item" id="nav-settings" onclick="switchPanel('settings')"><span class="nav-icon">⚙️</span>Settings</button>
         </div>
-
         <div style="padding:12px 16px;border-top:1px solid var(--border);">
             <div style="font-size:12px;color:var(--muted);margin-bottom:8px;" id="sidebarUser"></div>
             <button onclick="doLogout()" style="width:100%;background:#fef2f2;color:var(--red);border:1px solid #fecaca;border-radius:7px;padding:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">Sign Out</button>
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <div id="mainContent">
-
-        <!-- TOPBAR -->
         <header id="topbar">
             <div style="display:flex;align-items:center;gap:14px;">
                 <button id="sidebarToggle" onclick="toggleSidebar()" style="display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:7px;color:var(--sub);">☰</button>
@@ -211,64 +171,29 @@
             </div>
         </header>
 
-        <!-- ══════════ DASHBOARD PANEL ══════════ -->
+        <!-- ══ DASHBOARD ══ -->
         <div id="panel-dashboard" class="panel active">
-
-            <!-- Stat Cards -->
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px;margin-bottom:24px;">
-                <div class="stat-card">
-                    <div class="sec-label" style="margin-bottom:8px;">Total Submissions</div>
-                    <div class="mono" id="st-total" style="font-size:2rem;font-weight:800;color:var(--accent);">—</div>
-                    <div style="font-size:11px;color:var(--muted);margin-top:4px;">all time</div>
-                </div>
-                <div class="stat-card">
-                    <div class="sec-label" style="margin-bottom:8px;">Passed</div>
-                    <div class="mono" id="st-pass" style="font-size:2rem;font-weight:800;color:var(--green);">—</div>
-                    <div style="font-size:11px;color:var(--muted);margin-top:4px;">score ≥ 13</div>
-                </div>
-                <div class="stat-card">
-                    <div class="sec-label" style="margin-bottom:8px;">Failed</div>
-                    <div class="mono" id="st-fail" style="font-size:2rem;font-weight:800;color:var(--red);">—</div>
-                    <div style="font-size:11px;color:var(--muted);margin-top:4px;">score &lt; 13</div>
-                </div>
-                <div class="stat-card">
-                    <div class="sec-label" style="margin-bottom:8px;">Pass Rate</div>
-                    <div class="mono" id="st-rate" style="font-size:2rem;font-weight:800;color:var(--green);">—</div>
-                    <div class="prog-track" style="margin-top:8px;"><div id="passRateBar" class="prog-fill" style="width:0%"></div></div>
-                </div>
-                <div class="stat-card">
-                    <div class="sec-label" style="margin-bottom:8px;">Average Score</div>
-                    <div class="mono" id="st-avg" style="font-size:2rem;font-weight:800;color:var(--amber);">—</div>
-                    <div style="font-size:11px;color:var(--muted);margin-top:4px;">out of 25</div>
-                </div>
-                <div class="stat-card">
-                    <div class="sec-label" style="margin-bottom:8px;">Top Score</div>
-                    <div class="mono" id="st-top" style="font-size:2rem;font-weight:800;color:var(--purple);">—</div>
-                    <div style="font-size:11px;color:var(--muted);margin-top:4px;">highest achieved</div>
-                </div>
-                <div class="stat-card">
-                    <div class="sec-label" style="margin-bottom:8px;">Lowest Score</div>
-                    <div class="mono" id="st-low" style="font-size:2rem;font-weight:800;color:var(--orange);">—</div>
-                    <div style="font-size:11px;color:var(--muted);margin-top:4px;">needs attention</div>
-                </div>
-                <div class="stat-card">
-                    <div class="sec-label" style="margin-bottom:8px;">Median Score</div>
-                    <div class="mono" id="st-med" style="font-size:2rem;font-weight:800;color:var(--indigo);">—</div>
-                    <div style="font-size:11px;color:var(--muted);margin-top:4px;">middle value</div>
-                </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin-bottom:24px;">
+                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Total Submissions</div><div class="mono" id="st-total" style="font-size:2rem;font-weight:800;color:var(--accent);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">all time</div></div>
+                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Passed</div><div class="mono" id="st-pass" style="font-size:2rem;font-weight:800;color:var(--green);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">score ≥ 13</div></div>
+                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Failed</div><div class="mono" id="st-fail" style="font-size:2rem;font-weight:800;color:var(--red);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">score &lt; 13</div></div>
+                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Pass Rate</div><div class="mono" id="st-rate" style="font-size:2rem;font-weight:800;color:var(--green);">—</div><div class="prog-track" style="margin-top:8px;"><div id="passRateBar" class="prog-fill" style="width:0%"></div></div></div>
+                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Average Score</div><div class="mono" id="st-avg" style="font-size:2rem;font-weight:800;color:var(--amber);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">out of 25</div></div>
+                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Top Score</div><div class="mono" id="st-top" style="font-size:2rem;font-weight:800;color:var(--purple);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">highest achieved</div></div>
+                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Lowest Score</div><div class="mono" id="st-low" style="font-size:2rem;font-weight:800;color:var(--orange);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">needs attention</div></div>
+                <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Median Score</div><div class="mono" id="st-med" style="font-size:2rem;font-weight:800;color:var(--indigo);">—</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">middle value</div></div>
             </div>
+            <!-- Class-wise quick summary cards on dashboard -->
+            <div id="dashClassCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:24px;"></div>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-                <!-- Recent Submissions -->
                 <div class="card" style="overflow:hidden;">
                     <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
                         <h3 style="font-size:14px;font-weight:700;">Recent Submissions</h3>
                         <button onclick="switchPanel('records')" style="font-size:12px;color:var(--accent);background:none;border:none;cursor:pointer;font-family:inherit;">View all →</button>
                     </div>
-                    <div id="recentList" style="max-height:320px;overflow-y:auto;"></div>
+                    <div id="recentList" style="max-height:340px;overflow-y:auto;"></div>
                 </div>
-
-                <!-- Score Brackets -->
                 <div class="card" style="padding:20px;">
                     <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;">Score Brackets</h3>
                     <div id="bracketChart"></div>
@@ -280,10 +205,27 @@
             </div>
         </div>
 
-        <!-- ══════════ RECORDS PANEL ══════════ -->
+        <!-- ══ RECORDS ══ -->
         <div id="panel-records" class="panel">
-            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
-                <input type="text" id="searchInp" oninput="filterRecords()" placeholder="Search name or roll…" class="inp" style="flex:1;min-width:180px;padding:9px 13px;">
+            <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+                <input type="text" id="searchInp" oninput="filterRecords()" placeholder="Search by name…" class="inp" style="flex:1;min-width:180px;padding:9px 13px;">
+                <select id="filterClass" onchange="filterRecords()" class="inp" style="width:auto;padding:9px 13px;">
+                    <option value="all">All Classes</option>
+                    <option value="Class 5">Class 5</option>
+                    <option value="Class 6">Class 6</option>
+                    <option value="Class 7">Class 7</option>
+                    <option value="Class 8">Class 8</option>
+                    <option value="Class 9">Class 9</option>
+                </select>
+                <select id="filterDiv" onchange="filterRecords()" class="inp" style="width:auto;padding:9px 13px;">
+                    <option value="all">All Divisions</option>
+                    <option value="A">Division A</option>
+                    <option value="B">Division B</option>
+                    <option value="C">Division C</option>
+                    <option value="D">Division D</option>
+                    <option value="E">Division E</option>
+                    <option value="F">Division F</option>
+                </select>
                 <select id="filterSel" onchange="filterRecords()" class="inp" style="width:auto;padding:9px 13px;">
                     <option value="all">All Results</option>
                     <option value="pass">Pass Only</option>
@@ -295,11 +237,12 @@
                     <option value="score-desc">Score High→Low</option>
                     <option value="score-asc">Score Low→High</option>
                     <option value="name-asc">Name A→Z</option>
+                    <option value="class-asc">Class A→Z</option>
                 </select>
-                <button onclick="exportCSV()" class="btn-ghost" style="padding:9px 16px;border-color:#bbf7d0;color:var(--green);">⬇ CSV</button>
-                <button onclick="exportJSON()" class="btn-ghost" style="padding:9px 16px;border-color:#ddd6fe;color:var(--purple);">⬇ JSON</button>
-                <button onclick="refreshAll()" class="btn-ghost" style="padding:9px 16px;">↻</button>
-                <button onclick="showClearAll()" class="btn-danger" style="padding:9px 14px;">🗑 Clear All</button>
+                <button onclick="exportCSV()" class="btn-ghost" style="padding:9px 14px;border-color:#bbf7d0;color:var(--green);">⬇ CSV</button>
+                <button onclick="exportJSON()" class="btn-ghost" style="padding:9px 14px;border-color:#ddd6fe;color:var(--purple);">⬇ JSON</button>
+                <button onclick="refreshAll()" class="btn-ghost" style="padding:9px 14px;">↻</button>
+                <button onclick="showClearAll()" class="btn-danger" style="padding:9px 12px;">🗑 Clear All</button>
             </div>
             <div id="recordCount" style="font-size:12px;color:var(--muted);margin-bottom:10px;"></div>
             <div class="card" style="overflow:hidden;">
@@ -307,7 +250,8 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th class="sec-label" onclick="setSortCol('roll')" style="cursor:pointer;">Roll # ↕</th>
+                                <th class="sec-label" onclick="setSortCol('class')" style="cursor:pointer;">Class ↕</th>
+                                <th class="sec-label" onclick="setSortCol('div')" style="cursor:pointer;">Div ↕</th>
                                 <th class="sec-label" onclick="setSortCol('name')" style="cursor:pointer;">Name ↕</th>
                                 <th class="sec-label" style="text-align:center;" onclick="setSortCol('score')" style="cursor:pointer;">Score ↕</th>
                                 <th class="sec-label" style="text-align:center;">%</th>
@@ -327,9 +271,32 @@
             </div>
         </div>
 
-        <!-- ══════════ LEADERBOARD PANEL ══════════ -->
+        <!-- ══ LEADERBOARD ══ -->
         <div id="panel-leaderboard" class="panel">
+            <!-- Filter pills -->
+            <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--sub);margin-right:4px;">Filter:</span>
+                <select id="lbFilterClass" onchange="renderLeaderboard()" class="inp" style="width:auto;padding:7px 12px;font-size:12px;">
+                    <option value="all">All Classes</option>
+                    <option value="Class 5">Class 5</option>
+                    <option value="Class 6">Class 6</option>
+                    <option value="Class 7">Class 7</option>
+                    <option value="Class 8">Class 8</option>
+                    <option value="Class 9">Class 9</option>
+                </select>
+                <select id="lbFilterDiv" onchange="renderLeaderboard()" class="inp" style="width:auto;padding:7px 12px;font-size:12px;">
+                    <option value="all">All Divisions</option>
+                    <option value="A">Division A</option>
+                    <option value="B">Division B</option>
+                    <option value="C">Division C</option>
+                    <option value="D">Division D</option>
+                    <option value="E">Division E</option>
+                    <option value="F">Division F</option>
+                </select>
+            </div>
+            <!-- Podium -->
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:20px;" id="podium"></div>
+            <!-- Full ranked list -->
             <div class="card" style="overflow:hidden;">
                 <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
                     <h3 style="font-size:14px;font-weight:700;">🏆 Full Rankings</h3>
@@ -339,7 +306,7 @@
             </div>
         </div>
 
-        <!-- ══════════ ANALYTICS PANEL ══════════ -->
+        <!-- ══ ANALYTICS ══ -->
         <div id="panel-analytics" class="panel">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
                 <div class="card" style="padding:22px;">
@@ -351,13 +318,13 @@
                     <div id="gradeChart"></div>
                 </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;">
                 <div class="card" style="padding:22px;">
-                    <h4 style="font-size:14px;font-weight:700;margin-bottom:14px;">Class Summary</h4>
-                    <div id="classSummary" style="display:grid;gap:8px;"></div>
+                    <h4 style="font-size:14px;font-weight:700;margin-bottom:14px;">Overall Statistics</h4>
+                    <div id="classSummary" style="display:grid;gap:6px;"></div>
                 </div>
                 <div class="card" style="padding:22px;">
-                    <h4 style="font-size:14px;font-weight:700;margin-bottom:14px;">Performance Split</h4>
+                    <h4 style="font-size:14px;font-weight:700;margin-bottom:14px;">Pass / Fail Split</h4>
                     <div id="perfSplit" style="display:flex;flex-direction:column;gap:8px;"></div>
                 </div>
                 <div class="card" style="padding:22px;">
@@ -365,15 +332,55 @@
                     <div id="percentileTable" style="font-size:12px;"></div>
                 </div>
             </div>
+            <!-- Class-wise analytics table -->
+            <div class="card" style="overflow:hidden;margin-bottom:14px;">
+                <div style="padding:16px 20px;border-bottom:1px solid var(--border);">
+                    <h3 style="font-size:14px;font-weight:700;">Class-wise Performance Breakdown</h3>
+                    <p style="font-size:12px;color:var(--sub);margin-top:2px;">Avg, pass rate, top score per class</p>
+                </div>
+                <div style="overflow-x:auto;"><table class="data-table" id="classBreakTable"><thead><tr><th class="sec-label">Class</th><th class="sec-label" style="text-align:center;">Students</th><th class="sec-label" style="text-align:center;">Avg Score</th><th class="sec-label" style="text-align:center;">Pass Rate</th><th class="sec-label" style="text-align:center;">Top Score</th><th class="sec-label" style="text-align:center;">Low Score</th><th class="sec-label" style="text-align:center;">Passed</th><th class="sec-label" style="text-align:center;">Failed</th></tr></thead><tbody id="classBreakBody"></tbody></table></div>
+            </div>
+            <!-- Division-wise analytics table -->
+            <div class="card" style="overflow:hidden;">
+                <div style="padding:16px 20px;border-bottom:1px solid var(--border);">
+                    <h3 style="font-size:14px;font-weight:700;">Division-wise Performance Breakdown</h3>
+                    <p style="font-size:12px;color:var(--sub);margin-top:2px;">Per division across all classes</p>
+                </div>
+                <div style="overflow-x:auto;"><table class="data-table" id="divBreakTable"><thead><tr><th class="sec-label">Division</th><th class="sec-label" style="text-align:center;">Students</th><th class="sec-label" style="text-align:center;">Avg Score</th><th class="sec-label" style="text-align:center;">Pass Rate</th><th class="sec-label" style="text-align:center;">Top Score</th><th class="sec-label" style="text-align:center;">Low Score</th><th class="sec-label" style="text-align:center;">Passed</th><th class="sec-label" style="text-align:center;">Failed</th></tr></thead><tbody id="divBreakBody"></tbody></table></div>
+            </div>
         </div>
 
-        <!-- ══════════ PDF REPORTS PANEL ══════════ -->
+        <!-- ══ CLASS & DIVISION DEEP VIEW ══ -->
+        <div id="panel-classview" class="panel">
+            <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center;">
+                <select id="cvClass" onchange="renderClassView()" class="inp" style="width:auto;padding:9px 13px;">
+                    <option value="all">All Classes</option>
+                    <option value="Class 5">Class 5</option>
+                    <option value="Class 6">Class 6</option>
+                    <option value="Class 7">Class 7</option>
+                    <option value="Class 8">Class 8</option>
+                    <option value="Class 9">Class 9</option>
+                </select>
+                <select id="cvDiv" onchange="renderClassView()" class="inp" style="width:auto;padding:9px 13px;">
+                    <option value="all">All Divisions</option>
+                    <option value="A">Division A</option>
+                    <option value="B">Division B</option>
+                    <option value="C">Division C</option>
+                    <option value="D">Division D</option>
+                    <option value="E">Division E</option>
+                    <option value="F">Division F</option>
+                </select>
+            </div>
+            <!-- Summary stats for selected class/div -->
+            <div id="cvStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;"></div>
+            <!-- Per-class-division grid of cards -->
+            <div id="cvGrid"></div>
+        </div>
+
+        <!-- ══ PDF REPORTS ══ -->
         <div id="panel-reports" class="panel">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-                <div>
-                    <h3 style="font-size:15px;font-weight:700;">PDF Report Archive</h3>
-                    <p style="font-size:13px;color:var(--sub);margin-top:3px;">Auto-generated on every test submission</p>
-                </div>
+                <div><h3 style="font-size:15px;font-weight:700;">PDF Report Archive</h3><p style="font-size:13px;color:var(--sub);margin-top:3px;">Auto-generated on every test submission · Organised by Class / Division</p></div>
                 <div style="display:flex;gap:8px;">
                     <button onclick="loadPdfList()" class="btn-ghost" style="padding:9px 16px;">↻ Refresh</button>
                     <button onclick="showBulkDeletePdfs()" class="btn-danger" style="padding:9px 14px;">🗑 Delete All PDFs</button>
@@ -382,114 +389,55 @@
             <div id="pdfStorageInfo" style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 16px;font-size:13px;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
                 <span>📦</span><span id="pdfStorageText">Loading storage info…</span>
             </div>
-            <div class="card" style="overflow:hidden;">
-                <div id="pdfListBody" style="padding:16px;">
-                    <div class="empty-state"><div class="spinner"></div></div>
-                </div>
-            </div>
+            <div class="card" style="overflow:hidden;"><div id="pdfListBody" style="padding:16px;"><div class="empty-state"><div class="spinner"></div></div></div></div>
         </div>
 
-        <!-- ══════════ ANNOUNCEMENTS PANEL ══════════ -->
+        <!-- ══ ANNOUNCEMENTS ══ -->
         <div id="panel-broadcast" class="panel">
             <div style="max-width:640px;">
                 <div class="card" style="padding:24px;margin-bottom:16px;">
                     <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;">📢 Post Announcement</h3>
-                    <div style="margin-bottom:14px;">
-                        <label class="sec-label" style="display:block;margin-bottom:6px;">Title</label>
-                        <input type="text" id="annTitle" placeholder="e.g. Test Results Published" class="inp">
-                    </div>
-                    <div style="margin-bottom:14px;">
-                        <label class="sec-label" style="display:block;margin-bottom:6px;">Message</label>
-                        <textarea id="annMsg" placeholder="Write your announcement here…" class="inp" style="height:100px;resize:vertical;"></textarea>
-                    </div>
-                    <div style="margin-bottom:18px;">
-                        <label class="sec-label" style="display:block;margin-bottom:6px;">Type</label>
-                        <select id="annType" class="inp" style="width:auto;padding:9px 13px;">
-                            <option value="info">ℹ️ Info</option>
-                            <option value="success">✅ Success</option>
-                            <option value="warning">⚠️ Warning</option>
-                        </select>
-                    </div>
+                    <div style="margin-bottom:14px;"><label class="sec-label" style="display:block;margin-bottom:6px;">Title</label><input type="text" id="annTitle" placeholder="e.g. Test Results Published" class="inp"></div>
+                    <div style="margin-bottom:14px;"><label class="sec-label" style="display:block;margin-bottom:6px;">Message</label><textarea id="annMsg" placeholder="Write your announcement here…" class="inp" style="height:100px;resize:vertical;"></textarea></div>
+                    <div style="margin-bottom:18px;"><label class="sec-label" style="display:block;margin-bottom:6px;">Type</label><select id="annType" class="inp" style="width:auto;padding:9px 13px;"><option value="info">ℹ️ Info</option><option value="success">✅ Success</option><option value="warning">⚠️ Warning</option></select></div>
                     <button onclick="saveAnnouncement()" class="btn-primary" style="padding:11px 20px;">Post Announcement</button>
                 </div>
-
                 <div class="card" style="overflow:hidden;">
-                    <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
-                        <h4 style="font-size:14px;font-weight:700;">Posted Announcements</h4>
-                        <button onclick="loadAnnouncements()" class="btn-ghost" style="padding:6px 12px;font-size:12px;">↻</button>
-                    </div>
+                    <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><h4 style="font-size:14px;font-weight:700;">Posted Announcements</h4><button onclick="loadAnnouncements()" class="btn-ghost" style="padding:6px 12px;font-size:12px;">↻</button></div>
                     <div id="annList" style="padding:12px;"></div>
                 </div>
             </div>
         </div>
 
-        <!-- ══════════ SETTINGS PANEL ══════════ -->
+        <!-- ══ SETTINGS ══ -->
         <div id="panel-settings" class="panel">
             <div style="max-width:640px;display:grid;gap:14px;">
-
-                <!-- Change Password -->
                 <div class="card" style="padding:24px;">
                     <h3 style="font-size:14px;font-weight:700;margin-bottom:4px;">🔐 Change Admin Password</h3>
-                    <p style="font-size:13px;color:var(--sub);margin-bottom:16px;">Password is stored locally in browser storage</p>
-                    <div style="margin-bottom:12px;">
-                        <label class="sec-label" style="display:block;margin-bottom:6px;">Current Password</label>
-                        <input type="password" id="curPass" class="inp" placeholder="Current password">
-                    </div>
-                    <div style="margin-bottom:12px;">
-                        <label class="sec-label" style="display:block;margin-bottom:6px;">New Password</label>
-                        <input type="password" id="newPass" class="inp" placeholder="New password (min 6 chars)">
-                    </div>
-                    <div style="margin-bottom:18px;">
-                        <label class="sec-label" style="display:block;margin-bottom:6px;">Confirm New Password</label>
-                        <input type="password" id="confPass" class="inp" placeholder="Confirm new password">
-                    </div>
+                    <p style="font-size:13px;color:var(--sub);margin-bottom:16px;">Password stored locally in browser storage</p>
+                    <div style="margin-bottom:12px;"><label class="sec-label" style="display:block;margin-bottom:6px;">Current Password</label><input type="password" id="curPass" class="inp" placeholder="Current password"></div>
+                    <div style="margin-bottom:12px;"><label class="sec-label" style="display:block;margin-bottom:6px;">New Password</label><input type="password" id="newPass" class="inp" placeholder="New password (min 6 chars)"></div>
+                    <div style="margin-bottom:18px;"><label class="sec-label" style="display:block;margin-bottom:6px;">Confirm New Password</label><input type="password" id="confPass" class="inp" placeholder="Confirm new password"></div>
                     <button onclick="changePassword()" class="btn-primary" style="padding:10px 20px;">Update Password</button>
                 </div>
-
-                <!-- Supabase Config Info -->
                 <div class="card" style="padding:24px;">
                     <h3 style="font-size:14px;font-weight:700;margin-bottom:4px;">🗄️ Supabase Connection</h3>
                     <p style="font-size:13px;color:var(--sub);margin-bottom:16px;">Connected backend configuration</p>
                     <div style="display:grid;gap:10px;font-size:13px;">
-                        <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
-                            <span style="color:var(--sub);">Project URL</span>
-                            <span class="mono" style="font-size:12px;color:var(--text);">kxmrpfvhdvmgywttzmag</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
-                            <span style="color:var(--sub);">Table</span>
-                            <span class="mono" style="font-size:12px;color:var(--text);">public.results</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
-                            <span style="color:var(--sub);">Storage Bucket</span>
-                            <span class="mono" style="font-size:12px;color:var(--text);">reports</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
-                            <span style="color:var(--sub);">Connection Status</span>
-                            <span id="connStatus" class="mono" style="font-size:12px;color:var(--muted);">Checking…</span>
-                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);"><span style="color:var(--sub);">Project URL</span><span class="mono" style="font-size:12px;">kxmrpfvhdvmgywttzmag</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);"><span style="color:var(--sub);">Table</span><span class="mono" style="font-size:12px;">public.results</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);"><span style="color:var(--sub);">Schema</span><span class="mono" style="font-size:12px;">name · class_name · division · score</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);"><span style="color:var(--sub);">Storage Bucket</span><span class="mono" style="font-size:12px;">reports</span></div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);"><span style="color:var(--sub);">Connection Status</span><span id="connStatus" class="mono" style="font-size:12px;color:var(--muted);">Checking…</span></div>
                     </div>
                     <button onclick="testConnection()" class="btn-ghost" style="margin-top:14px;padding:9px 16px;font-size:13px;">Test Connection</button>
                 </div>
-
-                <!-- Danger Zone -->
                 <div class="card" style="padding:24px;border-color:#fecaca;">
                     <h3 style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:4px;">⚠️ Danger Zone</h3>
                     <p style="font-size:13px;color:var(--sub);margin-bottom:16px;">Irreversible actions — use with caution</p>
                     <div style="display:grid;gap:10px;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fef2f2;border-radius:7px;border:1px solid #fecaca;">
-                            <div>
-                                <div style="font-size:13px;font-weight:600;">Delete All Records</div>
-                                <div style="font-size:12px;color:var(--sub);">Permanently removes all student submissions from database</div>
-                            </div>
-                            <button onclick="showClearAll()" class="btn-danger" style="flex-shrink:0;margin-left:12px;">Delete All</button>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fef2f2;border-radius:7px;border:1px solid #fecaca;">
-                            <div>
-                                <div style="font-size:13px;font-weight:600;">Delete All PDF Reports</div>
-                                <div style="font-size:12px;color:var(--sub);">Removes all stored PDFs from Supabase Storage bucket</div>
-                            </div>
-                            <button onclick="showBulkDeletePdfs()" class="btn-danger" style="flex-shrink:0;margin-left:12px;">Delete All PDFs</button>
-                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fef2f2;border-radius:7px;border:1px solid #fecaca;"><div><div style="font-size:13px;font-weight:600;">Delete All Records</div><div style="font-size:12px;color:var(--sub);">Permanently removes all student submissions from database</div></div><button onclick="showClearAll()" class="btn-danger" style="flex-shrink:0;margin-left:12px;">Delete All</button></div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fef2f2;border-radius:7px;border:1px solid #fecaca;"><div><div style="font-size:13px;font-weight:600;">Delete All PDF Reports</div><div style="font-size:12px;color:var(--sub);">Removes all stored PDFs from Supabase Storage bucket</div></div><button onclick="showBulkDeletePdfs()" class="btn-danger" style="flex-shrink:0;margin-left:12px;">Delete All PDFs</button></div>
                     </div>
                 </div>
             </div>
@@ -498,15 +446,10 @@
     </div><!-- /mainContent -->
 </div><!-- /adminShell -->
 
-<!-- ═══════════════════════ MODALS ═══════════════════════ -->
-
-<!-- Edit Score Modal -->
+<!-- MODALS -->
 <div id="editModal" class="overlay">
     <div class="modal-box">
-        <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
-            <h3 style="font-size:15px;font-weight:700;">Edit Score</h3>
-            <p id="editModalSub" style="font-size:13px;color:var(--sub);margin-top:3px;"></p>
-        </div>
+        <div style="padding:20px 24px;border-bottom:1px solid var(--border);"><h3 style="font-size:15px;font-weight:700;">Edit Score</h3><p id="editModalSub" style="font-size:13px;color:var(--sub);margin-top:3px;"></p></div>
         <div style="padding:20px 24px;">
             <label class="sec-label" style="display:block;margin-bottom:6px;">New Score (0–25)</label>
             <input type="number" id="editScoreVal" min="0" max="25" class="inp" style="margin-bottom:16px;">
@@ -518,25 +461,17 @@
     </div>
 </div>
 
-<!-- View Student Detail Modal -->
 <div id="detailModal" class="overlay">
     <div class="modal-box" style="max-width:560px;">
-        <div style="padding:18px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
-            <h3 style="font-size:15px;font-weight:700;" id="detailTitle">Student Detail</h3>
-            <button onclick="closeModal('detailModal')" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);">✕</button>
-        </div>
+        <div style="padding:18px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><h3 style="font-size:15px;font-weight:700;" id="detailTitle">Student Detail</h3><button onclick="closeModal('detailModal')" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);">✕</button></div>
         <div id="detailBody" style="padding:20px 24px;max-height:70vh;overflow-y:auto;"></div>
     </div>
 </div>
 
-<!-- PDF Viewer Modal -->
 <div id="pdfModal" class="overlay">
     <div class="modal-lg">
         <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-            <div>
-                <h3 style="font-size:14px;font-weight:700;" id="pdfTitle">PDF Report</h3>
-                <p style="font-size:12px;color:var(--sub);margin-top:2px;" id="pdfSub"></p>
-            </div>
+            <div><h3 style="font-size:14px;font-weight:700;" id="pdfTitle">PDF Report</h3><p style="font-size:12px;color:var(--sub);margin-top:2px;" id="pdfSub"></p></div>
             <div style="display:flex;gap:8px;align-items:center;">
                 <a id="pdfDlLink" href="#" download class="btn-primary" style="padding:7px 14px;font-size:12px;text-decoration:none;">⬇ Download</a>
                 <button id="pdfDelBtn" onclick="deletePdfFromViewer()" class="btn-danger" style="padding:7px 12px;font-size:12px;">🗑 Delete</button>
@@ -549,12 +484,11 @@
     </div>
 </div>
 
-<!-- Confirm Clear All -->
 <div id="clearModal" class="overlay">
     <div class="modal-box" style="padding:32px;text-align:center;">
         <div style="font-size:40px;margin-bottom:14px;">🗑️</div>
         <h3 style="font-size:1.1rem;font-weight:800;color:var(--red);margin-bottom:8px;">Delete ALL Records?</h3>
-        <p style="color:var(--sub);font-size:13px;line-height:1.7;margin-bottom:22px;">This permanently deletes every student submission from the database. This cannot be undone.</p>
+        <p style="color:var(--sub);font-size:13px;line-height:1.7;margin-bottom:22px;">This permanently deletes every student submission from the database. Cannot be undone.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <button onclick="closeModal('clearModal')" class="btn-ghost" style="padding:11px;">Cancel</button>
             <button onclick="executeClearAll()" style="background:var(--red);color:#fff;border:none;border-radius:8px;padding:11px;font-weight:700;cursor:pointer;font-family:inherit;">Delete All</button>
@@ -562,7 +496,6 @@
     </div>
 </div>
 
-<!-- Confirm Bulk Delete PDFs -->
 <div id="bulkPdfModal" class="overlay">
     <div class="modal-box" style="padding:32px;text-align:center;">
         <div style="font-size:40px;margin-bottom:14px;">📄</div>
@@ -575,11 +508,10 @@
     </div>
 </div>
 
-<!-- Toast container -->
 <div id="toast"></div>
 
 <script>
-/* ══════════════ CONFIG ══════════════ */
+/* ══ CONFIG ══ */
 const SB_URL  = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/results";
 const SB_KEY  = "sb_publishable_4FYpyHkIfITcoOP_7UBO4A_d6hTnc3T";
 const SB_STG  = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/object";
@@ -587,182 +519,191 @@ const SB_LIST = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/object/list
 const BUCKET  = "reports";
 const TOTAL_Q = 25;
 const PASS_MARK = 13;
-// Default creds (overridable in Settings via localStorage)
 const DEFAULT_USER = "anjali";
 const DEFAULT_PASS = "12345";
+const CLASSES   = ['Class 5','Class 6','Class 7','Class 8','Class 9'];
+const DIVISIONS = ['A','B','C','D','E','F'];
 
-
-/* ══════════════ AUTH ══════════════ */
+/* ══ STATE ══ */
 let isLoggedIn = false;
 let editingId  = null;
 let currentPdfFile = null;
 let allData    = [];
-let sortColKey = 'date';
-let sortAscKey = false;
 
-function getAdminCreds(){
-    return {
-        user: localStorage.getItem('admin_user') || DEFAULT_USER,
-        pass: localStorage.getItem('admin_pass') || DEFAULT_PASS
-    };
-}
+function getAdminCreds(){ return { user: localStorage.getItem('admin_user')||DEFAULT_USER, pass: localStorage.getItem('admin_pass')||DEFAULT_PASS }; }
 
+/* ══ AUTH ══ */
 function doLogin(){
     const u = document.getElementById('loginUser').value.trim();
     const p = document.getElementById('loginPass').value;
     const creds = getAdminCreds();
-    if(u === creds.user && p === creds.pass){
+    if(u===creds.user && p===creds.pass){
+        sessionStorage.setItem('admin_session','1');
         isLoggedIn = true;
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('adminShell').style.display  = 'block';
-        document.getElementById('sidebarUser').innerText = `Logged in as ${u}`;
-        startClock();
-        refreshAll();
-        testConnection();
-        loadAnnouncements();
+        document.getElementById('loginScreen').style.display='none';
+        document.getElementById('adminShell').style.display='block';
+        document.getElementById('sidebarUser').innerText=`Logged in as ${u}`;
+        startClock(); refreshAll(); testConnection(); loadAnnouncements();
     } else {
-        const el = document.getElementById('loginError');
-        el.style.display = 'block';
-        el.innerText = '❌ Invalid username or password.';
-        document.getElementById('loginPass').value = '';
+        const el=document.getElementById('loginError');
+        el.style.display='block'; el.innerText='❌ Invalid username or password.';
+        document.getElementById('loginPass').value='';
     }
 }
-
 function doLogout(){
-    isLoggedIn = false;
-    document.getElementById('adminShell').style.display  = 'none';
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('loginUser').value = '';
-    document.getElementById('loginPass').value = '';
-    document.getElementById('loginError').style.display = 'none';
+    sessionStorage.removeItem('admin_session');
+    isLoggedIn=false;
+    document.getElementById('adminShell').style.display='none';
+    document.getElementById('loginScreen').style.display='flex';
+    document.getElementById('loginUser').value='';
+    document.getElementById('loginPass').value='';
+    document.getElementById('loginError').style.display='none';
 }
-
 function changePassword(){
-    const cur  = document.getElementById('curPass').value;
-    const nw   = document.getElementById('newPass').value;
-    const conf = document.getElementById('confPass').value;
-    const creds = getAdminCreds();
-    if(cur !== creds.pass){ return toast('Current password is wrong.','error'); }
-    if(nw.length < 6){ return toast('New password must be at least 6 characters.','warn'); }
-    if(nw !== conf){ return toast('Passwords do not match.','warn'); }
-    localStorage.setItem('admin_pass', nw);
-    document.getElementById('curPass').value = '';
-    document.getElementById('newPass').value = '';
-    document.getElementById('confPass').value = '';
+    const cur=document.getElementById('curPass').value, nw=document.getElementById('newPass').value, conf=document.getElementById('confPass').value;
+    const creds=getAdminCreds();
+    if(cur!==creds.pass) return toast('Current password is wrong.','error');
+    if(nw.length<6) return toast('New password must be at least 6 characters.','warn');
+    if(nw!==conf) return toast('Passwords do not match.','warn');
+    localStorage.setItem('admin_pass',nw);
+    ['curPass','newPass','confPass'].forEach(id=>document.getElementById(id).value='');
     toast('Password updated successfully!','success');
 }
 
-/* ══════════════ NAV ══════════════ */
+/* ══ NAV ══ */
 const panelMeta = {
-    dashboard:   { title:'Dashboard',       sub:'Overview of all submissions' },
-    records:     { title:'Records',          sub:'All student submissions' },
-    leaderboard: { title:'Leaderboard',      sub:'Top performers ranked' },
-    analytics:   { title:'Analytics',        sub:'Score distribution & class stats' },
-    reports:     { title:'PDF Reports',      sub:'Auto-generated student reports' },
-    broadcast:   { title:'Announcements',    sub:'Post notices to students' },
-    settings:    { title:'Settings',         sub:'Password & configuration' },
+    dashboard:  {title:'Dashboard',        sub:'Overview of all submissions'},
+    records:    {title:'Records',           sub:'All student submissions — filtered by class & division'},
+    leaderboard:{title:'Leaderboard',       sub:'Top performers ranked — filter by class & division'},
+    analytics:  {title:'Analytics',         sub:'Score distribution, class & division breakdowns'},
+    classview:  {title:'Class & Division',  sub:'Deep-dive per class and division'},
+    reports:    {title:'PDF Reports',       sub:'Auto-generated student reports organised by class/division'},
+    broadcast:  {title:'Announcements',     sub:'Post notices to students'},
+    settings:   {title:'Settings',          sub:'Password & configuration'},
 };
 function switchPanel(name){
     document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
     document.getElementById('panel-'+name).classList.add('active');
     document.getElementById('nav-'+name).classList.add('active');
-    document.getElementById('panelTitle').innerText = panelMeta[name].title;
-    document.getElementById('panelSub').innerText   = panelMeta[name].sub;
+    document.getElementById('panelTitle').innerText=panelMeta[name].title;
+    document.getElementById('panelSub').innerText=panelMeta[name].sub;
     if(name==='reports') loadPdfList();
+    if(name==='classview') renderClassView();
 }
-
-let sidebarOpen = true;
+let sidebarOpen=true;
 function toggleSidebar(){
-    sidebarOpen = !sidebarOpen;
-    document.getElementById('sidebar').classList.toggle('collapsed', !sidebarOpen);
-    document.getElementById('mainContent').classList.toggle('full', !sidebarOpen);
+    sidebarOpen=!sidebarOpen;
+    document.getElementById('sidebar').classList.toggle('collapsed',!sidebarOpen);
+    document.getElementById('mainContent').classList.toggle('full',!sidebarOpen);
 }
 
-/* ══════════════ CLOCK ══════════════ */
-function startClock(){
-    const el = document.getElementById('liveClock');
-    const tick = () => { el.innerText = new Date().toLocaleTimeString('en-IN'); };
-    tick(); setInterval(tick, 1000);
+/* ══ CLOCK ══ */
+function startClock(){ const el=document.getElementById('liveClock'); const tick=()=>{el.innerText=new Date().toLocaleTimeString('en-IN');}; tick(); setInterval(tick,1000); }
+
+/* ══ TOAST ══ */
+function toast(msg,type='info'){
+    const c={success:'#16a34a',warn:'#d97706',error:'#dc2626',info:'#2563eb'};
+    const t=document.createElement('div'); t.className='toast-item'; t.innerText=msg; t.style.background=c[type]||c.info;
+    document.getElementById('toast').appendChild(t); setTimeout(()=>t.remove(),3000);
 }
 
-/* ══════════════ TOAST ══════════════ */
-function toast(msg, type='info'){
-    const c = {success:'#16a34a',warn:'#d97706',error:'#dc2626',info:'#2563eb'};
-    const t = document.createElement('div');
-    t.className = 'toast-item';
-    t.innerText  = msg;
-    t.style.background = c[type]||c.info;
-    document.getElementById('toast').appendChild(t);
-    setTimeout(()=>t.remove(), 3000);
-}
+/* ══ MODAL ══ */
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ document.querySelectorAll('.overlay.show').forEach(o=>o.classList.remove('show')); document.getElementById('pdfFrame').src=''; }});
 
-/* ══════════════ MODAL HELPERS ══════════════ */
-function openModal(id){ document.getElementById(id).classList.add('show'); }
-function closeModal(id){ document.getElementById(id).classList.remove('show'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySelectorAll('.overlay.show').forEach(o=>o.classList.remove('show')); document.getElementById('pdfFrame').src=''; } });
-
-/* ══════════════ DATA LOAD ══════════════ */
+/* ══ DATA ══ */
 async function refreshAll(){
     try{
-        const res  = await fetch(`${SB_URL}?select=*&order=created_at.desc`, { headers:{ 'apikey':SB_KEY, 'Authorization':`Bearer ${SB_KEY}` }});
+        const res = await fetch(`${SB_URL}?select=*&order=created_at.desc`,{headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
         allData = await res.json();
-        renderDashboard();
-        renderRecords(allData);
-        renderLeaderboard();
-        renderAnalytics();
-    } catch(e){ toast('Failed to load data: '+e.message,'error'); }
+        if(!Array.isArray(allData)) allData=[];
+        renderDashboard(); filterRecords(); renderLeaderboard(); renderAnalytics(); renderClassView();
+    }catch(e){ toast('Failed to load data: '+e.message,'error'); }
 }
 
-/* ══════════════ DASHBOARD ══════════════ */
+/* ══ HELPERS ══ */
+function stdDev(arr){ if(!arr.length) return 0; const avg=arr.reduce((a,b)=>a+b,0)/arr.length; return Math.sqrt(arr.reduce((a,b)=>a+(b-avg)**2,0)/arr.length); }
+function clsStyle(cls){ const m={'Class 5':'cls-5','Class 6':'cls-6','Class 7':'cls-7','Class 8':'cls-8','Class 9':'cls-9'}; return m[cls]||''; }
+function divStyle(d){ const m={A:'div-a',B:'div-b',C:'div-c',D:'div-d',E:'div-e',F:'div-f'}; return m[d]||''; }
+function pdfPath(cls,div,name){
+    const safeC=(cls||'Unknown').replace(/\s+/g,'_');
+    const safeD=div||'A';
+    const safeN=(name||'').replace(/[^a-zA-Z0-9_-]/g,'_').substring(0,30);
+    return `${safeC}/${safeD}/report_${safeC}_Div${safeD}_${safeN}.pdf`;
+}
+function groupBy(data,keyFn){
+    const map={};
+    data.forEach(r=>{ const k=keyFn(r); if(!map[k]) map[k]=[]; map[k].push(r); });
+    return map;
+}
+function calcStats(arr){
+    if(!arr.length) return {count:0,avg:0,pass:0,fail:0,top:0,low:0,passRate:0};
+    const scores=arr.map(r=>r.score).sort((a,b)=>a-b);
+    const pass=arr.filter(r=>r.score>=PASS_MARK).length;
+    return { count:arr.length, avg:(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1), pass, fail:arr.length-pass, top:Math.max(...scores), low:Math.min(...scores), passRate:Math.round((pass/arr.length)*100) };
+}
+
+/* ══ DASHBOARD ══ */
 function renderDashboard(){
     if(!allData.length){ setDashStats(); renderRecentList([]); renderBracketChart([]); return; }
-    const scores   = allData.map(r=>r.score).sort((a,b)=>a-b);
-    const total    = allData.length;
-    const passed   = allData.filter(r=>r.score>=PASS_MARK).length;
-    const failed   = total - passed;
-    const avg      = (scores.reduce((a,b)=>a+b,0)/total).toFixed(1);
-    const top      = Math.max(...scores);
-    const low      = Math.min(...scores);
-    const median   = scores.length%2===0 ? ((scores[scores.length/2-1]+scores[scores.length/2])/2).toFixed(1) : scores[Math.floor(scores.length/2)];
-    const passRate = Math.round((passed/total)*100);
-
-    document.getElementById('st-total').innerText = total;
-    document.getElementById('st-pass').innerText  = passed;
-    document.getElementById('st-fail').innerText  = failed;
-    document.getElementById('st-rate').innerText  = passRate+'%';
-    document.getElementById('passRateBar').style.width = passRate+'%';
-    document.getElementById('st-avg').innerText   = avg;
-    document.getElementById('st-top').innerText   = top+'/25';
-    document.getElementById('st-low').innerText   = low+'/25';
-    document.getElementById('st-med').innerText   = median;
-
+    const scores=allData.map(r=>r.score).sort((a,b)=>a-b);
+    const total=allData.length, passed=allData.filter(r=>r.score>=PASS_MARK).length;
+    const avg=(scores.reduce((a,b)=>a+b,0)/total).toFixed(1), passRate=Math.round((passed/total)*100);
+    const top=Math.max(...scores), low=Math.min(...scores);
+    const median=scores.length%2===0?((scores[scores.length/2-1]+scores[scores.length/2])/2).toFixed(1):scores[Math.floor(scores.length/2)];
+    document.getElementById('st-total').innerText=total;
+    document.getElementById('st-pass').innerText=passed;
+    document.getElementById('st-fail').innerText=total-passed;
+    document.getElementById('st-rate').innerText=passRate+'%';
+    document.getElementById('passRateBar').style.width=passRate+'%';
+    document.getElementById('st-avg').innerText=avg;
+    document.getElementById('st-top').innerText=top+'/25';
+    document.getElementById('st-low').innerText=low+'/25';
+    document.getElementById('st-med').innerText=median;
     renderRecentList(allData.slice(0,8));
     renderBracketChart(allData);
-
-    document.getElementById('quickStats').innerHTML = `
+    document.getElementById('quickStats').innerHTML=`
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><span>Pass threshold</span><strong>13 / 25</strong></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><span>Avg accuracy</span><strong>${((avg/TOTAL_Q)*100).toFixed(1)}%</strong></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><span>Score range</span><strong>${low} – ${top}</strong></div>
-        <div style="display:flex;justify-content:space-between;padding:7px 0;"><span>Std deviation</span><strong>${stdDev(scores).toFixed(2)}</strong></div>`;
-}
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><span>Std deviation</span><strong>${stdDev(scores).toFixed(2)}</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;"><span>Classes active</span><strong>${[...new Set(allData.map(r=>r.class_name).filter(Boolean))].length}</strong></div>`;
 
-function setDashStats(){
-    ['st-total','st-pass','st-fail','st-rate','st-avg','st-top','st-low','st-med'].forEach(id=>{
-        document.getElementById(id).innerText='—';
-    });
+    // Dashboard class quick-cards
+    const byClass=groupBy(allData.filter(r=>r.class_name),r=>r.class_name);
+    const clsColors=['cls-5','cls-6','cls-7','cls-8','cls-9'];
+    document.getElementById('dashClassCards').innerHTML=Object.entries(byClass).sort((a,b)=>a[0].localeCompare(b[0])).map(([cls,rows],i)=>{
+        const s=calcStats(rows);
+        return `<div class="card" style="padding:16px;border-left:3px solid var(--accent);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                <span style="font-size:13px;font-weight:700;">${cls}</span>
+                <span class="badge-class">${s.count} students</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;">
+                <div><div style="font-size:18px;font-weight:800;color:var(--amber);">${s.avg}</div><div style="font-size:10px;color:var(--muted);">Avg</div></div>
+                <div><div style="font-size:18px;font-weight:800;color:var(--green);">${s.passRate}%</div><div style="font-size:10px;color:var(--muted);">Pass</div></div>
+                <div><div style="font-size:18px;font-weight:800;color:var(--purple);">${s.top}</div><div style="font-size:10px;color:var(--muted);">Top</div></div>
+            </div>
+        </div>`;
+    }).join('');
 }
+function setDashStats(){ ['st-total','st-pass','st-fail','st-rate','st-avg','st-top','st-low','st-med'].forEach(id=>document.getElementById(id).innerText='—'); }
 
 function renderRecentList(data){
     if(!data.length){ document.getElementById('recentList').innerHTML='<div class="empty-state"><div class="icon">📭</div><p>No submissions yet</p></div>'; return; }
-    document.getElementById('recentList').innerHTML = data.map(r=>{
-        const pass = r.score>=PASS_MARK;
-        const dt   = new Date(r.created_at).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'});
+    document.getElementById('recentList').innerHTML=data.map(r=>{
+        const pass=r.score>=PASS_MARK, dt=new Date(r.created_at).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'});
         return `<div style="display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);gap:10px;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
             <div style="width:36px;height:36px;background:${pass?'#dcfce7':'#fee2e2'};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:${pass?'var(--green)':'var(--red)'};flex-shrink:0;">${r.score}</div>
             <div style="flex:1;min-width:0;">
                 <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.student_name}</div>
-                <div style="font-size:11px;color:var(--muted);">Roll: ${r.roll_no} · ${dt}</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:2px;display:flex;gap:6px;align-items:center;">
+                    <span class="badge-class" style="font-size:10px;padding:1px 7px;">${r.class_name||'—'}</span>
+                    <span class="badge-div" style="font-size:10px;padding:1px 7px;">Div ${r.division||'—'}</span>
+                    <span>· ${dt}</span>
+                </div>
             </div>
             <span class="${pass?'badge-pass':'badge-fail'}">${pass?'PASS':'FAIL'}</span>
         </div>`;
@@ -770,14 +711,14 @@ function renderRecentList(data){
 }
 
 function renderBracketChart(data){
-    const brackets = [
-        {label:'22–25 (Excellent)',  color:'var(--green)',  count:data.filter(r=>r.score>=22).length},
-        {label:'18–21 (Good)',       color:'var(--purple)', count:data.filter(r=>r.score>=18&&r.score<22).length},
-        {label:'13–17 (Pass)',       color:'var(--amber)',  count:data.filter(r=>r.score>=13&&r.score<18).length},
-        {label:'0–12  (Fail)',       color:'var(--red)',    count:data.filter(r=>r.score<13).length},
+    const brackets=[
+        {label:'22–25 (Excellent)', color:'var(--green)',  count:data.filter(r=>r.score>=22).length},
+        {label:'18–21 (Good)',      color:'var(--purple)', count:data.filter(r=>r.score>=18&&r.score<22).length},
+        {label:'13–17 (Pass)',      color:'var(--amber)',  count:data.filter(r=>r.score>=13&&r.score<18).length},
+        {label:'0–12  (Fail)',      color:'var(--red)',    count:data.filter(r=>r.score<13).length},
     ];
-    const max = Math.max(...brackets.map(b=>b.count))||1;
-    document.getElementById('bracketChart').innerHTML = brackets.map(b=>`
+    const max=Math.max(...brackets.map(b=>b.count))||1;
+    document.getElementById('bracketChart').innerHTML=brackets.map(b=>`
         <div class="bar-row">
             <span style="width:130px;flex-shrink:0;color:var(--sub);">${b.label}</span>
             <div class="bar-track"><div class="bar-fill" style="width:${Math.round((b.count/max)*100)}%;background:${b.color};"></div></div>
@@ -785,49 +726,51 @@ function renderBracketChart(data){
         </div>`).join('');
 }
 
-/* ══════════════ RECORDS ══════════════ */
+/* ══ RECORDS ══ */
 function filterRecords(){
-    const q   = document.getElementById('searchInp').value.trim().toLowerCase();
-    const f   = document.getElementById('filterSel').value;
-    const s   = document.getElementById('sortSel').value;
-    let filtered = allData.filter(r=>{
-        const mQ = !q || r.student_name.toLowerCase().includes(q) || String(r.roll_no).toLowerCase().includes(q);
-        const mF = f==='all' || (f==='pass'&&r.score>=PASS_MARK) || (f==='fail'&&r.score<PASS_MARK);
-        return mQ && mF;
+    const q=document.getElementById('searchInp').value.trim().toLowerCase();
+    const fc=document.getElementById('filterClass').value;
+    const fd=document.getElementById('filterDiv').value;
+    const f=document.getElementById('filterSel').value;
+    const s=document.getElementById('sortSel').value;
+    let data=allData.filter(r=>{
+        const mQ=!q||r.student_name.toLowerCase().includes(q);
+        const mC=fc==='all'||r.class_name===fc;
+        const mD=fd==='all'||r.division===fd;
+        const mF=f==='all'||(f==='pass'&&r.score>=PASS_MARK)||(f==='fail'&&r.score<PASS_MARK);
+        return mQ&&mC&&mD&&mF;
     });
-    filtered.sort((a,b)=>{
+    data.sort((a,b)=>{
         if(s==='score-desc') return b.score-a.score;
         if(s==='score-asc')  return a.score-b.score;
         if(s==='name-asc')   return a.student_name.localeCompare(b.student_name);
         if(s==='date-asc')   return new Date(a.created_at)-new Date(b.created_at);
+        if(s==='class-asc')  return (a.class_name||'').localeCompare(b.class_name||'');
         return new Date(b.created_at)-new Date(a.created_at);
     });
-    renderRecords(filtered);
+    renderRecords(data);
 }
 
 function setSortCol(col){
-    const s = document.getElementById('sortSel');
+    const s=document.getElementById('sortSel');
     if(col==='score') s.value='score-desc';
     else if(col==='name') s.value='name-asc';
-    else if(col==='roll') s.value='date-desc';
+    else if(col==='class') s.value='class-asc';
     filterRecords();
 }
 
 function renderRecords(data){
-    document.getElementById('recordCount').innerText = `Showing ${data.length} of ${allData.length} records`;
-    const body  = document.getElementById('recordsBody');
-    const empty = document.getElementById('recordsEmpty');
+    document.getElementById('recordCount').innerText=`Showing ${data.length} of ${allData.length} records`;
+    const body=document.getElementById('recordsBody'), empty=document.getElementById('recordsEmpty');
     if(!data.length){ body.innerHTML=''; empty.style.display='block'; return; }
     empty.style.display='none';
-    body.innerHTML = data.map(item=>{
-        const pct  = ((item.score/TOTAL_Q)*100).toFixed(0);
-        const pass = item.score>=PASS_MARK;
-        const dt   = new Date(item.created_at).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'});
-        const safeR = String(item.roll_no).replace(/[^a-zA-Z0-9_-]/g,'_');
-        const safeN = item.student_name.replace(/[^a-zA-Z0-9_-]/g,'_').substring(0,30);
-        const fname = `report_${safeR}_${safeN}.pdf`;
+    body.innerHTML=data.map(item=>{
+        const pct=((item.score/TOTAL_Q)*100).toFixed(0), pass=item.score>=PASS_MARK;
+        const dt=new Date(item.created_at).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'});
+        const fname=pdfPath(item.class_name,item.division,item.student_name);
         return `<tr>
-            <td class="mono" style="font-weight:600;">${item.roll_no}</td>
+            <td><span class="badge-class ${clsStyle(item.class_name)}" style="font-size:11px;padding:2px 9px;">${item.class_name||'—'}</span></td>
+            <td><span class="badge-div ${divStyle(item.division)}" style="font-size:11px;padding:2px 9px;">Div ${item.division||'—'}</span></td>
             <td style="font-weight:600;">${item.student_name}</td>
             <td style="text-align:center;">
                 <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
@@ -845,28 +788,24 @@ function renderRecords(data){
                 <div style="display:flex;gap:5px;justify-content:flex-end;flex-wrap:wrap;">
                     <button onclick="showDetail(${item.id})" class="btn-ghost" style="padding:4px 10px;font-size:11px;border-color:#bfdbfe;color:var(--accent);">👁 View</button>
                     <button onclick="quickSave(${item.id})" class="btn-ghost" style="padding:4px 10px;font-size:11px;">💾 Save</button>
-                    <button onclick="openEditModal(${item.id},'${item.student_name}',${item.score})" class="btn-ghost" style="padding:4px 10px;font-size:11px;border-color:#ddd6fe;color:var(--purple);">✏️ Edit</button>
-                    <button onclick="viewPdf('${fname}','${item.student_name}','${item.roll_no}')" class="btn-ghost" style="padding:4px 10px;font-size:11px;border-color:#d1fae5;color:var(--green);">📄 PDF</button>
-                    <button onclick="deleteRecord(${item.id},'${fname}')" class="btn-danger" style="padding:4px 10px;font-size:11px;">🗑</button>
+                    <button onclick="openEditModal(${item.id},'${item.student_name.replace(/'/g,"\\'")}',${item.score})" class="btn-ghost" style="padding:4px 10px;font-size:11px;border-color:#ddd6fe;color:var(--purple);">✏️ Edit</button>
+                    <button onclick="viewPdf('${fname.replace(/'/g,"\\'")}','${item.student_name.replace(/'/g,"\\'")}','${item.class_name||''} Div ${item.division||''}')" class="btn-ghost" style="padding:4px 10px;font-size:11px;border-color:#d1fae5;color:var(--green);">📄 PDF</button>
+                    <button onclick="deleteRecord(${item.id},'${fname.replace(/'/g,"\\'")}',)" class="btn-danger" style="padding:4px 10px;font-size:11px;">🗑</button>
                 </div>
             </td>
         </tr>`;
     }).join('');
 }
 
-/* ══════════════ STUDENT DETAIL MODAL ══════════════ */
+/* ══ DETAIL MODAL ══ */
 function showDetail(id){
-    const r = allData.find(x=>x.id===id);
-    if(!r) return;
-    const pass = r.score>=PASS_MARK;
-    const pct  = ((r.score/TOTAL_Q)*100).toFixed(1);
-    const dt   = new Date(r.created_at).toLocaleString('en-IN',{dateStyle:'long',timeStyle:'short'});
-    const safeR = String(r.roll_no).replace(/[^a-zA-Z0-9_-]/g,'_');
-    const safeN = r.student_name.replace(/[^a-zA-Z0-9_-]/g,'_').substring(0,30);
-    const fname = `report_${safeR}_${safeN}.pdf`;
-    document.getElementById('detailTitle').innerText = r.student_name;
-    document.getElementById('detailBody').innerHTML = `
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+    const r=allData.find(x=>x.id===id); if(!r) return;
+    const pass=r.score>=PASS_MARK, pct=((r.score/TOTAL_Q)*100).toFixed(1);
+    const dt=new Date(r.created_at).toLocaleString('en-IN',{dateStyle:'long',timeStyle:'short'});
+    const fname=pdfPath(r.class_name,r.division,r.student_name);
+    document.getElementById('detailTitle').innerText=r.student_name;
+    document.getElementById('detailBody').innerHTML=`
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
                 <div class="sec-label" style="margin-bottom:4px;">Score</div>
                 <div class="mono" style="font-size:1.8rem;font-weight:800;color:var(--accent);">${r.score}/25</div>
@@ -880,89 +819,80 @@ function showDetail(id){
                 <div style="font-size:1.4rem;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${pass?'PASS ✓':'FAIL ✗'}</div>
             </div>
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
-                <div class="sec-label" style="margin-bottom:4px;">Roll No</div>
-                <div class="mono" style="font-size:1.4rem;font-weight:800;">${r.roll_no}</div>
+                <div class="sec-label" style="margin-bottom:4px;">Class / Division</div>
+                <div style="font-size:13px;font-weight:700;margin-top:4px;">${r.class_name||'—'}</div>
+                <div style="font-size:12px;color:var(--sub);">Division ${r.division||'—'}</div>
             </div>
         </div>
         <div style="font-size:13px;color:var(--sub);margin-bottom:16px;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
             <strong style="color:var(--text);">Submitted:</strong> ${dt}
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <button onclick="openEditModal(${r.id},'${r.student_name}',${r.score});closeModal('detailModal')" class="btn-ghost" style="padding:10px;">✏️ Edit Score</button>
-            <button onclick="viewPdf('${fname}','${r.student_name}','${r.roll_no}');closeModal('detailModal')" class="btn-green" style="padding:10px;">📄 View PDF Report</button>
+            <button onclick="openEditModal(${r.id},'${r.student_name.replace(/'/g,"\\'")}',${r.score});closeModal('detailModal')" class="btn-ghost" style="padding:10px;">✏️ Edit Score</button>
+            <button onclick="viewPdf('${fname.replace(/'/g,"\\'")}','${r.student_name.replace(/'/g,"\\'")}','${r.class_name||''} Div ${r.division||''}');closeModal('detailModal')" class="btn-green" style="padding:10px;">📄 View PDF Report</button>
         </div>`;
     openModal('detailModal');
 }
 
-/* ══════════════ SCORE EDIT ══════════════ */
-function openEditModal(id, name, score){
-    editingId = id;
-    document.getElementById('editModalSub').innerText = `${name}  ·  Current: ${score}/25`;
-    document.getElementById('editScoreVal').value = score;
-    openModal('editModal');
-}
+/* ══ SCORE EDIT ══ */
+function openEditModal(id,name,score){ editingId=id; document.getElementById('editModalSub').innerText=`${name}  ·  Current: ${score}/25`; document.getElementById('editScoreVal').value=score; openModal('editModal'); }
 async function commitEditScore(){
-    const val = parseInt(document.getElementById('editScoreVal').value);
+    const val=parseInt(document.getElementById('editScoreVal').value);
     if(isNaN(val)||val<0||val>TOTAL_Q) return toast('Score must be 0–25','warn');
-    await fetch(`${SB_URL}?id=eq.${editingId}`,{
-        method:'PATCH',
-        headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
-        body:JSON.stringify({score:val})
-    });
-    toast('Score updated.','success');
-    closeModal('editModal');
-    await refreshAll();
+    await fetch(`${SB_URL}?id=eq.${editingId}`,{method:'PATCH',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({score:val})});
+    toast('Score updated.','success'); closeModal('editModal'); await refreshAll();
 }
 async function quickSave(id){
-    const val = parseInt(document.getElementById(`sc-${id}`).value);
+    const val=parseInt(document.getElementById(`sc-${id}`).value);
     if(isNaN(val)||val<0||val>TOTAL_Q) return toast('Score must be 0–25','warn');
-    await fetch(`${SB_URL}?id=eq.${id}`,{
-        method:'PATCH',
-        headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
-        body:JSON.stringify({score:val})
-    });
-    toast('Score saved.','success');
-    await refreshAll();
+    await fetch(`${SB_URL}?id=eq.${id}`,{method:'PATCH',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({score:val})});
+    toast('Score saved.','success'); await refreshAll();
 }
-async function deleteRecord(id, fname){
+async function deleteRecord(id,fname){
     if(!confirm('Delete this record and its PDF permanently?')) return;
     await fetch(`${SB_URL}?id=eq.${id}`,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
     if(fname) await fetch(`${SB_STG}/${BUCKET}/${fname}`,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
-    toast('Record deleted.','success');
-    await refreshAll();
+    toast('Record deleted.','success'); await refreshAll();
 }
 
-/* ══════════════ LEADERBOARD ══════════════ */
+/* ══ LEADERBOARD ══ */
 function renderLeaderboard(){
-    const sorted = [...allData].sort((a,b)=>b.score-a.score);
-    const medals = ['🥇','🥈','🥉'];
-    const top3 = sorted.slice(0,3);
-    document.getElementById('lbCount').innerText = `${sorted.length} students ranked`;
+    const fc=document.getElementById('lbFilterClass')?.value||'all';
+    const fd=document.getElementById('lbFilterDiv')?.value||'all';
+    let data=allData.filter(r=>(fc==='all'||r.class_name===fc)&&(fd==='all'||r.division===fd));
+    const sorted=[...data].sort((a,b)=>b.score-a.score);
+    const medals=['🥇','🥈','🥉'];
+    document.getElementById('lbCount').innerText=`${sorted.length} students ranked`;
 
-    // Podium
-    document.getElementById('podium').innerHTML = top3.map((r,i)=>{
-        const pass = r.score>=PASS_MARK;
-        const pct  = ((r.score/TOTAL_Q)*100).toFixed(0);
+    // Podium top 3
+    const top3=sorted.slice(0,3);
+    document.getElementById('podium').innerHTML=top3.map((r,i)=>{
+        const pass=r.score>=PASS_MARK, pct=((r.score/TOTAL_Q)*100).toFixed(0);
         return `<div class="stat-card" style="text-align:center;border-color:${i===0?'#fde68a':'var(--border)'};">
             <div style="font-size:2rem;margin-bottom:8px;">${medals[i]}</div>
             <div style="font-weight:800;font-size:14px;">${r.student_name}</div>
-            <div style="font-size:12px;color:var(--sub);margin:3px 0;">Roll: ${r.roll_no}</div>
+            <div style="font-size:11px;color:var(--sub);margin:4px 0;display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
+                <span class="badge-class" style="font-size:10px;">${r.class_name||'—'}</span>
+                <span class="badge-div" style="font-size:10px;">Div ${r.division||'—'}</span>
+            </div>
             <div class="mono" style="font-size:1.5rem;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${r.score}/25</div>
             <div style="font-size:12px;color:var(--sub);">${pct}%</div>
         </div>`;
     }).join('');
 
-    // Full list
-    document.getElementById('leaderboardBody').innerHTML = !sorted.length
-        ? '<div class="empty-state"><div class="icon">🏆</div><p>No submissions yet</p></div>'
-        : sorted.map((r,i)=>{
-            const pass = r.score>=PASS_MARK;
-            const pct  = ((r.score/TOTAL_Q)*100).toFixed(0);
-            return `<div style="display:flex;align-items:center;gap:14px;padding:13px;border-radius:8px;border:1px solid ${i===0?'#fde68a':'var(--border)'};background:${i<3?'#fafafa':'var(--white)'};margin-bottom:8px;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='${i<3?'#fafafa':'var(--white)'}'">
-                <div style="font-size:${i<3?'1.6rem':'0.9rem'};width:36px;text-align:center;font-weight:800;color:var(--sub);flex-shrink:0;">${i<3?medals[i]:'#'+(i+1)}</div>
+    // Full ranked list
+    document.getElementById('leaderboardBody').innerHTML=!sorted.length
+        ?'<div class="empty-state"><div class="icon">🏆</div><p>No submissions yet</p></div>'
+        :sorted.map((r,i)=>{
+            const pass=r.score>=PASS_MARK, pct=((r.score/TOTAL_Q)*100).toFixed(0);
+            return `<div style="display:flex;align-items:center;gap:12px;padding:13px;border-radius:8px;border:1px solid ${i===0?'#fde68a':'var(--border)'};background:${i<3?'#fafafa':'var(--white)'};margin-bottom:8px;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='${i<3?'#fafafa':'var(--white)'}'">
+                <div style="font-size:${i<3?'1.5rem':'0.9rem'};width:36px;text-align:center;font-weight:800;color:var(--sub);flex-shrink:0;">${i<3?medals[i]:'#'+(i+1)}</div>
                 <div style="flex:1;min-width:0;">
                     <div style="font-weight:700;font-size:14px;">${r.student_name}</div>
-                    <div style="color:var(--sub);font-size:12px;">Roll: ${r.roll_no}</div>
+                    <div style="font-size:11px;color:var(--sub);margin-top:3px;display:flex;gap:5px;align-items:center;">
+                        <span class="badge-class" style="font-size:10px;padding:1px 7px;">${r.class_name||'—'}</span>
+                        <span class="badge-div" style="font-size:10px;padding:1px 7px;">Div ${r.division||'—'}</span>
+                    </div>
                 </div>
                 <div style="text-align:right;">
                     <div class="mono" style="font-size:1.2rem;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${r.score}/25</div>
@@ -973,36 +903,21 @@ function renderLeaderboard(){
         }).join('');
 }
 
-/* ══════════════ ANALYTICS ══════════════ */
-function stdDev(arr){
-    if(!arr.length) return 0;
-    const avg = arr.reduce((a,b)=>a+b,0)/arr.length;
-    return Math.sqrt(arr.reduce((a,b)=>a+(b-avg)**2,0)/arr.length);
-}
-
+/* ══ ANALYTICS ══ */
 function renderAnalytics(){
     if(!allData.length){
         ['distChart','gradeChart','classSummary','perfSplit','percentileTable'].forEach(id=>{ document.getElementById(id).innerHTML='<p style="color:var(--muted);font-size:13px;">No data yet.</p>'; });
+        document.getElementById('classBreakBody').innerHTML='';
+        document.getElementById('divBreakBody').innerHTML='';
         return;
     }
-    const scores = allData.map(r=>r.score).sort((a,b)=>a-b);
-    const total  = scores.length;
+    const scores=allData.map(r=>r.score).sort((a,b)=>a-b), total=scores.length;
 
     // Score distribution
-    const bins = Array(TOTAL_Q+1).fill(0);
-    allData.forEach(r=>bins[r.score]++);
-    const maxBin = Math.max(...bins)||1;
-    let distHtml='';
-    for(let s=TOTAL_Q;s>=0;s--){
-        if(!bins[s]) continue;
-        const w=Math.round((bins[s]/maxBin)*100);
-        distHtml+=`<div class="bar-row">
-            <span class="mono" style="width:32px;color:var(--sub);">${s}</span>
-            <div class="bar-track"><div class="bar-fill" style="width:${w}%;background:${s>=PASS_MARK?'var(--green)':'var(--red)'}"></div></div>
-            <span style="color:var(--sub);width:20px;text-align:right;">${bins[s]}</span>
-        </div>`;
-    }
-    document.getElementById('distChart').innerHTML = distHtml;
+    const bins=Array(TOTAL_Q+1).fill(0); allData.forEach(r=>bins[r.score]++);
+    const maxBin=Math.max(...bins)||1; let distHtml='';
+    for(let s=TOTAL_Q;s>=0;s--){ if(!bins[s]) continue; distHtml+=`<div class="bar-row"><span class="mono" style="width:32px;color:var(--sub);">${s}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round((bins[s]/maxBin)*100)}%;background:${s>=PASS_MARK?'var(--green)':'var(--red)'}"></div></div><span style="color:var(--sub);width:20px;text-align:right;">${bins[s]}</span></div>`; }
+    document.getElementById('distChart').innerHTML=distHtml;
 
     // Grade chart
     const grades=[
@@ -1011,264 +926,309 @@ function renderAnalytics(){
         {label:'B  (13–17)',color:'var(--amber)',  count:allData.filter(r=>r.score>=13&&r.score<18).length},
         {label:'F  (0–12)', color:'var(--red)',    count:allData.filter(r=>r.score<13).length},
     ];
-    const maxG = Math.max(...grades.map(g=>g.count))||1;
-    document.getElementById('gradeChart').innerHTML = grades.map(g=>`
-        <div class="bar-row">
-            <span style="width:80px;flex-shrink:0;color:var(--sub);">${g.label}</span>
-            <div class="bar-track"><div class="bar-fill" style="width:${Math.round((g.count/maxG)*100)}%;background:${g.color}"></div></div>
-            <span class="mono" style="width:28px;text-align:right;font-size:12px;">${g.count}</span>
-            <span style="color:var(--muted);font-size:11px;width:32px;text-align:right;">${total?Math.round((g.count/total)*100):0}%</span>
-        </div>`).join('');
+    const maxG=Math.max(...grades.map(g=>g.count))||1;
+    document.getElementById('gradeChart').innerHTML=grades.map(g=>`<div class="bar-row"><span style="width:80px;flex-shrink:0;color:var(--sub);">${g.label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round((g.count/maxG)*100)}%;background:${g.color}"></div></div><span class="mono" style="width:28px;text-align:right;font-size:12px;">${g.count}</span><span style="color:var(--muted);font-size:11px;width:32px;text-align:right;">${total?Math.round((g.count/total)*100):0}%</span></div>`).join('');
 
-    // Class summary
-    const avg  = (scores.reduce((a,b)=>a+b,0)/total).toFixed(2);
-    const med  = total%2===0?((scores[total/2-1]+scores[total/2])/2).toFixed(1):scores[Math.floor(total/2)];
-    const sd   = stdDev(scores).toFixed(2);
-    const min  = scores[0];
-    const max  = scores[total-1];
-    document.getElementById('classSummary').innerHTML=[
-        ['Mean',avg],['Median',med],['Std Dev',sd],['Min',min],['Max',max],
-        ['Total',total],['Pass',allData.filter(r=>r.score>=PASS_MARK).length],['Fail',allData.filter(r=>r.score<PASS_MARK).length]
-    ].map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--sub);">${k}</span><strong class="mono">${v}</strong></div>`).join('');
+    // Stats
+    const avg=(scores.reduce((a,b)=>a+b,0)/total).toFixed(2), med=total%2===0?((scores[total/2-1]+scores[total/2])/2).toFixed(1):scores[Math.floor(total/2)];
+    const sd=stdDev(scores).toFixed(2), min=scores[0], max=scores[total-1];
+    document.getElementById('classSummary').innerHTML=[['Mean',avg],['Median',med],['Std Dev',sd],['Min',min],['Max',max],['Total',total],['Pass',allData.filter(r=>r.score>=PASS_MARK).length],['Fail',allData.filter(r=>r.score<PASS_MARK).length]].map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--sub);">${k}</span><strong class="mono">${v}</strong></div>`).join('');
 
-    // Performance split
-    const pass   = allData.filter(r=>r.score>=PASS_MARK).length;
-    const fail   = total-pass;
-    const passW  = total?Math.round((pass/total)*100):0;
-    const failW  = 100-passW;
+    // Perf split
+    const pass=allData.filter(r=>r.score>=PASS_MARK).length, fail=total-pass, passW=total?Math.round((pass/total)*100):0;
     document.getElementById('perfSplit').innerHTML=`
-        <div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:14px;text-align:center;">
-            <div class="sec-label" style="margin-bottom:6px;">Passed</div>
-            <div class="mono" style="font-size:2rem;font-weight:800;color:var(--green);">${pass}</div>
-            <div style="font-size:12px;color:var(--sub);">${passW}% of class</div>
-        </div>
-        <div style="background:#fee2e2;border:1px solid #fecaca;border-radius:8px;padding:14px;text-align:center;">
-            <div class="sec-label" style="margin-bottom:6px;">Failed</div>
-            <div class="mono" style="font-size:2rem;font-weight:800;color:var(--red);">${fail}</div>
-            <div style="font-size:12px;color:var(--sub);">${failW}% of class</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:4px;">
-            <div class="bar-track" style="height:8px;"><div class="bar-fill" style="width:${passW}%;background:var(--green);height:8px;"></div></div>
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:5px;"><span>Pass ${passW}%</span><span>Fail ${failW}%</span></div>
-        </div>`;
+        <div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:14px;text-align:center;"><div class="sec-label" style="margin-bottom:6px;">Passed</div><div class="mono" style="font-size:2rem;font-weight:800;color:var(--green);">${pass}</div><div style="font-size:12px;color:var(--sub);">${passW}% of total</div></div>
+        <div style="background:#fee2e2;border:1px solid #fecaca;border-radius:8px;padding:14px;text-align:center;"><div class="sec-label" style="margin-bottom:6px;">Failed</div><div class="mono" style="font-size:2rem;font-weight:800;color:var(--red);">${fail}</div><div style="font-size:12px;color:var(--sub);">${100-passW}% of total</div></div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;"><div class="bar-track" style="height:8px;"><div class="bar-fill" style="width:${passW}%;background:var(--green);height:8px;"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:5px;"><span>Pass ${passW}%</span><span>Fail ${100-passW}%</span></div></div>`;
 
-    // Percentile table
+    // Percentile
     const ps=[10,25,50,75,90];
-    document.getElementById('percentileTable').innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:12px;">
-        <thead><tr style="background:var(--bg);"><th style="padding:7px 10px;border-bottom:1px solid var(--border);text-align:left;" class="sec-label">Percentile</th><th style="padding:7px 10px;border-bottom:1px solid var(--border);text-align:right;" class="sec-label">Score</th></tr></thead>
-        <tbody>${ps.map(p=>{
-            const idx=Math.floor((p/100)*total);
-            const val=scores[Math.min(idx,total-1)];
-            return `<tr><td style="padding:7px 10px;border-bottom:1px solid var(--border);color:var(--sub);">P${p}</td><td style="padding:7px 10px;border-bottom:1px solid var(--border);text-align:right;" class="mono">${val}</td></tr>`;
-        }).join('')}</tbody>
-    </table>`;
+    document.getElementById('percentileTable').innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr style="background:var(--bg);"><th style="padding:7px 10px;border-bottom:1px solid var(--border);text-align:left;" class="sec-label">Percentile</th><th style="padding:7px 10px;border-bottom:1px solid var(--border);text-align:right;" class="sec-label">Score</th></tr></thead><tbody>${ps.map(p=>{const idx=Math.floor((p/100)*total);const val=scores[Math.min(idx,total-1)];return `<tr><td style="padding:7px 10px;border-bottom:1px solid var(--border);color:var(--sub);">P${p}</td><td style="padding:7px 10px;border-bottom:1px solid var(--border);text-align:right;" class="mono">${val}</td></tr>`;}).join('')}</tbody></table>`;
+
+    // Class breakdown table
+    const byClass=groupBy(allData.filter(r=>r.class_name),r=>r.class_name);
+    document.getElementById('classBreakBody').innerHTML=Object.entries(byClass).sort((a,b)=>a[0].localeCompare(b[0])).map(([cls,rows])=>{
+        const s=calcStats(rows);
+        return `<tr>
+            <td><span class="badge-class ${clsStyle(cls)}">${cls}</span></td>
+            <td style="text-align:center;font-weight:700;">${s.count}</td>
+            <td style="text-align:center;" class="mono">${s.avg}</td>
+            <td style="text-align:center;">
+                <div style="display:flex;align-items:center;gap:6px;justify-content:center;">
+                    <div style="flex:1;max-width:80px;background:var(--border);border-radius:999px;height:5px;overflow:hidden;"><div style="height:5px;border-radius:999px;background:${s.passRate>=60?'var(--green)':'var(--red)'};width:${s.passRate}%;"></div></div>
+                    <span style="font-size:12px;font-weight:700;color:${s.passRate>=60?'var(--green)':'var(--red)'};">${s.passRate}%</span>
+                </div>
+            </td>
+            <td style="text-align:center;" class="mono">${s.top}</td>
+            <td style="text-align:center;" class="mono">${s.low}</td>
+            <td style="text-align:center;"><span class="badge-pass">${s.pass}</span></td>
+            <td style="text-align:center;"><span class="badge-fail">${s.fail}</span></td>
+        </tr>`;
+    }).join('');
+
+    // Division breakdown table
+    const byDiv=groupBy(allData.filter(r=>r.division),r=>r.division);
+    document.getElementById('divBreakBody').innerHTML=DIVISIONS.filter(d=>byDiv[d]).map(d=>{
+        const rows=byDiv[d], s=calcStats(rows);
+        return `<tr>
+            <td><span class="badge-div ${divStyle(d)}">Division ${d}</span></td>
+            <td style="text-align:center;font-weight:700;">${s.count}</td>
+            <td style="text-align:center;" class="mono">${s.avg}</td>
+            <td style="text-align:center;">
+                <div style="display:flex;align-items:center;gap:6px;justify-content:center;">
+                    <div style="flex:1;max-width:80px;background:var(--border);border-radius:999px;height:5px;overflow:hidden;"><div style="height:5px;border-radius:999px;background:${s.passRate>=60?'var(--green)':'var(--red)'};width:${s.passRate}%;"></div></div>
+                    <span style="font-size:12px;font-weight:700;color:${s.passRate>=60?'var(--green)':'var(--red)'};">${s.passRate}%</span>
+                </div>
+            </td>
+            <td style="text-align:center;" class="mono">${s.top}</td>
+            <td style="text-align:center;" class="mono">${s.low}</td>
+            <td style="text-align:center;"><span class="badge-pass">${s.pass}</span></td>
+            <td style="text-align:center;"><span class="badge-fail">${s.fail}</span></td>
+        </tr>`;
+    }).join('');
 }
 
-/* ══════════════ PDF REPORTS ══════════════ */
+/* ══ CLASS & DIVISION DEEP VIEW ══ */
+function renderClassView(){
+    if(!allData.length){ document.getElementById('cvStats').innerHTML=''; document.getElementById('cvGrid').innerHTML='<div class="empty-state"><div class="icon">📭</div><p>No data yet</p></div>'; return; }
+    const fc=document.getElementById('cvClass')?.value||'all';
+    const fd=document.getElementById('cvDiv')?.value||'all';
+    let subset=allData.filter(r=>(fc==='all'||r.class_name===fc)&&(fd==='all'||r.division===fd)&&r.class_name&&r.division);
+
+    // Summary stats bar
+    const s=calcStats(subset);
+    document.getElementById('cvStats').innerHTML=`
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Students</div><div class="mono" style="font-size:2rem;font-weight:800;color:var(--accent);">${s.count}</div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Avg Score</div><div class="mono" style="font-size:2rem;font-weight:800;color:var(--amber);">${s.count?s.avg:'—'}</div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Pass Rate</div><div class="mono" style="font-size:2rem;font-weight:800;color:var(--green);">${s.count?s.passRate+'%':'—'}</div><div class="prog-track" style="margin-top:8px;"><div class="prog-fill" style="width:${s.passRate}%"></div></div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Top Score</div><div class="mono" style="font-size:2rem;font-weight:800;color:var(--purple);">${s.count?s.top+'/25':'—'}</div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Passed</div><div class="mono" style="font-size:2rem;font-weight:800;color:var(--green);">${s.pass}</div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:8px;">Failed</div><div class="mono" style="font-size:2rem;font-weight:800;color:var(--red);">${s.fail}</div></div>`;
+
+    // Build grid: one card per class×division combo that has data
+    const combos={};
+    subset.forEach(r=>{
+        const key=`${r.class_name}||${r.division}`;
+        if(!combos[key]) combos[key]=[];
+        combos[key].push(r);
+    });
+    const sorted=Object.entries(combos).sort((a,b)=>a[0].localeCompare(b[0]));
+
+    if(!sorted.length){ document.getElementById('cvGrid').innerHTML='<div class="empty-state"><div class="icon">📭</div><p>No data for selected filter</p></div>'; return; }
+
+    document.getElementById('cvGrid').innerHTML=sorted.map(([key,rows])=>{
+        const [cls,div]=key.split('||');
+        const s=calcStats(rows);
+        const top5=[...rows].sort((a,b)=>b.score-a.score).slice(0,5);
+        return `<div class="card" style="margin-bottom:16px;overflow:hidden;">
+            <div style="padding:16px 20px;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span class="badge-class ${clsStyle(cls)}" style="font-size:13px;padding:4px 12px;">${cls}</span>
+                    <span class="badge-div ${divStyle(div)}" style="font-size:13px;padding:4px 12px;">Division ${div}</span>
+                </div>
+                <div style="display:flex;gap:16px;font-size:12px;color:var(--sub);">
+                    <span>👥 <strong>${s.count}</strong> students</span>
+                    <span>📊 Avg <strong>${s.avg}</strong></span>
+                    <span>✅ <strong style="color:var(--green);">${s.pass} Pass</strong></span>
+                    <span>❌ <strong style="color:var(--red);">${s.fail} Fail</strong></span>
+                </div>
+            </div>
+            <div style="padding:16px 20px;">
+                <!-- Mini stats -->
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;">
+                    <div style="text-align:center;padding:10px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
+                        <div style="font-size:18px;font-weight:800;color:var(--amber);">${s.avg}</div>
+                        <div style="font-size:10px;color:var(--muted);margin-top:2px;">Avg Score</div>
+                    </div>
+                    <div style="text-align:center;padding:10px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
+                        <div style="font-size:18px;font-weight:800;color:${s.passRate>=60?'var(--green)':'var(--red)'};">${s.passRate}%</div>
+                        <div style="font-size:10px;color:var(--muted);margin-top:2px;">Pass Rate</div>
+                    </div>
+                    <div style="text-align:center;padding:10px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
+                        <div style="font-size:18px;font-weight:800;color:var(--purple);">${s.top}</div>
+                        <div style="font-size:10px;color:var(--muted);margin-top:2px;">Top Score</div>
+                    </div>
+                    <div style="text-align:center;padding:10px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
+                        <div style="font-size:18px;font-weight:800;color:var(--orange);">${s.low}</div>
+                        <div style="font-size:10px;color:var(--muted);margin-top:2px;">Low Score</div>
+                    </div>
+                </div>
+                <!-- Pass/fail bar -->
+                <div style="margin-bottom:16px;">
+                    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--sub);margin-bottom:4px;"><span>Pass ${s.passRate}%</span><span>Fail ${100-s.passRate}%</span></div>
+                    <div style="background:var(--border);border-radius:999px;height:7px;overflow:hidden;"><div style="height:7px;border-radius:999px;background:var(--green);width:${s.passRate}%;transition:width 0.5s;"></div></div>
+                </div>
+                <!-- Top 5 students -->
+                <div>
+                    <div style="font-size:11px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Top Students</div>
+                    ${top5.map((r,i)=>{ const p=r.score>=PASS_MARK; return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;">
+                        <span style="font-size:12px;width:22px;font-weight:700;color:var(--sub);">#${i+1}</span>
+                        <span style="flex:1;font-weight:600;">${r.student_name}</span>
+                        <span class="mono" style="font-weight:700;color:${p?'var(--green)':'var(--red)'};">${r.score}/25</span>
+                        <span class="${p?'badge-pass':'badge-fail'}">${p?'P':'F'}</span>
+                    </div>`; }).join('')}
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+/* ══ PDF REPORTS ══ */
 function getPdfUrl(fname){ return `${SB_STG}/public/${BUCKET}/${fname}`; }
 
 async function loadPdfList(){
-    const body = document.getElementById('pdfListBody');
-    body.innerHTML = '<div class="empty-state"><div class="spinner"></div></div>';
+    const body=document.getElementById('pdfListBody');
+    body.innerHTML='<div class="empty-state"><div class="spinner"></div></div>';
     try{
-        const res   = await fetch(SB_LIST,{
-            method:'POST',
-            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
-            body:JSON.stringify({prefix:'',limit:200,sortBy:{column:'created_at',order:'desc'}})
-        });
-        const files = await res.json();
-        if(!Array.isArray(files)||!files.length){
-            body.innerHTML='<div class="empty-state"><div class="icon">📭</div><p style="font-weight:600;margin-bottom:4px;">No PDF reports stored yet</p><p style="font-size:13px;">Reports are auto-generated when students submit</p></div>';
-            document.getElementById('pdfStorageText').innerText='0 files stored in bucket "reports"';
-            return;
+        // Fetch top-level items (folders + any flat files)
+        const res=await fetch(SB_LIST,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({prefix:'',limit:1000,sortBy:{column:'created_at',order:'desc'}})});
+        const topItems=await res.json();
+        if(!Array.isArray(topItems)){ body.innerHTML='<div class="empty-state"><p style="color:var(--red);">Error loading files.</p></div>'; return; }
+
+        let allFiles=[];
+        for(const item of topItems){
+            if(item.id===null){
+                // folder (Class_X) — go one level deeper
+                const sub=await fetch(SB_LIST,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({prefix:item.name+'/',limit:500})});
+                const subItems=await sub.json();
+                if(Array.isArray(subItems)){
+                    for(const s2 of subItems){
+                        if(s2.id===null){
+                            // folder (DivA) — go deeper
+                            const deep=await fetch(SB_LIST,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({prefix:item.name+'/'+s2.name+'/',limit:500})});
+                            const deepItems=await deep.json();
+                            if(Array.isArray(deepItems)) deepItems.forEach(f=>{ if(f.id) allFiles.push({...f,fullPath:item.name+'/'+s2.name+'/'+f.name}); });
+                        } else { allFiles.push({...s2,fullPath:item.name+'/'+s2.name}); }
+                    }
+                }
+            } else { allFiles.push({...item,fullPath:item.name}); }
         }
-        const totalKB = files.reduce((s,f)=>s+(f.metadata?.size||0),0)/1024;
-        document.getElementById('pdfStorageText').innerText=`${files.length} PDF${files.length!==1?'s':''} stored · ${totalKB.toFixed(1)} KB total in bucket "reports"`;
+
+        if(!allFiles.length){ body.innerHTML='<div class="empty-state"><div class="icon">📭</div><p style="font-weight:600;margin-bottom:4px;">No PDF reports stored yet</p><p style="font-size:13px;">Reports are auto-generated when students submit</p></div>'; document.getElementById('pdfStorageText').innerText='0 files stored in bucket "reports"'; return; }
+
+        const totalKB=allFiles.reduce((s,f)=>s+(f.metadata?.size||0),0)/1024;
+        document.getElementById('pdfStorageText').innerText=`${allFiles.length} PDF${allFiles.length!==1?'s':''} stored · ${totalKB.toFixed(1)} KB total · Organised by Class / Division`;
+
         body.innerHTML=`<table class="data-table">
             <thead><tr>
-                <th class="sec-label">Filename</th>
+                <th class="sec-label">Student / Report</th>
+                <th class="sec-label">Class</th>
+                <th class="sec-label">Division</th>
                 <th class="sec-label">Size</th>
                 <th class="sec-label">Uploaded</th>
                 <th class="sec-label" style="text-align:right;">Actions</th>
             </tr></thead>
-            <tbody>${files.map(f=>{
+            <tbody>${allFiles.map(f=>{
                 const kb=(f.metadata?.size/1024||0).toFixed(1);
                 const dt=f.created_at?new Date(f.created_at).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'}):'—';
-                const label=f.name.replace('report_','').replace('.pdf','').replace(/_/g,' ');
+                const parts=(f.fullPath||f.name).split('/');
+                const classLabel=parts.length>=2?parts[0].replace(/_/g,' '):'—';
+                const divLabel=parts.length>=3?parts[1]:'—';
+                const rawName=parts[parts.length-1].replace(/^report_/,'').replace(/\.pdf$/,'').replace(/_/g,' ');
+                const escapedPath=(f.fullPath||f.name).replace(/'/g,"\\'");
                 return `<tr>
-                    <td style="font-weight:600;">📄 ${label}</td>
+                    <td style="font-weight:600;">📄 ${rawName}</td>
+                    <td><span class="badge-class" style="font-size:11px;">${classLabel}</span></td>
+                    <td><span class="badge-div" style="font-size:11px;">Div ${divLabel}</span></td>
                     <td style="color:var(--sub);" class="mono">${kb} KB</td>
                     <td style="color:var(--sub);">${dt}</td>
                     <td style="text-align:right;">
                         <div style="display:flex;gap:6px;justify-content:flex-end;">
-                            <button onclick="viewPdf('${f.name}','${label}','')" class="btn-ghost" style="padding:4px 12px;font-size:12px;border-color:#ddd6fe;color:var(--purple);">👁 View</button>
-                            <a href="${getPdfUrl(f.name)}" download="${f.name}" class="btn-ghost" style="padding:4px 12px;font-size:12px;text-decoration:none;border-color:#bfdbfe;color:var(--accent);">⬇ Download</a>
-                            <button onclick="adminDeletePdf('${f.name}')" class="btn-danger" style="padding:4px 10px;font-size:12px;">🗑</button>
+                            <button onclick="viewPdf('${escapedPath}','${rawName}','${classLabel} Div ${divLabel}')" class="btn-ghost" style="padding:4px 12px;font-size:12px;border-color:#ddd6fe;color:var(--purple);">👁 View</button>
+                            <a href="${getPdfUrl(f.fullPath||f.name)}" download="${parts[parts.length-1]}" class="btn-ghost" style="padding:4px 12px;font-size:12px;text-decoration:none;border-color:#bfdbfe;color:var(--accent);">⬇ Download</a>
+                            <button onclick="adminDeletePdf('${escapedPath}')" class="btn-danger" style="padding:4px 10px;font-size:12px;">🗑</button>
                         </div>
                     </td>
                 </tr>`;
             }).join('')}</tbody>
         </table>`;
-    }catch(e){
-        body.innerHTML=`<div class="empty-state"><p style="color:var(--red);">Error: ${e.message}</p></div>`;
-    }
+    }catch(e){ body.innerHTML=`<div class="empty-state"><p style="color:var(--red);">Error: ${e.message}</p></div>`; }
 }
 
-function viewPdf(fname, name, roll){
-    currentPdfFile = fname;
-    document.getElementById('pdfTitle').innerText = `PDF Report — ${name}`;
-    document.getElementById('pdfSub').innerText   = roll?`Roll No: ${roll}`:'';
-    document.getElementById('pdfFrame').src       = getPdfUrl(fname);
-    document.getElementById('pdfDlLink').href     = getPdfUrl(fname);
-    document.getElementById('pdfDlLink').download = fname;
+function viewPdf(fname,name,classdiv){
+    currentPdfFile=fname;
+    document.getElementById('pdfTitle').innerText=`PDF Report — ${name}`;
+    document.getElementById('pdfSub').innerText=classdiv||'';
+    document.getElementById('pdfFrame').src=getPdfUrl(fname);
+    document.getElementById('pdfDlLink').href=getPdfUrl(fname);
+    document.getElementById('pdfDlLink').download=fname.split('/').pop();
     openModal('pdfModal');
 }
-async function deletePdfFromViewer(){
-    if(!currentPdfFile) return;
-    if(!confirm(`Delete this PDF permanently?\n${currentPdfFile}`)) return;
-    await adminDeletePdf(currentPdfFile);
-    closeModal('pdfModal');
-    document.getElementById('pdfFrame').src='';
-}
+async function deletePdfFromViewer(){ if(!currentPdfFile) return; if(!confirm(`Delete this PDF permanently?\n${currentPdfFile}`)) return; await adminDeletePdf(currentPdfFile); closeModal('pdfModal'); document.getElementById('pdfFrame').src=''; }
 async function adminDeletePdf(fname){
-    const res = await fetch(`${SB_STG}/${BUCKET}/${fname}`,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
-    if(res.ok){ toast('PDF deleted.','success'); loadPdfList(); }
-    else toast('Delete failed.','error');
+    const res=await fetch(`${SB_STG}/${BUCKET}/${fname}`,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
+    if(res.ok){ toast('PDF deleted.','success'); loadPdfList(); } else toast('Delete failed.','error');
 }
 function showBulkDeletePdfs(){ openModal('bulkPdfModal'); }
 async function executeBulkDeletePdfs(){
     closeModal('bulkPdfModal');
     try{
-        const res   = await fetch(SB_LIST,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({prefix:'',limit:200})});
-        const files = await res.json();
+        const res=await fetch(SB_LIST,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({prefix:'',limit:200})});
+        const files=await res.json();
         if(!Array.isArray(files)||!files.length){ toast('No PDFs to delete.','info'); return; }
         await Promise.all(files.map(f=>fetch(`${SB_STG}/${BUCKET}/${f.name}`,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}})));
-        toast(`Deleted ${files.length} PDFs.`,'success');
-        loadPdfList();
+        toast(`Deleted ${files.length} PDFs.`,'success'); loadPdfList();
     }catch(e){ toast('Error: '+e.message,'error'); }
 }
 
-/* ══════════════ CLEAR ALL RECORDS ══════════════ */
+/* ══ CLEAR ALL ══ */
 function showClearAll(){ openModal('clearModal'); }
 async function executeClearAll(){
     closeModal('clearModal');
     await fetch(`${SB_URL}?id=gt.0`,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
-    toast('All records deleted.','success');
-    await refreshAll();
+    toast('All records deleted.','success'); await refreshAll();
 }
 
-/* ══════════════ EXPORT ══════════════ */
+/* ══ EXPORT ══ */
 function exportCSV(){
     if(!allData.length) return toast('No data to export.','warn');
-    const h='Roll No,Name,Score,Percentage,Status,Submitted At\n';
-    const rows=allData.map(r=>`${r.roll_no},"${r.student_name}",${r.score},${((r.score/TOTAL_Q)*100).toFixed(1)}%,${r.score>=PASS_MARK?'PASS':'FAIL'},"${new Date(r.created_at).toLocaleString('en-IN')}"`).join('\n');
-    dlFile(h+rows,'text/csv',`mock_results_${today()}.csv`);
-    toast('CSV exported!','success');
+    const h='Class,Division,Name,Score,Percentage,Status,Submitted At\n';
+    const rows=allData.map(r=>`"${r.class_name||''}","${r.division||''}","${r.student_name}",${r.score},${((r.score/TOTAL_Q)*100).toFixed(1)}%,${r.score>=PASS_MARK?'PASS':'FAIL'},"${new Date(r.created_at).toLocaleString('en-IN')}"`).join('\n');
+    dlFile(h+rows,'text/csv',`mock_results_${today()}.csv`); toast('CSV exported!','success');
 }
 function exportJSON(){
     if(!allData.length) return toast('No data to export.','warn');
-    dlFile(JSON.stringify(allData,null,2),'application/json',`mock_results_${today()}.json`);
-    toast('JSON exported!','success');
+    dlFile(JSON.stringify(allData,null,2),'application/json',`mock_results_${today()}.json`); toast('JSON exported!','success');
 }
-function dlFile(content,type,name){
-    Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([content],{type})),download:name}).click();
-}
+function dlFile(content,type,name){ Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([content],{type})),download:name}).click(); }
 function today(){ return new Date().toISOString().slice(0,10); }
 
-/* ══════════════ ANNOUNCEMENTS ══════════════ */
+/* ══ ANNOUNCEMENTS ══ */
 function saveAnnouncement(){
-    const title = document.getElementById('annTitle').value.trim();
-    const msg   = document.getElementById('annMsg').value.trim();
-    const type  = document.getElementById('annType').value;
+    const title=document.getElementById('annTitle').value.trim(), msg=document.getElementById('annMsg').value.trim(), type=document.getElementById('annType').value;
     if(!title||!msg) return toast('Please fill in title and message.','warn');
-    const ann={ id:Date.now(), title, msg, type, date:new Date().toLocaleString('en-IN') };
-    const list = JSON.parse(localStorage.getItem('announcements')||'[]');
-    list.unshift(ann);
-    localStorage.setItem('announcements', JSON.stringify(list.slice(0,20)));
-    document.getElementById('annTitle').value='';
-    document.getElementById('annMsg').value='';
-    toast('Announcement posted!','success');
-    loadAnnouncements();
+    const ann={id:Date.now(),title,msg,type,date:new Date().toLocaleString('en-IN')};
+    const list=JSON.parse(localStorage.getItem('announcements')||'[]'); list.unshift(ann);
+    localStorage.setItem('announcements',JSON.stringify(list.slice(0,20)));
+    document.getElementById('annTitle').value=''; document.getElementById('annMsg').value='';
+    toast('Announcement posted!','success'); loadAnnouncements();
 }
 function loadAnnouncements(){
-    const list = JSON.parse(localStorage.getItem('announcements')||'[]');
-    const icons = {info:'ℹ️',success:'✅',warning:'⚠️'};
-    const colors= {info:'#eff6ff',success:'#f0fdf4',warning:'#fffbeb'};
-    const bords = {info:'#bfdbfe',success:'#bbf7d0',warning:'#fde68a'};
-    document.getElementById('annList').innerHTML = !list.length
-        ? '<div class="empty-state" style="padding:28px;"><div class="icon">📢</div><p>No announcements yet</p></div>'
-        : list.map(a=>`
-            <div style="background:${colors[a.type]};border:1px solid ${bords[a.type]};border-radius:8px;padding:14px;margin-bottom:8px;position:relative;">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                    <div>
-                        <span style="font-size:15px;margin-right:6px;">${icons[a.type]}</span>
-                        <strong style="font-size:13px;">${a.title}</strong>
-                    </div>
-                    <button onclick="deleteAnnouncement(${a.id})" style="background:none;border:none;cursor:pointer;font-size:15px;color:var(--muted);line-height:1;">✕</button>
-                </div>
-                <p style="font-size:13px;color:var(--sub);margin:6px 0 6px 22px;">${a.msg}</p>
-                <p style="font-size:11px;color:var(--muted);margin-left:22px;">${a.date}</p>
-            </div>`).join('');
+    const list=JSON.parse(localStorage.getItem('announcements')||'[]');
+    const icons={info:'ℹ️',success:'✅',warning:'⚠️'}, colors={info:'#eff6ff',success:'#f0fdf4',warning:'#fffbeb'}, bords={info:'#bfdbfe',success:'#bbf7d0',warning:'#fde68a'};
+    document.getElementById('annList').innerHTML=!list.length?'<div class="empty-state" style="padding:28px;"><div class="icon">📢</div><p>No announcements yet</p></div>':list.map(a=>`<div style="background:${colors[a.type]};border:1px solid ${bords[a.type]};border-radius:8px;padding:14px;margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><span style="font-size:15px;margin-right:6px;">${icons[a.type]}</span><strong style="font-size:13px;">${a.title}</strong></div><button onclick="deleteAnnouncement(${a.id})" style="background:none;border:none;cursor:pointer;font-size:15px;color:var(--muted);">✕</button></div><p style="font-size:13px;color:var(--sub);margin:6px 0 6px 22px;">${a.msg}</p><p style="font-size:11px;color:var(--muted);margin-left:22px;">${a.date}</p></div>`).join('');
 }
-function deleteAnnouncement(id){
-    const list = JSON.parse(localStorage.getItem('announcements')||'[]').filter(a=>a.id!==id);
-    localStorage.setItem('announcements', JSON.stringify(list));
-    loadAnnouncements();
-}
+function deleteAnnouncement(id){ const list=JSON.parse(localStorage.getItem('announcements')||'[]').filter(a=>a.id!==id); localStorage.setItem('announcements',JSON.stringify(list)); loadAnnouncements(); }
 
-/* ══════════════ CONNECTION TEST ══════════════ */
+/* ══ CONNECTION ══ */
 async function testConnection(){
-    const el = document.getElementById('connStatus');
-    el.innerText='Testing…'; el.style.color='var(--muted)';
+    const el=document.getElementById('connStatus'); el.innerText='Testing…'; el.style.color='var(--muted)';
     try{
-        const res = await fetch(`${SB_URL}?limit=1`,{headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
+        const res=await fetch(`${SB_URL}?limit=1`,{headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
         if(res.ok){el.innerText='● Connected';el.style.color='var(--green)';}
         else{el.innerText='● Error '+res.status;el.style.color='var(--red)';}
     }catch(e){el.innerText='● Offline';el.style.color='var(--red)';}
 }
 
-// Auto-check on load if already logged in from session
-window.addEventListener('load', ()=>{
-    // Check session
+/* ══ SESSION RESTORE ══ */
+window.addEventListener('load',()=>{
     if(sessionStorage.getItem('admin_session')==='1'){
         document.getElementById('loginScreen').style.display='none';
         document.getElementById('adminShell').style.display='block';
         document.getElementById('sidebarUser').innerText=`Logged in as ${getAdminCreds().user}`;
         isLoggedIn=true; startClock(); refreshAll(); testConnection(); loadAnnouncements();
     }
-    // Save session on login
-    const origLogin = doLogin;
 });
-
-// Save session
-function doLogin(){
-    const u = document.getElementById('loginUser').value.trim();
-    const p = document.getElementById('loginPass').value;
-    const creds = getAdminCreds();
-    if(u === creds.user && p === creds.pass){
-        sessionStorage.setItem('admin_session','1');
-        isLoggedIn = true;
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('adminShell').style.display  = 'block';
-        document.getElementById('sidebarUser').innerText = `Logged in as ${u}`;
-        startClock(); refreshAll(); testConnection(); loadAnnouncements();
-    } else {
-        const el = document.getElementById('loginError');
-        el.style.display='block';
-        el.innerText='❌ Invalid username or password.';
-        document.getElementById('loginPass').value='';
-    }
-}
-
-function doLogout(){
-    sessionStorage.removeItem('admin_session');
-    isLoggedIn=false;
-    document.getElementById('adminShell').style.display='none';
-    document.getElementById('loginScreen').style.display='flex';
-    document.getElementById('loginUser').value='';
-    document.getElementById('loginPass').value='';
-    document.getElementById('loginError').style.display='none';
-}
 </script>
 </body>
 </html>
