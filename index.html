@@ -75,7 +75,7 @@
                     <h1 style="font-size:1.5rem;font-weight:800;">Mock Test 2026</h1>
                     <p style="color:var(--sub);font-size:14px;margin-top:4px;">English Grammar Proficiency Exam</p>
                     <div style="display:flex;justify-content:center;gap:16px;margin-top:14px;">
-                        <span style="font-size:12px;color:var(--muted);">⏱ 60 min</span>
+                        <span style="font-size:12px;color:var(--muted);">⏱ 30 min</span>
                         <span style="font-size:12px;color:var(--muted);">❓ 25 Questions</span>
                         <span style="font-size:12px;color:var(--muted);">MCQ</span>
                     </div>
@@ -142,7 +142,7 @@
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
             <span id="progressPill" style="font-size:13px;color:var(--sub);">0 / 25 answered</span>
-            <div id="timer" class="mono timer-normal" style="padding:8px 18px;border-radius:7px;font-size:20px;font-weight:700;min-width:100px;text-align:center;">60:00</div>
+            <div id="timer" class="mono timer-normal" style="padding:8px 18px;border-radius:7px;font-size:20px;font-weight:700;min-width:100px;text-align:center;">30:00</div>
         </div>
     </header>
     <div class="prog-track no-print"><div id="progressBar" class="prog-fill" style="width:0%"></div></div>
@@ -478,34 +478,34 @@ const SB_STORAGE_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/obje
 const SB_STORAGE_LIST = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/object/list/reports";
 const BUCKET   = "reports";
 const TOTAL_Q  = 25;
-const PASS_MARK= 13;
+const PASS_MARK= 9;
 
 const questions=[
-    {q:"Choose the correct form: Neither of the boys ____ present.",a:["was","were","been","have"],correct:0},
-    {q:"Identify the synonym of 'Abundant'.",a:["Scarcity","Plentiful","Rare","Few"],correct:1},
-    {q:"He is ______ M.A. in English.",a:["a","an","the","no article"],correct:1},
-    {q:"I have been living here ____ 2010.",a:["for","since","from","in"],correct:1},
-    {q:"The passive voice of 'Shut the door' is:",a:["Let the door shut","Let the door be shut","The door is shut","Shutted the door"],correct:1},
-    {q:"Which one is correctly spelled?",a:["Occurence","Occurrence","Occurance","Occurrance"],correct:1},
-    {q:"If it rains, we ____ the match.",a:["cancel","would cancel","will cancel","cancelled"],correct:2},
-    {q:"She is senior ____ me.",a:["than","to","from","of"],correct:1},
-    {q:"He said, 'I am ill.' Change to indirect speech:",a:["He said that he is ill","He said that he was ill","He says he is ill","He told he was ill"],correct:1},
-    {q:"Bread and butter ____ my favorite breakfast.",a:["are","is","were","being"],correct:1},
-    {q:"Choose the correct spelling:",a:["Differentiation","Differrentiation","Diferentiation","Differntiation"],correct:0},
-    {q:"The antonym of 'Loquacious' is:",a:["Talkative","Verbose","Taciturn","Garrulous"],correct:2},
-    {q:"Which sentence uses the correct article? ______ honest man is always respected.",a:["A","An","The","No article needed"],correct:1},
-    {q:"She ____ the project before the deadline arrived.",a:["has completed","had completed","was completing","will complete"],correct:1},
-    {q:"Choose the correctly punctuated sentence:",a:["Its a fine day isnt it.","It's a fine day, isn't it?","Its a fine day isn't it?","It's a fine day isn't it."],correct:1},
-    {q:"The teacher along with the students ____ present.",a:["were","are","is","have been"],correct:2},
-    {q:"'Burning the midnight oil' means:",a:["Setting fire to lamps","Wasting resources","Working late into the night","Being careless"],correct:2},
-    {q:"Identify the error: 'He is one of the student who work hard.'",a:["one of","the student","who work hard","He is"],correct:1},
-    {q:"Convert to passive: 'The police arrested the thief.'",a:["The thief was arrested by the police.","The thief is arrested by police.","The thief had arrested by the police.","The police were arrested by the thief."],correct:0},
-    {q:"Which word is a conjunction?",a:["Quickly","Although","Beautiful","Swiftly"],correct:1},
-    {q:"Choose the correct preposition: She is good ____ mathematics.",a:["in","on","at","with"],correct:2},
-    {q:"The plural of 'Criterion' is:",a:["Criterions","Criterias","Criteria","Criterian"],correct:2},
-    {q:"'Had he studied harder, he would have passed.' This is a ____ conditional.",a:["Zero","First","Second","Third"],correct:3},
-    {q:"Identify the figure of speech: 'The wind whispered through the trees.'",a:["Simile","Metaphor","Personification","Hyperbole"],correct:2},
-    {q:"Which sentence is in the future perfect tense?",a:["She will go to school.","She is going to school.","She will have gone to school by noon.","She has gone to school."],correct:2}
+    {q:"Q1. Fill in the blank with an article: I saw ___ elephant in the zoo.",a:["a","an","the","none of these"],correct:1},
+    {q:"Q2. Fill in the blank with an article: She has ___ red dress.",a:["a","an","the","none of these"],correct:0},
+    {q:"Q3. Fill in the blank with an article: He is ___ honest boy.",a:["a","an","the","none of these"],correct:1},
+    {q:"Q4. Fill in the blank with an article: This is ___ apple.",a:["a","an","the","none of these"],correct:1},
+    {q:"Q5. Fill in the blank with an article: My father bought ___ car.",a:["a","an","the","none of these"],correct:0},
+    {q:"Q6. Choose the correct helping verb: He ___ very short.",a:["were","was","are","none of these"],correct:1},
+    {q:"Q7. Choose the correct helping verb: I ___ a student.",a:["am","is","are","none of these"],correct:0},
+    {q:"Q8. Choose the correct helping verb: She ___ my sister.",a:["am","is","are","none of these"],correct:1},
+    {q:"Q9. Choose the correct helping verb: They ___ playing cricket.",a:["was","were","have","has"],correct:1},
+    {q:"Q10. Choose the correct helping verb: We ___ happy today.",a:["am","is","are","none of these"],correct:2},
+    {q:"Q11. Choose the correct helping verb: He ___ a new car.",a:["has","have","was","none of these"],correct:0},
+    {q:"Q12. Fill in the blank with a modal: ___ I help you with your homework?",a:["Shall","Should","Might","Will"],correct:0},
+    {q:"Q13. Fill in the blank with a modal: ___ you solve this puzzle?",a:["May","Shall","Can","Should"],correct:2},
+    {q:"Q14. Choose the correct positive response: May I have your book?",a:["Yes, of course.","Yes, you will.","Sorry, you can't.","Yes, you might."],correct:0},
+    {q:"Q15. Choose the correct negative response: Shall we meet tomorrow?",a:["No, we won't.","Yes, why not.","Yes, we will.","No, we shouldn't."],correct:0},
+    {q:"Q16. Choose the correct plural form: a bench",a:["benchies","benchves","benches","benchess"],correct:2},
+    {q:"Q17. Choose the correct plural form: a boy",a:["boys","boies","boves","boes"],correct:0},
+    {q:"Q18. Choose the correct plural form: a man",a:["mans","men","mens","manes"],correct:1},
+    {q:"Q19. Choose the correct plural form: a fly",a:["flies","fles","fless","flyes"],correct:0},
+    {q:"Q20. Find the odd man out: pen, pencil, chalk, eat",a:["pen","pencil","chalk","eat"],correct:3},
+    {q:"Q21. Find the odd man out: go, play, read, beautiful",a:["go","play","read","beautiful"],correct:3},
+    {q:"Q22. Find the odd man out: easily, silently, beautiful, badly",a:["easily","silently","beautiful","badly"],correct:2},
+    {q:"Q23. Choose the suitable Wh-question word: ___ students are there?",a:["How much","How many","How","Who"],correct:1},
+    {q:"Q24. Choose the suitable Wh-question word: ___ is your house?",a:["When","Why","Who","Where"],correct:3},
+    {q:"Q25. Choose the suitable Wh-question word: ___ does your school start?",a:["Who","Whom","When","What"],correct:2}
 ];
 
 /* ═══════════════════════════ STATE ═══════════════════════════ */
@@ -514,7 +514,7 @@ let currentIdx=0;
 let responses=Array(TOTAL_Q).fill(null);
 let visited=Array(TOTAL_Q).fill(false);
 let marked=Array(TOTAL_Q).fill(false);
-let timeRemaining=60*60;
+let timeRemaining=30*60;
 let timerInterval;
 let adminData=[];
 let sortCol=null,sortAsc=true;
@@ -770,7 +770,7 @@ function startTimer(){
         const m=Math.floor(timeRemaining/60),s=timeRemaining%60;
         const el=document.getElementById('timer');
         el.innerText=`${m}:${s<10?'0'+s:s}`;
-        el.className='mono '+(timeRemaining>600?'timer-normal':timeRemaining>120?'timer-warn':'timer-danger');
+        el.className='mono '+(timeRemaining>300?'timer-normal':timeRemaining>60?'timer-warn':'timer-danger');
         if(timeRemaining<=0){clearInterval(timerInterval);finalSubmit();}
         timeRemaining--;
     },1000);
@@ -805,7 +805,7 @@ async function finalSubmit(){
     });
 
     const accuracy=((score/TOTAL_Q)*100).toFixed(1),passed=score>=PASS_MARK;
-    const emoji=score>=22?'🏆':score>=18?'🥇':score>=13?'🎓':score>=8?'📚':'💪';
+    const emoji=score>=22?'🏆':score>=18?'🥇':score>=9?'🎓':score>=5?'📚':'💪';
 
     document.getElementById('resultEmoji').innerText=emoji;
     document.getElementById('resNameDisplay').innerText=`${currentUser.name}  ·  ${currentUser.className} — Div ${currentUser.division}`;
@@ -942,8 +942,8 @@ function renderAnalytics(){
     const brackets=[
         {label:'22–25',color:'var(--green)',count:adminData.filter(r=>r.score>=22).length},
         {label:'18–21',color:'var(--purple)',count:adminData.filter(r=>r.score>=18&&r.score<22).length},
-        {label:'13–17',color:'var(--amber)',count:adminData.filter(r=>r.score>=13&&r.score<18).length},
-        {label:'0–12',color:'var(--red)',count:adminData.filter(r=>r.score<13).length}
+        {label:'9–17',color:'var(--amber)',count:adminData.filter(r=>r.score>=9&&r.score<18).length},
+        {label:'0–8',color:'var(--red)',count:adminData.filter(r=>r.score<9).length}
     ];
     document.getElementById('scoreBrackets').innerHTML=brackets.map(b=>`<div class="stat-card" style="text-align:center;padding:14px;"><div class="mono" style="font-size:1.7rem;font-weight:800;color:${b.color};">${b.count}</div><div style="font-size:12px;color:var(--sub);margin-top:4px;">${b.label}</div></div>`).join('');
     const scores=adminData.map(r=>r.score).sort((a,b)=>a-b);
