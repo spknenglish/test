@@ -114,7 +114,7 @@
             </div>
             <div class="divider"></div>
             <div style="padding:14px 32px;text-align:center;">
-                <button onclick="showAdminLogin()" style="background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;font-family:inherit;">Admin Portal →</button>
+                <button onclick="window.location.href='admin.html'" style="background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;font-family:inherit;">Admin Portal →</button>
             </div>
         </div>
         <div class="card" style="margin-top:14px;padding:20px 24px;">
@@ -206,57 +206,68 @@
 </div>
 
 <!-- RESULT PAGE -->
-<div id="resultPage" style="display:none;min-height:100vh;background:var(--bg);padding:32px 16px;">
-    <div style="max-width:820px;margin:0 auto;">
-        <div class="card" style="padding:36px;text-align:center;margin-bottom:16px;border-top:4px solid var(--accent);">
-            <div style="font-size:48px;margin-bottom:10px;" id="resultEmoji">🏆</div>
-            <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:6px;">Performance Report</h2>
-            <p id="resNameDisplay" style="color:var(--sub);font-size:14px;margin-bottom:24px;"></p>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:440px;margin:0 auto;">
-                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:18px;">
-                    <div class="sec-label" style="margin-bottom:6px;">Score</div>
-                    <div id="resScore" class="mono" style="font-size:1.8rem;font-weight:800;color:var(--accent);"></div>
+<div id="resultPage" style="display:none;min-height:100vh;background:#f1f5f9;padding:0 0 48px;">
+
+    <!-- ── HERO BANNER ── -->
+    <div id="resultHero" style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#1d4ed8 100%);padding:48px 24px 36px;text-align:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(37,99,235,0.25) 0%,transparent 70%);pointer-events:none;"></div>
+        <div style="position:relative;z-index:1;max-width:700px;margin:0 auto;">
+            <div style="font-size:56px;margin-bottom:10px;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.3));" id="resultEmoji">🏆</div>
+            <div id="resStatusBadge" style="display:inline-block;margin-bottom:14px;"></div>
+            <h2 style="font-size:1.9rem;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:-0.5px;">Performance Report</h2>
+            <p id="resNameDisplay" style="color:#94a3b8;font-size:14px;margin-bottom:28px;"></p>
+            <!-- Big 3 KPIs -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:480px;margin:0 auto;">
+                <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:20px 12px;backdrop-filter:blur(8px);">
+                    <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;margin-bottom:6px;">Score</div>
+                    <div id="resScore" class="mono" style="font-size:2.2rem;font-weight:800;color:#fff;line-height:1;"></div>
                 </div>
-                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:18px;">
-                    <div class="sec-label" style="margin-bottom:6px;">Accuracy</div>
-                    <div id="resAccuracy" class="mono" style="font-size:1.8rem;font-weight:800;color:var(--amber);"></div>
+                <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:20px 12px;backdrop-filter:blur(8px);">
+                    <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;margin-bottom:6px;">Accuracy</div>
+                    <div id="resAccuracy" class="mono" style="font-size:2.2rem;font-weight:800;color:#fbbf24;line-height:1;"></div>
                 </div>
-                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:18px;">
-                    <div class="sec-label" style="margin-bottom:6px;">Status</div>
-                    <div id="resStatus" style="font-size:1.4rem;font-weight:800;"></div>
+                <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:20px 12px;backdrop-filter:blur(8px);">
+                    <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;margin-bottom:6px;">Result</div>
+                    <div id="resStatus" style="font-size:1.6rem;font-weight:800;line-height:1;"></div>
                 </div>
             </div>
         </div>
-        <div id="resultStats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;"></div>
+    </div>
 
-        <!-- PDF Upload Status Banner -->
-        <div id="pdfBanner" style="display:none;margin-bottom:16px;padding:14px 18px;border-radius:8px;border:1px solid var(--border);font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;"></div>
+    <div style="max-width:820px;margin:0 auto;padding:0 16px;">
 
-        <div class="card" style="overflow:hidden;margin-bottom:16px;">
+        <!-- ── 5-STAT STRIP ── -->
+        <div id="resultStats" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:-24px;margin-bottom:20px;position:relative;z-index:10;"></div>
+
+        <!-- ── ANALYTICS CARDS ROW ── -->
+        <div id="analyticsRow" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;"></div>
+
+        <!-- ── TOPIC BREAKDOWN ── -->
+        <div id="topicBreakdown" style="margin-bottom:20px;"></div>
+
+        <!-- ── PERFORMANCE INSIGHT ── -->
+        <div id="perfInsight" style="margin-bottom:20px;"></div>
+
+        <!-- ── PDF Banner ── -->
+        <div id="pdfBanner" style="display:none;margin-bottom:16px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);font-size:13px;font-weight:600;align-items:center;gap:10px;"></div>
+
+        <!-- ── DETAILED ANSWER REVIEW (unchanged) ── -->
+        <div class="card" style="overflow:hidden;margin-bottom:20px;">
             <div style="padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-                <h3 style="font-size:15px;font-weight:700;">Detailed Answer Review</h3>
+                <h3 style="font-size:15px;font-weight:700;">📋 Detailed Answer Review</h3>
                 <div style="display:flex;gap:8px;font-size:12px;">
                     <span style="background:#dcfce7;color:var(--green);padding:3px 10px;border-radius:999px;">✓ Correct</span>
                     <span style="background:#fee2e2;color:var(--red);padding:3px 10px;border-radius:999px;">✗ Wrong</span>
                     <span style="background:#f3f4f6;color:var(--sub);padding:3px 10px;border-radius:999px;">— Skipped</span>
                 </div>
             </div>
-            <div style="overflow-x:auto;">
-                <table style="width:100%;border-collapse:collapse;font-size:13px;">
-                    <thead><tr style="background:var(--bg);">
-                        <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Q#</th>
-                        <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Question</th>
-                        <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Your Answer</th>
-                        <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Correct Answer</th>
-                        <th style="padding:11px 16px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">Result</th>
-                    </tr></thead>
-                    <tbody id="reviewBody"></tbody>
-                </table>
-            </div>
+            <div style="padding:16px;" id="reviewBody"></div>
         </div>
+
+        <!-- ── ACTION BUTTONS ── -->
         <div style="display:flex;gap:10px;flex-wrap:wrap;" class="no-print">
-            <button onclick="location.reload()" class="btn-ghost" style="flex:1;min-width:130px;padding:13px;">↩ Retake Test</button>
-            <button onclick="window.print()" class="btn-ghost" style="flex:1;min-width:130px;padding:13px;border-color:#bfdbfe;color:var(--accent);">🖨️ Print Report</button>
+            <button onclick="location.reload()" class="btn-ghost" style="flex:1;min-width:140px;padding:14px;font-size:14px;">↩ Retake Test</button>
+            <button onclick="window.print()" class="btn-ghost" style="flex:1;min-width:140px;padding:14px;font-size:14px;border-color:#bfdbfe;color:var(--accent);">🖨️ Print Report</button>
         </div>
     </div>
 </div>
@@ -536,136 +547,133 @@ function showToast(msg,type='info'){
 function generatePDF(name, className, division, score, correct, wrong, skipped, responsesArr){
     const {jsPDF} = window.jspdf;
     const doc = new jsPDF({orientation:'portrait', unit:'mm', format:'a4', compress:true});
-    const W=210, M=15;
-    let y=18;
-
-    // ── Header bar
-    doc.setFillColor(37,99,235);
-    doc.rect(0,0,W,28,'F');
-    doc.setTextColor(255,255,255);
-    doc.setFontSize(16); doc.setFont('helvetica','bold');
-    doc.text('English Grammar Mock Test 2026 — Report',M,12);
-    doc.setFontSize(9); doc.setFont('helvetica','normal');
-    doc.text(`Generated: ${new Date().toLocaleString('en-IN')}`,M,20);
-    doc.text('Saint Xavier\'s High School · Sagroli',W-M,20,{align:'right'});
-
-    y=36;
-
-    // ── Student info box
-    doc.setFillColor(248,249,250);
-    doc.setDrawColor(229,231,235);
-    doc.roundedRect(M,y,W-2*M,22,3,3,'FD');
-    doc.setTextColor(17,24,39); doc.setFontSize(11); doc.setFont('helvetica','bold');
-    doc.text(name,M+5,y+8);
-    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(107,114,128);
-    doc.text(`${className}  |  Division: ${division}`,M+5,y+15);
-    doc.text(`Total Questions: ${TOTAL_Q}  |  Pass Mark: ${PASS_MARK}/${TOTAL_Q}`,W/2,y+15,{align:'center'});
-
+    const W=210, M=12;
     const accuracy=((score/TOTAL_Q)*100).toFixed(1);
     const passed=score>=PASS_MARK;
+    const dateStr=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
 
-    // Status badge
-    doc.setFillColor(passed?22:220, passed?163:38, passed?74:26);
-    doc.roundedRect(W-M-28,y+5,28,13,3,3,'F');
-    doc.setTextColor(255,255,255); doc.setFontSize(10); doc.setFont('helvetica','bold');
-    doc.text(passed?'PASS':'FAIL',W-M-14,y+13.5,{align:'center'});
+    let y=0;
 
-    y+=30;
+    // ── HEADER
+    doc.setFillColor(15,23,42); doc.rect(0,0,W,26,'F');
+    doc.setFillColor(37,99,235); doc.rect(0,24,W,2,'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(13); doc.setFont('helvetica','bold');
+    doc.text('SPOKEN ENGLISH PROFICIENCY EXAM 2026',M,11);
+    doc.setFontSize(7.5); doc.setFont('helvetica','normal'); doc.setTextColor(148,163,184);
+    doc.text("Saint Xavier's High School, Sagroli",M,18);
+    doc.text('Generated: '+dateStr,W-M,18,{align:'right'});
+    y=32;
 
-    // ── Score cards row
-    const cw=(W-2*M-8)/3;
-    const cards=[
-        {label:'Final Score',val:`${score} / ${TOTAL_Q}`,clr:[37,99,235]},
-        {label:'Accuracy',val:`${accuracy}%`,clr:[217,119,6]},
-        {label:'Correct / Wrong',val:`${correct} / ${wrong}`,clr:[22,163,74]},
+    // ── STUDENT ROW
+    doc.setFillColor(248,250,252); doc.setDrawColor(226,232,240);
+    doc.rect(M,y,W-2*M,16,'F');
+    doc.setDrawColor(226,232,240); doc.line(M,y,W-M,y); doc.line(M,y+16,W-M,y+16);
+    doc.setTextColor(15,23,42); doc.setFontSize(10); doc.setFont('helvetica','bold');
+    doc.text(name,M+3,y+7);
+    doc.setFontSize(7.5); doc.setFont('helvetica','normal'); doc.setTextColor(100,116,139);
+    doc.text(className+' · Division '+division+'  |  Total Qs: '+TOTAL_Q+'  |  Pass Mark: '+PASS_MARK,M+3,y+13);
+    // badge
+    const bc=passed?[22,163,74]:[220,38,26];
+    doc.setFillColor(bc[0],bc[1],bc[2]);
+    doc.roundedRect(W-M-20,y+3,20,10,2,2,'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(8); doc.setFont('helvetica','bold');
+    doc.text(passed?'PASS':'FAIL',W-M-10,y+9.5,{align:'center'});
+    y+=22;
+
+    // ── KPI STRIP (5 boxes)
+    const kpis=[
+        {l:'Score',v:score+'/'+TOTAL_Q,r:37,g:99,b:235},
+        {l:'Accuracy',v:accuracy+'%',r:217,g:119,b:6},
+        {l:'Correct',v:String(correct),r:22,g:163,b:74},
+        {l:'Wrong',v:String(wrong),r:220,g:38,b:26},
+        {l:'Skipped',v:String(skipped),r:107,g:114,b:128},
     ];
-    cards.forEach((c,i)=>{
-        const cx=M+i*(cw+4);
-        doc.setFillColor(c.clr[0],c.clr[1],c.clr[2]);
-        doc.roundedRect(cx,y,cw,18,3,3,'F');
-        doc.setTextColor(255,255,255); doc.setFontSize(7); doc.setFont('helvetica','bold');
-        doc.text(c.label.toUpperCase(),cx+cw/2,y+6,{align:'center'});
-        doc.setFontSize(13); doc.setFont('helvetica','bold');
-        doc.text(c.val,cx+cw/2,y+14,{align:'center'});
+    const kw=(W-2*M-8)/5;
+    kpis.forEach(function(k,i){
+        const kx=M+i*(kw+2);
+        doc.setFillColor(k.r,k.g,k.b);
+        doc.roundedRect(kx,y,kw,16,2,2,'F');
+        doc.setTextColor(255,255,255);
+        doc.setFontSize(5.5); doc.setFont('helvetica','bold');
+        doc.text(k.l.toUpperCase(),kx+kw/2,y+5,{align:'center'});
+        doc.setFontSize(11); doc.setFont('helvetica','bold');
+        doc.text(k.v,kx+kw/2,y+13,{align:'center'});
     });
+    y+=22;
 
-    y+=24;
-
-    // ── Answer Review Table
-    doc.setFontSize(10); doc.setFont('helvetica','bold'); doc.setTextColor(17,24,39);
-    doc.text('Detailed Answer Review',M,y);
-    y+=5;
-
-    // Table header
-    doc.setFillColor(248,249,250); doc.setDrawColor(229,231,235);
-    doc.rect(M,y,W-2*M,7,'FD');
-    doc.setTextColor(107,114,128); doc.setFontSize(7); doc.setFont('helvetica','bold');
-    const cols=[M+3,M+14,M+90,M+150,M+170];
-    const headers=['Q#','Question','Your Answer','Correct','Result'];
-    headers.forEach((h,i)=>doc.text(h,cols[i],y+4.8));
+    // ── ANSWER TABLE HEADER
+    doc.setFillColor(15,23,42); doc.rect(M,y,W-2*M,7,'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(6); doc.setFont('helvetica','bold');
+    const cols=[M+2,M+12,M+88,M+143,M+168,M+180];
+    ['Q','Question','Your Answer','Correct Answer','Status','Pts'].forEach(function(h,i){
+        doc.text(h,cols[i],y+4.8);
+    });
     y+=8;
 
-    // Table rows
-    doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
-    responsesArr.forEach((res,i)=>{
-        if(y>275){
+    // ── ANSWER ROWS
+    doc.setFontSize(6.8); doc.setFont('helvetica','normal');
+    var alt=false;
+    responsesArr.forEach(function(res,i){
+        if(y>282){
+            // footer then new page
+            doc.setFontSize(6); doc.setFont('helvetica','normal'); doc.setTextColor(148,163,175);
+            doc.text('Page 1  |  English Grammar Mock Test 2026',W/2,290,{align:'center'});
             doc.addPage();
-            y=15;
-            // mini header on new page
-            doc.setFillColor(37,99,235); doc.rect(0,0,W,8,'F');
-            doc.setTextColor(255,255,255); doc.setFontSize(7); doc.setFont('helvetica','bold');
-            doc.text(`${name} — ${className} Div ${division} — continued`,M,5.5);
-            doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(17,24,39);
+            y=14;
+            doc.setFillColor(15,23,42); doc.rect(M,y,W-2*M,7,'F');
+            doc.setTextColor(255,255,255); doc.setFontSize(6); doc.setFont('helvetica','bold');
+            ['Q','Question','Your Answer','Correct Answer','Status','Pts'].forEach(function(h,i){
+                doc.text(h,cols[i],y+4.8);
+            });
+            y+=8; alt=false;
         }
-        const ok=res===questions[i].correct, sk=res===null;
-        const rowH=6.5;
+        var ok=res===questions[i].correct, sk=res===null;
+        var rh=6;
+        if(ok){doc.setFillColor(240,253,244);}
+        else if(sk){if(alt){doc.setFillColor(249,250,251);}else{doc.setFillColor(255,255,255);}}
+        else{doc.setFillColor(255,241,242);}
+        doc.rect(M,y,W-2*M,rh,'F');
+        doc.setDrawColor(226,232,240); doc.line(M,y+rh,W-M,y+rh);
 
-        // Row background
-        if(ok) doc.setFillColor(240,253,244);
-        else if(sk) doc.setFillColor(250,250,250);
-        else doc.setFillColor(255,245,245);
-        doc.rect(M,y,W-2*M,rowH,'F');
+        // Q#
+        doc.setTextColor(100,116,139); doc.setFont('helvetica','bold');
+        doc.text(String(i+1),cols[0]+2,y+4.3,{align:'center'});
+        // Question
+        doc.setTextColor(15,23,42); doc.setFont('helvetica','normal');
+        var qs=questions[i].q.length>62?questions[i].q.substring(0,62)+'...':questions[i].q;
+        doc.text(qs,cols[1],y+4.3);
+        // Your answer
+        var ya=res!==null?questions[i].a[res]:'(skipped)';
+        var yas=ya.length>28?ya.substring(0,28)+'...':ya;
+        if(sk){doc.setTextColor(148,163,175);}else if(ok){doc.setTextColor(22,163,74);}else{doc.setTextColor(180,28,28);}
+        doc.text(yas,cols[2],y+4.3);
+        // Correct
+        var ca=questions[i].a[questions[i].correct];
+        var cas=ca.length>22?ca.substring(0,22)+'...':ca;
+        doc.setTextColor(22,163,74); doc.setFont('helvetica','bold');
+        doc.text(cas,cols[3],y+4.3);
+        // Status
+        if(ok){doc.setTextColor(22,163,74);doc.text('PASS',cols[4],y+4.3);}
+        else if(sk){doc.setTextColor(107,114,128);doc.text('SKIP',cols[4],y+4.3);}
+        else{doc.setTextColor(220,38,26);doc.text('FAIL',cols[4],y+4.3);}
+        // Points
+        doc.setFontSize(6.8); doc.setFont('helvetica','bold');
+        doc.setTextColor(ok?22:107,ok?163:114,ok?74:128);
+        doc.text(ok?'+1':'0',cols[5]+3,y+4.3,{align:'center'});
 
-        // Row bottom border
-        doc.setDrawColor(229,231,235);
-        doc.line(M,y+rowH,W-M,y+rowH);
-
-        doc.setTextColor(107,114,128);
-        doc.text(String(i+1),cols[0],y+4.5);
-
-        doc.setTextColor(17,24,39);
-        const qShort=questions[i].q.length>55?questions[i].q.substring(0,55)+'…':questions[i].q;
-        doc.text(qShort,cols[1],y+4.5,{maxWidth:74});
-
-        doc.setTextColor(sk?153:17,sk?153:24,sk?153:39);
-        const yourAns=res!==null?questions[i].a[res]:'(skipped)';
-        const yourShort=yourAns.length>28?yourAns.substring(0,28)+'…':yourAns;
-        doc.text(yourShort,cols[2],y+4.5);
-
-        doc.setTextColor(22,163,74);
-        const corrAns=questions[i].a[questions[i].correct];
-        const corrShort=corrAns.length>18?corrAns.substring(0,18)+'…':corrAns;
-        doc.text(corrShort,cols[3],y+4.5);
-
-        // Verdict symbol
-        if(ok){ doc.setTextColor(22,163,74); doc.setFont('helvetica','bold'); doc.text('✓',cols[4]+4,y+4.5,{align:'center'}); }
-        else if(sk){ doc.setTextColor(107,114,128); doc.text('—',cols[4]+4,y+4.5,{align:'center'}); }
-        else{ doc.setTextColor(220,38,26); doc.setFont('helvetica','bold'); doc.text('✗',cols[4]+4,y+4.5,{align:'center'}); }
-        doc.setFont('helvetica','normal'); doc.setTextColor(17,24,39);
-
-        y+=rowH;
+        doc.setFont('helvetica','normal'); doc.setTextColor(15,23,42); doc.setFontSize(6.8);
+        alt=!alt; y+=rh;
     });
 
-    // ── Footer
-    const pgCount=doc.internal.getNumberOfPages();
-    for(let p=1;p<=pgCount;p++){
+    // ── FOOTER
+    var pg=doc.internal.getNumberOfPages();
+    for(var p=1;p<=pg;p++){
         doc.setPage(p);
-        doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.setTextColor(156,163,175);
-        doc.text(`Page ${p} of ${pgCount}  |  English Grammar Mock Test 2026`,W/2,292,{align:'center'});
+        doc.setFontSize(6); doc.setFont('helvetica','normal'); doc.setTextColor(148,163,175);
+        doc.text('Page '+p+' of '+pg+'  |  English Grammar Mock Test 2026  |  Confidential',W/2,291,{align:'center'});
     }
 
-    // Return compressed base64
-    return doc.output('datauristring').split(',')[1]; // base64 only
+    return doc.output('datauristring').split(',')[1];
 }
 
 /* ═══════════════════════════ PDF UPLOAD ═══════════════════════════ */
@@ -789,33 +797,160 @@ async function finalSubmit(){
     clearInterval(timerInterval);closeConfirm();
     let score=0,correct=0,wrong=0,skipped=0,rows="";
 
+    const labels=['A','B','C','D'];
     responses.forEach((res,i)=>{
         const ok=res===questions[i].correct,sk=res===null;
         if(ok){score++;correct++;}else if(sk)skipped++;else wrong++;
-        const cls=ok?'row-correct':sk?'row-skipped':'row-wrong';
-        const verdict=ok?`<span style="color:var(--green);font-weight:700;">✓ Correct</span>`:sk?`<span style="color:var(--muted);">— Skipped</span>`:`<span style="color:var(--red);font-weight:700;">✗ Wrong</span>`;
-        const sq=questions[i].q.length>52?questions[i].q.substring(0,52)+'…':questions[i].q;
-        rows+=`<tr class="${cls}">
-            <td style="padding:11px 16px;font-weight:700;color:var(--sub);border-bottom:1px solid var(--border);">${i+1}</td>
-            <td style="padding:11px 16px;color:var(--text);border-bottom:1px solid var(--border);font-size:13px;">${sq}</td>
-            <td style="padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px;color:${res!==null?'var(--text)':'var(--muted)'};">${res!==null?questions[i].a[res]:'—'}</td>
-            <td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--green);font-weight:600;font-size:13px;">${questions[i].a[questions[i].correct]}</td>
-            <td style="padding:11px 16px;border-bottom:1px solid var(--border);text-align:center;">${verdict}</td>
-        </tr>`;
+        const borderClr=ok?'#16a34a':sk?'#d1d5db':'#dc2626';
+        const bgClr=ok?'#f0fdf4':sk?'#fafafa':'#fff5f5';
+        const verdict=ok
+            ?'<span style="background:#dcfce7;color:var(--green);font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;white-space:nowrap;">✓ Correct</span>'
+            :sk
+            ?'<span style="background:#f3f4f6;color:var(--sub);font-weight:600;font-size:12px;padding:3px 10px;border-radius:999px;white-space:nowrap;">— Skipped</span>'
+            :'<span style="background:#fee2e2;color:var(--red);font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;white-space:nowrap;">✗ Wrong</span>';
+        let optsHtml='';
+        questions[i].a.forEach((opt,oi)=>{
+            const isCorrect=oi===questions[i].correct;
+            const isYours=oi===res;
+            let optBg='transparent',optBorder='#e5e7eb',optTxt='var(--text)',optIcon='';
+            if(isCorrect){optBg='#f0fdf4';optBorder='#86efac';optTxt='#15803d';optIcon='<span style="margin-left:6px;font-size:11px;font-weight:700;background:#16a34a;color:#fff;padding:1px 7px;border-radius:999px;flex-shrink:0;">✓ Correct</span>';}
+            if(isYours&&!isCorrect){optBg='#fff5f5';optBorder='#fca5a5';optTxt='var(--red)';optIcon='<span style="margin-left:6px;font-size:11px;font-weight:700;background:#dc2626;color:#fff;padding:1px 7px;border-radius:999px;flex-shrink:0;">✗ Your Answer</span>';}
+            if(isCorrect&&isYours){optIcon='<span style="margin-left:6px;font-size:11px;font-weight:700;background:#16a34a;color:#fff;padding:1px 7px;border-radius:999px;flex-shrink:0;">✓ Your Answer</span>';}
+            optsHtml+=`<div style="display:flex;align-items:center;padding:7px 12px;border-radius:7px;border:1.5px solid ${optBorder};background:${optBg};margin-bottom:5px;"><span style="font-weight:700;font-size:12px;color:${optTxt};margin-right:10px;width:18px;flex-shrink:0;">${labels[oi]}.</span><span style="font-size:13px;color:${optTxt};flex:1;">${opt}</span>${optIcon}</div>`;
+        });
+        let expText='';
+        if(ok) expText='Correct! Well done. The right answer is <strong>'+questions[i].a[questions[i].correct]+'</strong>.';
+        else if(sk) expText='You skipped this. The correct answer is <strong>'+questions[i].a[questions[i].correct]+'</strong>.';
+        else expText='You selected <strong>'+questions[i].a[res]+'</strong>. The correct answer is <strong>'+questions[i].a[questions[i].correct]+'</strong>.';
+        const expBg=ok?'#f0fdf4':sk?'#f9fafb':'#fff5f5';
+        const expTxt=ok?'#15803d':sk?'var(--sub)':'#b91c1c';
+        const expIcon=ok?'💡':sk?'⏭️':'📌';
+        rows+=`<div style="border:1.5px solid ${borderClr};border-radius:10px;background:${bgClr};margin-bottom:12px;overflow:hidden;"><div style="padding:13px 16px;border-bottom:1px solid ${borderClr}33;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;"><div style="display:flex;align-items:flex-start;gap:10px;flex:1;"><span style="background:var(--accent);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:5px;flex-shrink:0;margin-top:2px;">Q${i+1}</span><span style="font-size:14px;font-weight:600;color:var(--text);line-height:1.6;">${questions[i].q}</span></div>${verdict}</div><div style="padding:12px 16px 10px;">${optsHtml}<div style="margin-top:8px;padding:9px 13px;background:${expBg};border-radius:7px;font-size:13px;color:${expTxt};line-height:1.6;">${expIcon} ${expText}</div></div></div>`;
     });
 
     const accuracy=((score/TOTAL_Q)*100).toFixed(1),passed=score>=PASS_MARK;
     const emoji=score>=22?'🏆':score>=18?'🥇':score>=9?'🎓':score>=5?'📚':'💪';
+    const perfLevel=accuracy>=80?'Excellent':accuracy>=60?'Proficient':accuracy>=40?'Developing':'Needs Improvement';
+    const perfClr=accuracy>=80?'#16a34a':accuracy>=60?'#2563eb':accuracy>=40?'#d97706':'#dc2626';
+    const perfBg=accuracy>=80?'#dcfce7':accuracy>=60?'#dbeafe':accuracy>=40?'#fef3c7':'#fee2e2';
 
+    // hero
     document.getElementById('resultEmoji').innerText=emoji;
-    document.getElementById('resNameDisplay').innerText=`${currentUser.name}  ·  ${currentUser.className} — Div ${currentUser.division}`;
+    document.getElementById('resNameDisplay').innerText=`${currentUser.name}  ·  ${currentUser.className}  ·  Division ${currentUser.division}`;
     document.getElementById('resScore').innerText=`${score}/${TOTAL_Q}`;
     document.getElementById('resAccuracy').innerText=`${accuracy}%`;
-    document.getElementById('resStatus').innerHTML=passed?`<span style="color:var(--green);">PASS ✓</span>`:`<span style="color:var(--red);">FAIL ✗</span>`;
-    document.getElementById('resultStats').innerHTML=`
-        <div class="stat-card" style="text-align:center;"><div class="sec-label" style="margin-bottom:8px;">✓ Correct</div><div class="mono" style="font-size:1.9rem;font-weight:800;color:var(--green);">${correct}</div></div>
-        <div class="stat-card" style="text-align:center;"><div class="sec-label" style="margin-bottom:8px;">✗ Wrong</div><div class="mono" style="font-size:1.9rem;font-weight:800;color:var(--red);">${wrong}</div></div>
-        <div class="stat-card" style="text-align:center;"><div class="sec-label" style="margin-bottom:8px;">— Skipped</div><div class="mono" style="font-size:1.9rem;font-weight:800;color:var(--sub);">${skipped}</div></div>`;
+    document.getElementById('resStatus').innerHTML=passed
+        ?'<span style="color:#4ade80;font-size:1.5rem;">PASS ✓</span>'
+        :'<span style="color:#f87171;font-size:1.5rem;">FAIL ✗</span>';
+    document.getElementById('resStatusBadge').innerHTML=`<span style="background:${perfBg};color:${perfClr};font-size:12px;font-weight:800;padding:4px 16px;border-radius:999px;letter-spacing:0.5px;">${perfLevel.toUpperCase()}</span>`;
+
+    // 5-stat strip
+    const statPct=((score/TOTAL_Q)*100).toFixed(0);
+    const statCards=[
+        {lbl:'Correct',val:correct,icon:'✓',bg:'#f0fdf4',bdr:'#bbf7d0',clr:'#16a34a'},
+        {lbl:'Wrong',val:wrong,icon:'✗',bg:'#fff5f5',bdr:'#fecaca',clr:'#dc2626'},
+        {lbl:'Skipped',val:skipped,icon:'—',bg:'#f8fafc',bdr:'#e2e8f0',clr:'#64748b'},
+        {lbl:'Pass Mark',val:PASS_MARK+'/'+TOTAL_Q,icon:'🎯',bg:'#fefce8',bdr:'#fde68a',clr:'#d97706'},
+        {lbl:'Rank',val:accuracy>=80?'A+':accuracy>=60?'B+':accuracy>=40?'C':'D',icon:'📊',bg:'#f5f3ff',bdr:'#ddd6fe',clr:'#7c3aed'},
+    ];
+    document.getElementById('resultStats').innerHTML=statCards.map(c=>`
+        <div style="background:${c.bg};border:1.5px solid ${c.bdr};border-radius:12px;padding:16px 10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:18px;margin-bottom:4px;">${c.icon}</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:${c.clr};margin-bottom:4px;">${c.lbl}</div>
+            <div class="mono" style="font-size:1.5rem;font-weight:800;color:${c.clr};">${c.val}</div>
+        </div>`).join('');
+
+    // analytics row — score bar + circular-style gauge
+    const gap=score-PASS_MARK;
+    const gapTxt=gap>=0?`<span style="color:#16a34a;font-weight:700;">+${gap} above pass mark ✓</span>`:`<span style="color:#dc2626;font-weight:700;">${Math.abs(gap)} below pass mark ✗</span>`;
+    document.getElementById('analyticsRow').innerHTML=`
+        <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">📈 Score Breakdown</div>
+            <div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:5px;"><span style="color:#16a34a;">✓ Correct</span><span style="color:#16a34a;">${correct}/${TOTAL_Q}</span></div>
+                <div style="background:#e2e8f0;border-radius:999px;height:8px;overflow:hidden;"><div style="background:linear-gradient(90deg,#16a34a,#4ade80);height:100%;border-radius:999px;width:${((correct/TOTAL_Q)*100).toFixed(0)}%;transition:width 1s ease;"></div></div>
+            </div>
+            <div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:5px;"><span style="color:#dc2626;">✗ Wrong</span><span style="color:#dc2626;">${wrong}/${TOTAL_Q}</span></div>
+                <div style="background:#e2e8f0;border-radius:999px;height:8px;overflow:hidden;"><div style="background:linear-gradient(90deg,#dc2626,#f87171);height:100%;border-radius:999px;width:${((wrong/TOTAL_Q)*100).toFixed(0)}%;transition:width 1s ease;"></div></div>
+            </div>
+            <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:5px;"><span style="color:#64748b;">— Skipped</span><span style="color:#64748b;">${skipped}/${TOTAL_Q}</span></div>
+                <div style="background:#e2e8f0;border-radius:999px;height:8px;overflow:hidden;"><div style="background:linear-gradient(90deg,#64748b,#94a3b8);height:100%;border-radius:999px;width:${((skipped/TOTAL_Q)*100).toFixed(0)}%;transition:width 1s ease;"></div></div>
+            </div>
+            <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:13px;">${gapTxt}</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">🎯 Accuracy Gauge</div>
+            <div style="text-align:center;margin-bottom:16px;">
+                <div style="position:relative;display:inline-block;">
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#e2e8f0" stroke-width="10"/>
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="${perfClr}" stroke-width="10"
+                            stroke-dasharray="${(parseFloat(accuracy)/100*314).toFixed(1)} 314"
+                            stroke-dashoffset="78.5" stroke-linecap="round"
+                            transform="rotate(-90 60 60)"/>
+                        <text x="60" y="56" text-anchor="middle" font-size="20" font-weight="800" fill="${perfClr}" font-family="monospace">${accuracy}%</text>
+                        <text x="60" y="72" text-anchor="middle" font-size="9" fill="#94a3b8" font-family="sans-serif">ACCURACY</text>
+                    </svg>
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;text-align:center;">
+                <div style="background:#f8fafc;border-radius:8px;padding:10px;"><div style="color:var(--muted);font-size:10px;font-weight:700;letter-spacing:0.5px;margin-bottom:3px;">PASS MARK</div><div style="font-weight:800;color:var(--text);">${PASS_MARK}/${TOTAL_Q} (${((PASS_MARK/TOTAL_Q)*100).toFixed(0)}%)</div></div>
+                <div style="background:${passed?'#f0fdf4':'#fff5f5'};border-radius:8px;padding:10px;"><div style="color:var(--muted);font-size:10px;font-weight:700;letter-spacing:0.5px;margin-bottom:3px;">VERDICT</div><div style="font-weight:800;color:${passed?'#16a34a':'#dc2626'};">${passed?'PASSED ✓':'FAILED ✗'}</div></div>
+            </div>
+        </div>`;
+
+    // topic breakdown — categorize questions by topic
+    const topics=[
+        {name:'Articles (Q1–5)',from:0,to:4},
+        {name:'Helping Verbs (Q6–11)',from:5,to:10},
+        {name:'Modals & Responses (Q12–15)',from:11,to:14},
+        {name:'Plural Forms (Q16–19)',from:15,to:18},
+        {name:'Odd Man Out (Q20–22)',from:19,to:21},
+        {name:'Wh-Questions (Q23–25)',from:22,to:24},
+    ];
+    const topicRows=topics.map(t=>{
+        let tc=0,tw=0,ts=0;
+        for(let i=t.from;i<=t.to;i++){
+            if(responses[i]===questions[i].correct)tc++;
+            else if(responses[i]===null)ts++;
+            else tw++;
+        }
+        const total=t.to-t.from+1;
+        const tpct=Math.round((tc/total)*100);
+        const tclr=tpct>=80?'#16a34a':tpct>=50?'#2563eb':tpct>0?'#d97706':'#dc2626';
+        return `<div style="display:grid;grid-template-columns:180px 1fr 80px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9;">
+            <div style="font-size:13px;font-weight:600;color:var(--text);">${t.name}</div>
+            <div style="background:#e2e8f0;border-radius:999px;height:7px;overflow:hidden;"><div style="background:${tclr};height:100%;border-radius:999px;width:${tpct}%;"></div></div>
+            <div style="text-align:right;font-size:12px;font-weight:700;color:${tclr};">${tc}/${total} (${tpct}%)</div>
+        </div>`;
+    }).join('');
+    document.getElementById('topicBreakdown').innerHTML=`
+        <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">📚 Topic-wise Performance</div>
+            ${topicRows}
+        </div>`;
+
+    // insight panel
+    const insightLines=[];
+    if(passed) insightLines.push({icon:'🎉',clr:'#15803d',bg:'#f0fdf4',bdr:'#bbf7d0',txt:`<strong>Congratulations!</strong> You passed with ${accuracy}% accuracy — ${score} out of ${TOTAL_Q} correct.`});
+    else insightLines.push({icon:'⚠️',clr:'#b91c1c',bg:'#fff5f5',bdr:'#fecaca',txt:`You scored ${score}/${TOTAL_Q} (${accuracy}%). You need at least <strong>${PASS_MARK} correct</strong> to pass. You were <strong>${PASS_MARK-score} mark${PASS_MARK-score>1?'s':''} away</strong>.`});
+    if(skipped>0) insightLines.push({icon:'⏭️',clr:'#92400e',bg:'#fffbeb',bdr:'#fde68a',txt:`You skipped <strong>${skipped} question${skipped>1?'s':''}</strong>. Always attempt every question — even a guess gives you a chance.`});
+    if(wrong>0) insightLines.push({icon:'📌',clr:'#1e40af',bg:'#eff6ff',bdr:'#bfdbfe',txt:`You got <strong>${wrong} question${wrong>1?'s':''} wrong</strong>. Review the highlighted questions below to understand your mistakes.`});
+    const weakTopics=topics.filter(t=>{
+        let tc=0; for(let i=t.from;i<=t.to;i++){if(responses[i]===questions[i].correct)tc++;} return tc/(t.to-t.from+1)<0.5;
+    });
+    if(weakTopics.length>0) insightLines.push({icon:'🎯',clr:'#6b21a8',bg:'#faf5ff',bdr:'#ddd6fe',txt:`<strong>Focus areas:</strong> ${weakTopics.map(t=>t.name.split(' (')[0]).join(', ')}. These topics need more practice.`});
+    document.getElementById('perfInsight').innerHTML=`
+        <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">💡 Performance Insights</div>
+            ${insightLines.map(l=>`<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:${l.bg};border:1px solid ${l.bdr};border-radius:8px;margin-bottom:8px;">
+                <span style="font-size:18px;flex-shrink:0;margin-top:1px;">${l.icon}</span>
+                <span style="font-size:13px;color:${l.clr};line-height:1.65;">${l.txt}</span>
+            </div>`).join('')}
+        </div>`;
+
     document.getElementById('reviewBody').innerHTML=rows;
 
     show('testPage',false);show('resultPage',true);
