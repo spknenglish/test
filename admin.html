@@ -87,6 +87,40 @@
         .tab-pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
         .tab-pill:not(.active):hover{border-color:var(--accent);color:var(--accent);}
         @media(max-width:768px){#sidebar{transform:translateX(-228px);}#mainContent{margin-left:0;}#sidebarToggle{display:flex!important;}}
+        /* ── RESPONSIVE: tablets & phones ── */
+        @media(max-width:900px){
+            .panel{padding:16px!important;}
+            #topbar{padding:0 14px!important;}
+            .data-table{font-size:12px!important;}
+            .data-table th,.data-table td{padding:9px 10px!important;}
+        }
+        @media(max-width:600px){
+            #topbar{height:auto!important;min-height:56px;padding:8px 12px!important;flex-wrap:wrap;gap:6px;}
+            #topbar > div:last-child{gap:6px!important;}
+            .panel{padding:12px!important;}
+            #loginScreen{padding:12px!important;}
+            #loginScreen .card{border-radius:10px;}
+            #loginScreen > div{max-width:100%!important;}
+            .stat-card{padding:14px 12px!important;}
+            .stat-card .mono{font-size:1.5rem!important;}
+            .card{border-radius:8px;}
+            .data-table{font-size:11.5px!important;}
+            .data-table th,.data-table td{padding:8px 8px!important;}
+            .modal-box,.modal-lg{max-width:100%!important;margin:8px!important;border-radius:10px!important;}
+            .modal-lg{max-height:96vh!important;}
+            #panel-dashboard > div:first-child{grid-template-columns:repeat(2,1fr)!important;}
+            #panel-dashboard > div:last-child{grid-template-columns:1fr!important;}
+            .btn-primary,.btn-ghost,.btn-danger,.btn-green{padding:9px 12px!important;font-size:12px!important;}
+            .inp{padding:9px 10px!important;font-size:12px!important;}
+            #liveClock{display:none!important;}
+        }
+        @media(max-width:400px){
+            #panel-dashboard > div:first-child{grid-template-columns:repeat(2,1fr)!important;}
+            .stat-card .mono{font-size:1.3rem!important;}
+        }
+        @keyframes blink-dot{0%,100%{opacity:1}50%{opacity:0.25}}
+        .sched-toggle-on #schedToggleTrack{background:var(--green)!important;}
+        .sched-toggle-on #schedToggleThumb{transform:translateX(22px)!important;}
     </style>
 </head>
 <body>
@@ -100,8 +134,8 @@
                 <div style="text-align:center;margin-bottom:28px;">
                     <div style="width:52px;height:52px;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px;">⚡</div>
                     <h1 style="font-size:1.35rem;font-weight:800;">Admin Portal</h1>
-                    <p style="color:var(--sub);font-size:13px;margin-top:4px;">Spoken Eng Mock Test 2026</p>
-                    <p style="color:var(--muted);font-size:12px;margin-top:2px;">🎒Sri Chhatrapati Shivaji Highschool·Sagroli</p>
+                    <p style="color:var(--sub);font-size:13px;margin-top:4px;">English Grammar Mock Test 2026</p>
+                    <p style="color:var(--muted);font-size:12px;margin-top:2px;">Saint Xavier's High School · Sagroli</p>
                 </div>
                 <div style="margin-bottom:14px;">
                     <label class="sec-label" style="display:block;margin-bottom:6px;">Username</label>
@@ -146,6 +180,9 @@
             <button class="nav-item" id="nav-reports" onclick="switchPanel('reports')"><span class="nav-icon">📄</span>PDF Reports</button>
             <div style="padding:10px 16px 4px;margin-top:6px;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Tools</div>
             <button class="nav-item" id="nav-broadcast" onclick="switchPanel('broadcast')"><span class="nav-icon">📢</span>Announcements</button>
+            <button class="nav-item" id="nav-questions" onclick="switchPanel('questions')"><span class="nav-icon">❓</span>Questions</button>
+            <button class="nav-item" id="nav-monitor" onclick="switchPanel('monitor')"><span class="nav-icon">👁️</span>Live Monitor</button>
+            <button class="nav-item" id="nav-schedule" onclick="switchPanel('schedule')"><span class="nav-icon">🗓️</span>Test Schedule</button>
             <button class="nav-item" id="nav-settings" onclick="switchPanel('settings')"><span class="nav-icon">⚙️</span>Settings</button>
         </div>
         <div style="padding:12px 16px;border-top:1px solid var(--border);">
@@ -443,6 +480,150 @@
             </div>
         </div>
 
+        <!-- ══ QUESTIONS ══ -->
+        <div id="panel-questions" class="panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+                <div>
+                    <h3 style="font-size:15px;font-weight:700;">Question Bank</h3>
+                    <p style="font-size:13px;color:var(--sub);margin-top:3px;">Add, edit or remove questions. Changes instantly reflect on the test.</p>
+                </div>
+                <div style="display:flex;gap:8px;">
+                    <button onclick="loadQuestionBank()" class="btn-ghost" style="padding:9px 16px;">↻ Refresh</button>
+                    <button onclick="openAddQuestion()" class="btn-primary" style="padding:9px 16px;">+ Add Question</button>
+                </div>
+            </div>
+            <div id="qbankStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;"></div>
+            <div class="card" style="overflow:hidden;">
+                <div id="qbankBody" style="min-height:120px;">
+                    <div class="empty-state"><div class="spinner"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ LIVE MONITOR ══ -->
+        <div id="panel-monitor" class="panel">
+            <!-- Header row -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+                <div>
+                    <h3 style="font-size:15px;font-weight:700;">Live Monitor</h3>
+                    <p style="font-size:13px;color:var(--sub);margin-top:3px;">Real-time view of students currently taking the test. Auto-refreshes every 15 seconds.</p>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span id="monitorLiveDot" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green);background:#f0fdf4;border:1px solid #bbf7d0;padding:5px 12px;border-radius:999px;">
+                        <span style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink-dot 1.2s infinite;display:inline-block;"></span>LIVE
+                    </span>
+                    <button onclick="refreshMonitor()" class="btn-ghost" style="padding:8px 14px;font-size:12px;">↻ Refresh</button>
+                </div>
+            </div>
+
+            <!-- KPI strip -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin-bottom:22px;">
+                <div class="stat-card" style="border-left:3px solid var(--green);">
+                    <div class="sec-label" style="margin-bottom:6px;">Currently Active</div>
+                    <div class="mono" id="mon-active" style="font-size:2rem;font-weight:800;color:var(--green);">—</div>
+                    <div style="font-size:11px;color:var(--muted);margin-top:3px;">in last 2 min</div>
+                </div>
+                <div class="stat-card" style="border-left:3px solid var(--accent);">
+                    <div class="sec-label" style="margin-bottom:6px;">Submitted Today</div>
+                    <div class="mono" id="mon-today" style="font-size:2rem;font-weight:800;color:var(--accent);">—</div>
+                    <div style="font-size:11px;color:var(--muted);margin-top:3px;">since midnight</div>
+                </div>
+                <div class="stat-card" style="border-left:3px solid var(--amber);">
+                    <div class="sec-label" style="margin-bottom:6px;">Last Submission</div>
+                    <div id="mon-last" style="font-size:13px;font-weight:700;color:var(--amber);margin-top:6px;">—</div>
+                </div>
+                <div class="stat-card" style="border-left:3px solid var(--purple);">
+                    <div class="sec-label" style="margin-bottom:6px;">Next Refresh</div>
+                    <div class="mono" id="mon-countdown" style="font-size:2rem;font-weight:800;color:var(--purple);">15s</div>
+                </div>
+            </div>
+
+            <!-- Active sessions table -->
+            <div class="card" style="margin-bottom:16px;overflow:hidden;">
+                <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+                    <div style="font-size:13px;font-weight:700;">🟢 Active Sessions <span id="mon-session-count" style="background:#f0fdf4;color:var(--green);border:1px solid #bbf7d0;padding:1px 9px;border-radius:999px;font-size:11px;font-weight:700;margin-left:6px;">0</span></div>
+                    <div style="font-size:11px;color:var(--muted);">Students who sent a heartbeat in last 2 minutes</div>
+                </div>
+                <div id="mon-sessions-body">
+                    <div class="empty-state" style="padding:36px;"><div class="icon">🔍</div><p>No active sessions detected</p></div>
+                </div>
+            </div>
+
+            <!-- Recent submissions -->
+            <div class="card" style="overflow:hidden;">
+                <div style="padding:14px 18px;border-bottom:1px solid var(--border);">
+                    <div style="font-size:13px;font-weight:700;">📬 Recent Submissions (Today)</div>
+                </div>
+                <div id="mon-recent-body">
+                    <div class="empty-state" style="padding:36px;"><div class="spinner"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ TEST SCHEDULE ══ -->
+        <div id="panel-schedule" class="panel">
+            <div style="max-width:660px;">
+
+                <!-- Current status banner -->
+                <div id="schedStatusBanner" style="border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;">
+                    <div id="schedStatusIcon" style="font-size:28px;flex-shrink:0;">⏳</div>
+                    <div>
+                        <div id="schedStatusTitle" style="font-size:14px;font-weight:800;">Loading…</div>
+                        <div id="schedStatusSub" style="font-size:12px;color:var(--sub);margin-top:2px;"></div>
+                    </div>
+                </div>
+
+                <!-- Schedule toggle card -->
+                <div class="card" style="padding:24px;margin-bottom:14px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+                        <div>
+                            <h3 style="font-size:14px;font-weight:700;">🗓️ Schedule Test Window</h3>
+                            <p style="font-size:13px;color:var(--sub);margin-top:3px;">When enabled, students can ONLY access the test within the window. Outside → blocked.</p>
+                        </div>
+                        <!-- Toggle switch -->
+                        <label style="position:relative;display:inline-block;width:48px;height:26px;flex-shrink:0;cursor:pointer;">
+                            <input type="checkbox" id="schedEnabled" style="opacity:0;width:0;height:0;" onchange="onScheduleToggle()">
+                            <span id="schedToggleTrack" style="position:absolute;cursor:pointer;inset:0;background:#d1d5db;border-radius:999px;transition:background 0.2s;"></span>
+                            <span id="schedToggleThumb" style="position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.2);"></span>
+                        </label>
+                    </div>
+
+                    <div id="schedFields" style="display:grid;gap:14px;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div>
+                                <label class="sec-label" style="display:block;margin-bottom:6px;">Start Date & Time</label>
+                                <input type="datetime-local" id="schedStart" class="inp">
+                            </div>
+                            <div>
+                                <label class="sec-label" style="display:block;margin-bottom:6px;">End Date & Time</label>
+                                <input type="datetime-local" id="schedEnd" class="inp">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="sec-label" style="display:block;margin-bottom:6px;">Blocked Message (shown to students)</label>
+                            <input type="text" id="schedMsg" class="inp" placeholder="e.g. Test is not available right now. Please check the schedule.">
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:10px;margin-top:18px;">
+                        <button onclick="saveSchedule()" class="btn-primary" style="padding:10px 22px;">💾 Save Schedule</button>
+                        <button onclick="clearSchedule()" class="btn-danger" style="padding:10px 16px;">🗑 Clear</button>
+                    </div>
+                </div>
+
+                <!-- Info card -->
+                <div class="card" style="padding:20px;background:#fffbeb;border-color:#fde68a;">
+                    <p style="font-size:13px;font-weight:700;color:var(--amber);margin-bottom:8px;">⚠️ How Scheduling Works</p>
+                    <ul style="font-size:13px;color:var(--sub);line-height:2;list-style:none;">
+                        <li>• <strong>Schedule OFF</strong> — test is always open to all students</li>
+                        <li>• <strong>Schedule ON + inside window</strong> — test opens normally</li>
+                        <li>• <strong>Schedule ON + outside window</strong> — Start Test button shows the blocked message</li>
+                        <li>• The schedule is stored in Supabase and enforced on the student side in real time</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div><!-- /mainContent -->
 </div><!-- /adminShell -->
 
@@ -508,6 +689,112 @@
     </div>
 </div>
 
+<!-- ADD/EDIT QUESTION MODAL -->
+<div id="questionModal" class="overlay">
+    <div class="modal-box" style="max-width:580px;overflow-y:auto;max-height:92vh;">
+        <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+            <h3 id="qModalTitle" style="font-size:15px;font-weight:800;">Add Question</h3>
+            <button onclick="closeModal('questionModal')" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--muted);">✕</button>
+        </div>
+        <div style="padding:22px 24px;display:grid;gap:14px;">
+            <div>
+                <label class="sec-label" style="display:block;margin-bottom:6px;">Sort Order (Position)</label>
+                <input type="number" id="qSortOrder" min="1" class="inp" placeholder="e.g. 1, 2, 3…">
+            </div>
+            <div>
+                <label class="sec-label" style="display:block;margin-bottom:6px;">Question Text</label>
+                <textarea id="qText" rows="3" class="inp" style="resize:vertical;" placeholder="e.g. (Q1. Fill in the blank): She ___ my sister."></textarea>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <div>
+                    <label class="sec-label" style="display:block;margin-bottom:6px;">Option A</label>
+                    <input type="text" id="qOptA" class="inp" placeholder="Option A">
+                </div>
+                <div>
+                    <label class="sec-label" style="display:block;margin-bottom:6px;">Option B</label>
+                    <input type="text" id="qOptB" class="inp" placeholder="Option B">
+                </div>
+                <div>
+                    <label class="sec-label" style="display:block;margin-bottom:6px;">Option C</label>
+                    <input type="text" id="qOptC" class="inp" placeholder="Option C">
+                </div>
+                <div>
+                    <label class="sec-label" style="display:block;margin-bottom:6px;">Option D</label>
+                    <input type="text" id="qOptD" class="inp" placeholder="Option D">
+                </div>
+            </div>
+            <div>
+                <label class="sec-label" style="display:block;margin-bottom:6px;">Correct Answer</label>
+                <select id="qCorrect" class="inp" style="cursor:pointer;">
+                    <option value="0">A — (Option A)</option>
+                    <option value="1">B — (Option B)</option>
+                    <option value="2">C — (Option C)</option>
+                    <option value="3">D — (Option D)</option>
+                </select>
+            </div>
+            <div id="qModalError" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;padding:10px 14px;font-size:13px;color:var(--red);"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding-top:4px;">
+                <button onclick="closeModal('questionModal')" class="btn-ghost" style="padding:11px;">Cancel</button>
+                <button onclick="previewQuestion()" class="btn-ghost" style="padding:11px;border-color:#ddd6fe;color:var(--purple);">👁 Preview</button>
+                <button id="qSaveBtn" onclick="saveQuestion()" class="btn-primary" style="padding:11px;">Save Question</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- QUESTION PREVIEW MODAL -->
+<div id="qPreviewModal" class="overlay">
+    <div class="modal-box" style="max-width:600px;overflow:hidden;">
+        <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:#f8f9fa;">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="background:#eff6ff;color:var(--accent);font-size:11px;font-weight:700;padding:2px 10px;border-radius:5px;">PREVIEW</span>
+                <span style="font-size:13px;font-weight:600;color:var(--sub);">Student View — How this question will appear</span>
+            </div>
+            <button onclick="closeModal('qPreviewModal')" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--muted);">✕</button>
+        </div>
+        <!-- Simulated test header bar -->
+        <div style="background:#fff;border-bottom:1px solid var(--border);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div style="background:#eff6ff;border:1px solid #bfdbfe;color:var(--accent);padding:3px 10px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:1px;">● LIVE</div>
+                <div><div style="font-size:12px;font-weight:700;">Demo Student</div><div style="font-size:10px;color:var(--sub);">Class 8 — Div A</div></div>
+            </div>
+            <div style="font-family:monospace;font-size:14px;font-weight:700;padding:5px 14px;border-radius:6px;border:1.5px solid #d1d5db;">28:45</div>
+        </div>
+        <!-- Question content -->
+        <div style="padding:22px 24px;background:#f8f9fa;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                <span id="pvwQBadge" style="font-size:11px;font-weight:700;color:var(--accent);background:#eff6ff;border:1px solid #bfdbfe;padding:3px 12px;border-radius:999px;">Question — of —</span>
+                <span style="background:#fff;border:1.5px solid #ddd6fe;color:var(--purple);padding:5px 12px;border-radius:7px;font-size:11px;font-weight:600;">🔖 Mark for Review</span>
+            </div>
+            <div id="pvwQText" style="font-size:1.05rem;font-weight:500;line-height:1.75;color:#111827;background:#fff;border:1px solid #e5e7eb;border-left:4px solid var(--accent);border-radius:8px;padding:18px 20px;margin-bottom:16px;"></div>
+            <div id="pvwOptions" style="display:grid;gap:9px;"></div>
+            <div style="display:flex;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb;">
+                <span style="background:#fef2f2;color:#dc2626;border:1.5px solid #fca5a5;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:600;">✕ Clear</span>
+                <div style="display:flex;gap:8px;">
+                    <span style="background:#fff;color:#6b7280;border:1.5px solid #d1d5db;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:600;">← Prev</span>
+                    <span style="background:var(--accent);color:#fff;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:600;">Save & Next →</span>
+                </div>
+            </div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid var(--border);text-align:center;">
+            <button onclick="closeModal('qPreviewModal')" class="btn-ghost" style="padding:8px 22px;font-size:13px;">← Back to Edit</button>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE QUESTION CONFIRM MODAL -->
+<div id="qDeleteModal" class="overlay">
+    <div class="modal-box" style="padding:32px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:14px;">🗑️</div>
+        <h3 style="font-size:1.1rem;font-weight:800;color:var(--red);margin-bottom:8px;">Delete Question?</h3>
+        <p id="qDeleteMsg" style="color:var(--sub);font-size:13px;line-height:1.7;margin-bottom:22px;"></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <button onclick="closeModal('qDeleteModal')" class="btn-ghost" style="padding:11px;">Cancel</button>
+            <button onclick="confirmDeleteQuestion()" style="background:var(--red);color:#fff;border:none;border-radius:8px;padding:11px;font-weight:700;cursor:pointer;font-family:inherit;">Delete</button>
+        </div>
+    </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -516,6 +803,7 @@ const SB_URL  = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/results";
 const SB_KEY  = "sb_publishable_4FYpyHkIfITcoOP_7UBO4A_d6hTnc3T";
 const SB_STG  = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/object";
 const SB_LIST = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/object/list/reports";
+const SB_ANN_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/announcements";
 const BUCKET  = "reports";
 const TOTAL_Q = 25;
 const PASS_MARK = 9;
@@ -553,6 +841,8 @@ function doLogin(){
 function doLogout(){
     sessionStorage.removeItem('admin_session');
     isLoggedIn=false;
+    if(monitorCountdownTimer) clearInterval(monitorCountdownTimer);
+    if(monitorAutoTimer) clearInterval(monitorAutoTimer);
     document.getElementById('adminShell').style.display='none';
     document.getElementById('loginScreen').style.display='flex';
     document.getElementById('loginUser').value='';
@@ -579,6 +869,9 @@ const panelMeta = {
     classview:  {title:'Class & Division',  sub:'Deep-dive per class and division'},
     reports:    {title:'PDF Reports',       sub:'Auto-generated student reports organised by class/division'},
     broadcast:  {title:'Announcements',     sub:'Post notices to students'},
+    questions:  {title:'Question Bank',     sub:'Add, edit or remove test questions — changes reflect on the live test'},
+    monitor:    {title:'Live Monitor',      sub:'Real-time view of active test sessions'},
+    schedule:   {title:'Test Schedule',     sub:'Set a time window — test is blocked outside that window'},
     settings:   {title:'Settings',          sub:'Password & configuration'},
 };
 function switchPanel(name){
@@ -590,12 +883,36 @@ function switchPanel(name){
     document.getElementById('panelSub').innerText=panelMeta[name].sub;
     if(name==='reports') loadPdfList();
     if(name==='classview') renderClassView();
+    if(name==='questions') loadQuestionBank();
+    if(name==='monitor'){ refreshMonitor(); startMonitorCountdown(); }
+    if(name==='schedule') loadSchedule();
+    // Auto-close sidebar on mobile after nav tap
+    if(window.innerWidth<=768 && sidebarOpen) toggleSidebar();
 }
-let sidebarOpen=true;
+let sidebarOpen=false; // mobile starts hidden; desktop handled separately
 function toggleSidebar(){
-    sidebarOpen=!sidebarOpen;
-    document.getElementById('sidebar').classList.toggle('collapsed',!sidebarOpen);
-    document.getElementById('mainContent').classList.toggle('full',!sidebarOpen);
+    const sidebar=document.getElementById('sidebar');
+    const isMobile=window.innerWidth<=768;
+    if(isMobile){
+        sidebarOpen=!sidebarOpen;
+        sidebar.style.transform=sidebarOpen?'translateX(0)':'translateX(-228px)';
+        let bd=document.getElementById('sidebarBackdrop');
+        if(sidebarOpen){
+            if(!bd){
+                bd=document.createElement('div');
+                bd.id='sidebarBackdrop';
+                bd.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:39;';
+                bd.onclick=toggleSidebar;
+                document.body.appendChild(bd);
+            }
+        } else {
+            if(bd) bd.remove();
+        }
+    } else {
+        sidebarOpen=!sidebarOpen;
+        sidebar.classList.toggle('collapsed',!sidebarOpen);
+        document.getElementById('mainContent').classList.toggle('full',!sidebarOpen);
+    }
 }
 
 /* ══ CLOCK ══ */
@@ -1194,21 +1511,93 @@ function dlFile(content,type,name){ Object.assign(document.createElement('a'),{h
 function today(){ return new Date().toISOString().slice(0,10); }
 
 /* ══ ANNOUNCEMENTS ══ */
-function saveAnnouncement(){
-    const title=document.getElementById('annTitle').value.trim(), msg=document.getElementById('annMsg').value.trim(), type=document.getElementById('annType').value;
+async function saveAnnouncement(){
+    const title = document.getElementById('annTitle').value.trim();
+    const msg   = document.getElementById('annMsg').value.trim();
+    const type  = document.getElementById('annType').value;
     if(!title||!msg) return toast('Please fill in title and message.','warn');
-    const ann={id:Date.now(),title,msg,type,date:new Date().toLocaleString('en-IN')};
-    const list=JSON.parse(localStorage.getItem('announcements')||'[]'); list.unshift(ann);
-    localStorage.setItem('announcements',JSON.stringify(list.slice(0,20)));
-    document.getElementById('annTitle').value=''; document.getElementById('annMsg').value='';
-    toast('Announcement posted!','success'); loadAnnouncements();
+    try{
+        const res = await fetch(SB_ANN_URL,{
+            method:'POST',
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},
+            body: JSON.stringify({title, message:msg, type, is_active:true})
+        });
+        if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(e.message||res.statusText); }
+        document.getElementById('annTitle').value='';
+        document.getElementById('annMsg').value='';
+        toast('Announcement posted!','success');
+        loadAnnouncements();
+    }catch(e){ toast('Failed to post: '+e.message,'error'); }
 }
-function loadAnnouncements(){
-    const list=JSON.parse(localStorage.getItem('announcements')||'[]');
-    const icons={info:'ℹ️',success:'✅',warning:'⚠️'}, colors={info:'#eff6ff',success:'#f0fdf4',warning:'#fffbeb'}, bords={info:'#bfdbfe',success:'#bbf7d0',warning:'#fde68a'};
-    document.getElementById('annList').innerHTML=!list.length?'<div class="empty-state" style="padding:28px;"><div class="icon">📢</div><p>No announcements yet</p></div>':list.map(a=>`<div style="background:${colors[a.type]};border:1px solid ${bords[a.type]};border-radius:8px;padding:14px;margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><span style="font-size:15px;margin-right:6px;">${icons[a.type]}</span><strong style="font-size:13px;">${a.title}</strong></div><button onclick="deleteAnnouncement(${a.id})" style="background:none;border:none;cursor:pointer;font-size:15px;color:var(--muted);">✕</button></div><p style="font-size:13px;color:var(--sub);margin:6px 0 6px 22px;">${a.msg}</p><p style="font-size:11px;color:var(--muted);margin-left:22px;">${a.date}</p></div>`).join('');
+
+async function loadAnnouncements(){
+    const el = document.getElementById('annList');
+    el.innerHTML='<div class="empty-state" style="padding:20px;"><div class="spinner"></div></div>';
+    const icons={info:'ℹ️',success:'✅',warning:'⚠️'};
+    const colors={info:'#eff6ff',success:'#f0fdf4',warning:'#fffbeb'};
+    const bords={info:'#bfdbfe',success:'#bbf7d0',warning:'#fde68a'};
+    try{
+        const res = await fetch(`${SB_ANN_URL}?select=*&order=created_at.desc&limit=20`,{
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+        });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        const list = await res.json();
+        if(!Array.isArray(list)||!list.length){
+            el.innerHTML='<div class="empty-state" style="padding:28px;"><div class="icon">📢</div><p>No announcements yet</p></div>';
+            return;
+        }
+        el.innerHTML = list.map(a=>{
+            const t = a.type||'info';
+            const dt = new Date(a.created_at).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'});
+            const activeBadge = a.is_active
+                ? '<span style="font-size:10px;font-weight:700;background:#dcfce7;color:#15803d;border:1px solid #bbf7d0;padding:1px 8px;border-radius:999px;margin-left:8px;">LIVE</span>'
+                : '<span style="font-size:10px;font-weight:700;background:#f3f4f6;color:#6b7280;border:1px solid #e5e7eb;padding:1px 8px;border-radius:999px;margin-left:8px;">HIDDEN</span>';
+            return `<div style="background:${colors[t]||colors.info};border:1px solid ${bords[t]||bords.info};border-radius:8px;padding:14px;margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;">
+                        <span style="font-size:15px;">${icons[t]||'📢'}</span>
+                        <strong style="font-size:13px;">${a.title}</strong>
+                        ${activeBadge}
+                    </div>
+                    <div style="display:flex;gap:6px;flex-shrink:0;margin-left:10px;">
+                        <button onclick="toggleAnnouncement(${a.id},${a.is_active})" style="background:none;border:1px solid ${bords[t]||bords.info};border-radius:6px;cursor:pointer;font-size:11px;font-weight:700;padding:3px 9px;color:${a.is_active?'#d97706':'#15803d'};font-family:inherit;">${a.is_active?'Hide':'Show'}</button>
+                        <button onclick="deleteAnnouncement(${a.id})" style="background:none;border:none;cursor:pointer;font-size:15px;color:var(--muted);">✕</button>
+                    </div>
+                </div>
+                <p style="font-size:13px;color:var(--sub);margin:6px 0 6px 22px;">${a.message}</p>
+                <p style="font-size:11px;color:var(--muted);margin-left:22px;">${dt}</p>
+            </div>`;
+        }).join('');
+    }catch(e){
+        el.innerHTML=`<div class="empty-state" style="padding:20px;"><p style="color:var(--red);">Error: ${e.message}</p></div>`;
+    }
 }
-function deleteAnnouncement(id){ const list=JSON.parse(localStorage.getItem('announcements')||'[]').filter(a=>a.id!==id); localStorage.setItem('announcements',JSON.stringify(list)); loadAnnouncements(); }
+
+async function toggleAnnouncement(id, currentlyActive){
+    try{
+        const res = await fetch(`${SB_ANN_URL}?id=eq.${id}`,{
+            method:'PATCH',
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
+            body: JSON.stringify({is_active: !currentlyActive})
+        });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        toast(currentlyActive?'Announcement hidden.':'Announcement visible to students.','success');
+        loadAnnouncements();
+    }catch(e){ toast('Update failed: '+e.message,'error'); }
+}
+
+async function deleteAnnouncement(id){
+    if(!confirm('Delete this announcement permanently?')) return;
+    try{
+        const res = await fetch(`${SB_ANN_URL}?id=eq.${id}`,{
+            method:'DELETE',
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+        });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        toast('Announcement deleted.','success');
+        loadAnnouncements();
+    }catch(e){ toast('Delete failed: '+e.message,'error'); }
+}
 
 /* ══ CONNECTION ══ */
 async function testConnection(){
@@ -1218,6 +1607,480 @@ async function testConnection(){
         if(res.ok){el.innerText='● Connected';el.style.color='var(--green)';}
         else{el.innerText='● Error '+res.status;el.style.color='var(--red)';}
     }catch(e){el.innerText='● Offline';el.style.color='var(--red)';}
+}
+
+/* ══ QUESTION BANK ══ */
+const SB_QUESTIONS_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/questions";
+let questionBank = [];
+let editingQId = null;
+let deletingQId = null;
+
+async function loadQuestionBank(){
+    const body = document.getElementById('qbankBody');
+    body.innerHTML = '<div class="empty-state"><div class="spinner"></div></div>';
+    try{
+        const res = await fetch(`${SB_QUESTIONS_URL}?select=*&order=sort_order.asc`,{
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+        });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        questionBank = await res.json();
+        if(!Array.isArray(questionBank)) questionBank=[];
+        renderQuestionStats();
+        renderQuestionBank();
+    }catch(e){
+        body.innerHTML=`<div class="empty-state"><p style="color:var(--red);">Error loading questions: ${e.message}</p></div>`;
+        toast('Failed to load questions: '+e.message,'error');
+    }
+}
+
+function renderQuestionStats(){
+    const el = document.getElementById('qbankStats');
+    el.innerHTML=`
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Total Questions</div><div class="mono" style="font-size:1.8rem;font-weight:800;color:var(--accent);">${questionBank.length}</div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Active on Test</div><div class="mono" style="font-size:1.8rem;font-weight:800;color:var(--green);">${questionBank.length}</div><div style="font-size:11px;color:var(--muted);margin-top:3px;">All questions shown</div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Last Modified</div><div style="font-size:13px;font-weight:700;color:var(--text);margin-top:6px;">${questionBank.length?new Date(questionBank.reduce((a,b)=>a.updated_at>b.updated_at?a:b).updated_at||Date.now()).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'}):'—'}</div></div>
+    `;
+}
+
+function renderQuestionBank(){
+    const body = document.getElementById('qbankBody');
+    if(!questionBank.length){
+        body.innerHTML='<div class="empty-state"><div class="icon">❓</div><p>No questions yet. Click <strong>+ Add Question</strong> to get started.</p></div>';
+        return;
+    }
+    const labels=['A','B','C','D'];
+    body.innerHTML=`<table class="data-table" style="width:100%;">
+        <thead>
+            <tr>
+                <th style="width:50px;">#</th>
+                <th>Question</th>
+                <th style="width:220px;">Options</th>
+                <th style="width:110px;text-align:center;">Answer</th>
+                <th style="width:110px;text-align:right;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        ${questionBank.map((q,i)=>{
+            const opts=[q.option_a,q.option_b,q.option_c,q.option_d];
+            const correctLabel=labels[q.correct_option]||'A';
+            const correctText=opts[q.correct_option]||'';
+            return `<tr>
+                <td><span class="mono" style="font-size:12px;font-weight:700;color:var(--muted);">${q.sort_order||i+1}</span></td>
+                <td style="font-size:13px;font-weight:500;line-height:1.5;max-width:320px;">${q.question_text}</td>
+                <td style="font-size:12px;color:var(--sub);">
+                    ${opts.map((o,oi)=>`<div style="padding:2px 0;${oi===q.correct_option?'color:var(--green);font-weight:700;':''}">${labels[oi]}. ${o}</div>`).join('')}
+                </td>
+                <td style="text-align:center;">
+                    <span style="background:#dcfce7;color:var(--green);border:1px solid #bbf7d0;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;">${correctLabel}. ${correctText.length>16?correctText.substring(0,16)+'…':correctText}</span>
+                </td>
+                <td style="text-align:right;">
+                    <div style="display:flex;gap:5px;justify-content:flex-end;">
+                        <button onclick="openEditQuestion(${q.id})" class="btn-ghost" style="padding:4px 10px;font-size:11px;border-color:#ddd6fe;color:var(--purple);">✏️ Edit</button>
+                        <button onclick="promptDeleteQuestion(${q.id},'${q.question_text.replace(/'/g,"\\'").substring(0,50)}')" class="btn-danger" style="padding:4px 10px;font-size:11px;">🗑</button>
+                    </div>
+                </td>
+            </tr>`;
+        }).join('')}
+        </tbody>
+    </table>`;
+}
+
+function openAddQuestion(){
+    editingQId = null;
+    document.getElementById('qModalTitle').innerText='Add Question';
+    document.getElementById('qSortOrder').value = questionBank.length+1;
+    document.getElementById('qText').value='';
+    document.getElementById('qOptA').value='';
+    document.getElementById('qOptB').value='';
+    document.getElementById('qOptC').value='';
+    document.getElementById('qOptD').value='';
+    document.getElementById('qCorrect').value='0';
+    document.getElementById('qModalError').style.display='none';
+    document.getElementById('qSaveBtn').innerText='Save Question';
+    openModal('questionModal');
+}
+
+function openEditQuestion(id){
+    const q = questionBank.find(x=>x.id===id);
+    if(!q) return toast('Question not found.','error');
+    editingQId = id;
+    document.getElementById('qModalTitle').innerText='Edit Question';
+    document.getElementById('qSortOrder').value=q.sort_order||'';
+    document.getElementById('qText').value=q.question_text||'';
+    document.getElementById('qOptA').value=q.option_a||'';
+    document.getElementById('qOptB').value=q.option_b||'';
+    document.getElementById('qOptC').value=q.option_c||'';
+    document.getElementById('qOptD').value=q.option_d||'';
+    document.getElementById('qCorrect').value=String(q.correct_option||0);
+    document.getElementById('qModalError').style.display='none';
+    document.getElementById('qSaveBtn').innerText='Update Question';
+    openModal('questionModal');
+}
+
+async function saveQuestion(){
+    const sortOrder=parseInt(document.getElementById('qSortOrder').value)||0;
+    const questionText=document.getElementById('qText').value.trim();
+    const optA=document.getElementById('qOptA').value.trim();
+    const optB=document.getElementById('qOptB').value.trim();
+    const optC=document.getElementById('qOptC').value.trim();
+    const optD=document.getElementById('qOptD').value.trim();
+    const correctOption=parseInt(document.getElementById('qCorrect').value);
+    const errEl=document.getElementById('qModalError');
+
+    if(!questionText||!optA||!optB||!optC||!optD){
+        errEl.style.display='block'; errEl.innerText='⚠️ Please fill in all fields.'; return;
+    }
+    if(sortOrder<1){ errEl.style.display='block'; errEl.innerText='⚠️ Sort order must be at least 1.'; return; }
+
+    errEl.style.display='none';
+    const btn=document.getElementById('qSaveBtn'); btn.disabled=true; btn.innerText='Saving…';
+
+    const payload={sort_order:sortOrder, question_text:questionText, option_a:optA, option_b:optB, option_c:optC, option_d:optD, correct_option:correctOption, updated_at: new Date().toISOString()};
+
+    try{
+        let res;
+        if(editingQId){
+            res=await fetch(`${SB_QUESTIONS_URL}?id=eq.${editingQId}`,{
+                method:'PATCH',
+                headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},
+                body:JSON.stringify(payload)
+            });
+        }else{
+            res=await fetch(SB_QUESTIONS_URL,{
+                method:'POST',
+                headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},
+                body:JSON.stringify(payload)
+            });
+        }
+        if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err.message||res.statusText);}
+        closeModal('questionModal');
+        toast(editingQId?'Question updated!':'Question added!','success');
+        await loadQuestionBank();
+    }catch(e){
+        errEl.style.display='block'; errEl.innerText='❌ Error: '+e.message;
+    }
+    btn.disabled=false; btn.innerText=editingQId?'Update Question':'Save Question';
+}
+
+function promptDeleteQuestion(id, preview){
+    deletingQId=id;
+    document.getElementById('qDeleteMsg').innerHTML=`Are you sure you want to permanently delete:<br><br><em style="color:var(--text);font-weight:600;">"${preview}…"</em><br><br>This cannot be undone.`;
+    openModal('qDeleteModal');
+}
+
+async function confirmDeleteQuestion(){
+    if(!deletingQId) return;
+    try{
+        const res=await fetch(`${SB_QUESTIONS_URL}?id=eq.${deletingQId}`,{
+            method:'DELETE',
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+        });
+        if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err.message||res.statusText);}
+        closeModal('qDeleteModal');
+        toast('Question deleted.','success');
+        await loadQuestionBank();
+    }catch(e){
+        toast('Delete failed: '+e.message,'error');
+        closeModal('qDeleteModal');
+    }
+    deletingQId=null;
+}
+
+/* ══════════════════════════════════════════════════════════
+   LIVE MONITOR
+══════════════════════════════════════════════════════════ */
+const SB_HEARTBEAT_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/heartbeats";
+let monitorCountdownVal = 15;
+let monitorCountdownTimer = null;
+let monitorAutoTimer = null;
+
+async function refreshMonitor(){
+    try{
+        const nowISO = new Date().toISOString();
+        const twoMinAgo = new Date(Date.now()-2*60*1000).toISOString();
+        const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+
+        // 1. Active sessions (heartbeat in last 2 min)
+        const hbRes = await fetch(`${SB_HEARTBEAT_URL}?select=*&last_seen=gte.${twoMinAgo}&order=last_seen.desc`,{
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+        });
+        const sessions = hbRes.ok ? await hbRes.json() : [];
+
+        // 2. Today's submissions
+        const todayRes = await fetch(`${SB_URL}?select=*&created_at=gte.${todayStart.toISOString()}&order=created_at.desc`,{
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+        });
+        const todayData = todayRes.ok ? await todayRes.json() : [];
+
+        // --- KPI strip ---
+        document.getElementById('mon-active').innerText = sessions.length;
+        document.getElementById('mon-today').innerText  = todayData.length;
+        document.getElementById('mon-session-count').innerText = sessions.length;
+
+        if(todayData.length){
+            const last = new Date(todayData[0].created_at);
+            document.getElementById('mon-last').innerText = last.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}) + ' · ' + todayData[0].student_name;
+        } else {
+            document.getElementById('mon-last').innerText = 'No submissions today';
+        }
+
+        // --- Active sessions table ---
+        const sb = document.getElementById('mon-sessions-body');
+        if(!sessions.length){
+            sb.innerHTML='<div class="empty-state" style="padding:28px;"><div class="icon">👥</div><p>No active sessions right now</p></div>';
+        } else {
+            sb.innerHTML=`<table class="data-table" style="width:100%;">
+                <thead><tr>
+                    <th>Student</th><th>Class</th><th>Division</th>
+                    <th style="text-align:center;">Question</th>
+                    <th style="text-align:center;">Answered</th>
+                    <th>Last Seen</th>
+                </tr></thead>
+                <tbody>${sessions.map(s=>{
+                    const ago = Math.round((Date.now()-new Date(s.last_seen))/1000);
+                    const agoTxt = ago<60?ago+'s ago':Math.round(ago/60)+'m ago';
+                    return `<tr>
+                        <td style="font-weight:600;">${s.student_name||'—'}</td>
+                        <td><span class="badge-class">${s.class_name||'—'}</span></td>
+                        <td><span class="badge-div">Div ${s.division||'—'}</span></td>
+                        <td style="text-align:center;"><span class="mono" style="font-weight:700;color:var(--accent);">${s.current_question||'—'}</span></td>
+                        <td style="text-align:center;"><span class="mono" style="font-weight:700;color:var(--green);">${s.answered_count||0}</span></td>
+                        <td style="font-size:12px;color:var(--sub);">${agoTxt}</td>
+                    </tr>`;
+                }).join('')}</tbody>
+            </table>`;
+        }
+
+        // --- Recent submissions ---
+        const rb = document.getElementById('mon-recent-body');
+        if(!todayData.length){
+            rb.innerHTML='<div class="empty-state" style="padding:28px;"><div class="icon">📭</div><p>No submissions today yet</p></div>';
+        } else {
+            rb.innerHTML=`<table class="data-table" style="width:100%;">
+                <thead><tr><th>Student</th><th>Class</th><th>Division</th><th style="text-align:center;">Score</th><th style="text-align:center;">Status</th><th>Time</th></tr></thead>
+                <tbody>${todayData.slice(0,20).map(r=>{
+                    const pass=r.score>=PASS_MARK;
+                    const dt=new Date(r.created_at).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+                    return `<tr>
+                        <td style="font-weight:600;">${r.student_name}</td>
+                        <td><span class="badge-class">${r.class_name||'—'}</span></td>
+                        <td><span class="badge-div">Div ${r.division||'—'}</span></td>
+                        <td style="text-align:center;" class="mono" style="font-weight:700;">${r.score}/25</td>
+                        <td style="text-align:center;"><span class="${pass?'badge-pass':'badge-fail'}">${pass?'PASS':'FAIL'}</span></td>
+                        <td style="font-size:12px;color:var(--sub);">${dt}</td>
+                    </tr>`;
+                }).join('')}</tbody>
+            </table>`;
+        }
+
+    }catch(e){
+        toast('Monitor error: '+e.message,'error');
+    }
+    // reset countdown
+    monitorCountdownVal = 15;
+}
+
+function startMonitorCountdown(){
+    if(monitorAutoTimer) { clearInterval(monitorAutoTimer); clearInterval(monitorCountdownTimer); }
+    monitorCountdownVal = 15;
+    monitorCountdownTimer = setInterval(()=>{
+        monitorCountdownVal--;
+        const el = document.getElementById('mon-countdown');
+        if(el) el.innerText = monitorCountdownVal+'s';
+        if(monitorCountdownVal<=0){ refreshMonitor(); monitorCountdownVal=15; }
+    },1000);
+}
+
+/* ══════════════════════════════════════════════════════════
+   TEST SCHEDULE
+══════════════════════════════════════════════════════════ */
+const SB_SCHEDULE_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/test_schedule";
+let scheduleEnabled = false;
+
+async function loadSchedule(){
+    try{
+        const res = await fetch(`${SB_SCHEDULE_URL}?select=*&order=id.desc&limit=1`,{
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+        });
+        const data = res.ok ? await res.json() : [];
+        const row = data[0]||null;
+        applyScheduleToUI(row);
+    }catch(e){
+        toast('Failed to load schedule: '+e.message,'error');
+    }
+}
+
+function applyScheduleToUI(row){
+    scheduleEnabled = !!(row && row.enabled);
+    const toggle = document.getElementById('schedEnabled');
+    const track  = document.getElementById('schedToggleTrack');
+    const thumb  = document.getElementById('schedToggleThumb');
+    toggle.checked = scheduleEnabled;
+    track.style.background = scheduleEnabled ? 'var(--green)' : '#d1d5db';
+    thumb.style.transform  = scheduleEnabled ? 'translateX(22px)' : 'translateX(0)';
+
+    if(row){
+        if(row.start_time) document.getElementById('schedStart').value = toLocalDatetimeInput(row.start_time);
+        if(row.end_time)   document.getElementById('schedEnd').value   = toLocalDatetimeInput(row.end_time);
+        document.getElementById('schedMsg').value = row.blocked_message||'The test is not available right now.';
+    }
+    updateScheduleBanner(row);
+    // Set up auto-reopen timer whenever schedule is loaded/refreshed
+    if(row && row.enabled && row.end_time) scheduleAutoReopen(row.end_time);
+    else if(_autoReopenTimer){ clearTimeout(_autoReopenTimer); _autoReopenTimer=null; }
+}
+
+function toLocalDatetimeInput(iso){
+    const d = new Date(iso);
+    const pad = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function updateScheduleBanner(row){
+    const banner = document.getElementById('schedStatusBanner');
+    const icon   = document.getElementById('schedStatusIcon');
+    const title  = document.getElementById('schedStatusTitle');
+    const sub    = document.getElementById('schedStatusSub');
+    const now    = new Date();
+    if(!row || !row.enabled){
+        banner.style.cssText='background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;';
+        icon.innerText='✅'; title.innerText='Test is OPEN — No schedule active';
+        sub.innerText='Students can access the test at any time.';
+    } else {
+        const start=new Date(row.start_time), end=new Date(row.end_time);
+        const inside=now>=start&&now<=end;
+        if(inside){
+            banner.style.cssText='background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;';
+            icon.innerText='🟢'; title.innerText='Test is OPEN — Currently within scheduled window';
+            sub.innerText=`Window closes: ${end.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}`;
+        } else if(now<start){
+            banner.style.cssText='background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;';
+            icon.innerText='⏳'; title.innerText='Test is SCHEDULED — Not yet open';
+            sub.innerText=`Opens: ${start.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}`;
+        } else {
+            banner.style.cssText='background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;';
+            icon.innerText='🔴'; title.innerText='Test is CLOSED — Scheduled window has ended';
+            sub.innerText=`Window ended: ${end.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}`;
+        }
+    }
+}
+
+function onScheduleToggle(){
+    const on = document.getElementById('schedEnabled').checked;
+    document.getElementById('schedToggleTrack').style.background = on ? 'var(--green)' : '#d1d5db';
+    document.getElementById('schedToggleThumb').style.transform  = on ? 'translateX(22px)' : 'translateX(0)';
+}
+
+async function saveSchedule(){
+    const enabled = document.getElementById('schedEnabled').checked;
+    const start   = document.getElementById('schedStart').value;
+    const end     = document.getElementById('schedEnd').value;
+    const msg     = document.getElementById('schedMsg').value.trim() || 'The test is not available right now.';
+
+    if(enabled && (!start||!end)) return toast('Please set both start and end date/time.','warn');
+    if(enabled && new Date(start)>=new Date(end)) return toast('End time must be after start time.','warn');
+
+    const payload = {
+        enabled,
+        start_time: start ? new Date(start).toISOString() : null,
+        end_time:   end   ? new Date(end).toISOString()   : null,
+        blocked_message: msg,
+        updated_at: new Date().toISOString()
+    };
+
+    try{
+        // Check if row exists
+        const chkRes = await fetch(`${SB_SCHEDULE_URL}?select=id&order=id.desc&limit=1`,{headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
+        const chkData = chkRes.ok ? await chkRes.json() : [];
+        let saveRes;
+        if(chkData.length){
+            saveRes = await fetch(`${SB_SCHEDULE_URL}?id=eq.${chkData[0].id}`,{
+                method:'PATCH',
+                headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},
+                body:JSON.stringify(payload)
+            });
+        } else {
+            saveRes = await fetch(SB_SCHEDULE_URL,{
+                method:'POST',
+                headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},
+                body:JSON.stringify(payload)
+            });
+        }
+        if(!saveRes.ok){const e=await saveRes.json().catch(()=>({}));throw new Error(e.message||saveRes.statusText);}
+        toast('Schedule saved!','success');
+        await loadSchedule();
+    }catch(e){ toast('Save failed: '+e.message,'error'); }
+}
+
+async function clearSchedule(){
+    document.getElementById('schedEnabled').checked=false;
+    document.getElementById('schedToggleTrack').style.background='#d1d5db';
+    document.getElementById('schedToggleThumb').style.transform='translateX(0)';
+    document.getElementById('schedStart').value='';
+    document.getElementById('schedEnd').value='';
+    document.getElementById('schedMsg').value='';
+    await saveSchedule();
+    toast('Schedule cleared — test is now always open.','success');
+}
+
+/* ── AUTO-REOPEN: when scheduled window ends, automatically disable the
+      schedule so the test reopens for all students ── */
+let _autoReopenTimer = null;
+function scheduleAutoReopen(endTimeISO){
+    if(_autoReopenTimer){ clearTimeout(_autoReopenTimer); _autoReopenTimer=null; }
+    if(!endTimeISO) return;
+    const msLeft = new Date(endTimeISO) - Date.now();
+    if(msLeft <= 0) return; // already ended
+    _autoReopenTimer = setTimeout(async()=>{
+        try{
+            // Disable schedule so test becomes open again for all students
+            const chkRes = await fetch(`${SB_SCHEDULE_URL}?select=id&order=id.desc&limit=1`,{headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
+            const chkData = chkRes.ok ? await chkRes.json() : [];
+            if(chkData.length){
+                await fetch(`${SB_SCHEDULE_URL}?id=eq.${chkData[0].id}`,{
+                    method:'PATCH',
+                    headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
+                    body:JSON.stringify({enabled:false})
+                });
+            }
+            toast('⏰ Schedule ended — test automatically reopened for all students.','success');
+            await loadSchedule();
+        }catch(e){ toast('Auto-reopen failed: '+e.message,'error'); }
+    }, msLeft);
+}
+
+/* ══════════════════════════════════════════════════════════
+   QUESTION PREVIEW
+══════════════════════════════════════════════════════════ */
+function previewQuestion(){
+    const qTextVal  = document.getElementById('qText').value.trim();
+    const optA = document.getElementById('qOptA').value.trim();
+    const optB = document.getElementById('qOptB').value.trim();
+    const optC = document.getElementById('qOptC').value.trim();
+    const optD = document.getElementById('qOptD').value.trim();
+    const correct  = parseInt(document.getElementById('qCorrect').value);
+    const sortOrder = document.getElementById('qSortOrder').value||'?';
+
+    if(!qTextVal) return toast('Enter a question text first.','warn');
+
+    document.getElementById('pvwQBadge').innerText=`Question ${sortOrder} of ${questionBank.length||'?'}`;
+    document.getElementById('pvwQText').innerText = qTextVal;
+
+    const labels=['A','B','C','D'];
+    const opts=[optA,optB,optC,optD];
+    document.getElementById('pvwOptions').innerHTML = opts.map((o,i)=>{
+        const isSel = i===correct;
+        return `<div style="display:flex;align-items:center;gap:12px;padding:13px 16px;border:1.5px solid ${isSel?'var(--accent)':'#e5e7eb'};border-radius:8px;background:${isSel?'#eff6ff':'#fff'};cursor:default;">
+            <div style="width:18px;height:18px;border-radius:50%;border:2px solid ${isSel?'var(--accent)':'#d1d5db'};flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+                ${isSel?'<div style="width:8px;height:8px;border-radius:50%;background:var(--accent);"></div>':''}
+            </div>
+            <span style="font-size:13px;font-weight:600;color:#6b7280;margin-right:4px;width:18px;flex-shrink:0;">${labels[i]}.</span>
+            <span style="font-size:14px;line-height:1.5;">${o||'<em style="color:#9ca3af;">Option '+labels[i]+' (empty)</em>'}</span>
+            ${isSel?'<span style="margin-left:auto;font-size:10px;font-weight:700;background:var(--accent);color:#fff;padding:1px 8px;border-radius:999px;flex-shrink:0;">CORRECT</span>':''}
+        </div>`;
+    }).join('');
+
+    openModal('qPreviewModal');
 }
 
 /* ══ SESSION RESTORE ══ */
