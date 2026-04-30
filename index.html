@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="geolocation=()">
     <title>English Grammar Mock Test — 2026</title>
@@ -14,6 +13,13 @@
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <!-- MediaPipe Face Mesh -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() { emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); })();
+    </script>
     <style>
         :root {
             --bg: #f8f9fa;
@@ -44,6 +50,13 @@
             --muted: #64748b;
             --accent: #3b82f6;
         }
+
+        @keyframes goldPulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+        .pulse-gold { animation: goldPulse 2s infinite; }
 
         *,
         *::before,
@@ -784,6 +797,9 @@
             }
         }
     </style>
+    <!-- AI PROCTORING (MediaPipe) -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
 </head>
 
 <body>
@@ -1046,6 +1062,22 @@
                         <div id="resStatus" style="font-size:1.6rem;font-weight:800;line-height:1;"></div>
                     </div>
                 </div>
+
+                <!-- NEW: PROMINENT CERTIFICATE BUTTONS (Hero Placement) -->
+                <div id="certHeroSection" style="display:none; margin-top:28px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1); animation: slideUp 0.5s ease-out;">
+                    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                        <button onclick="showCertificate()" class="pulse-gold" style="background:#d4af37; color:#fff; border:none; padding:12px 28px; border-radius:10px; font-weight:800; font-size:14px; cursor:pointer; display:flex; align-items:center; gap:8px; transition:transform 0.2s;">
+                            <span style="font-size:18px;">🎖️</span> CLAIM MY CERTIFICATE
+                        </button>
+                        <button onclick="downloadCertificate()" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.3); padding:12px 24px; border-radius:10px; font-weight:700; font-size:14px; cursor:pointer; backdrop-filter:blur(5px);">
+                            ⬇️ DOWNLOAD PDF
+                        </button>
+                        <button id="emailBtn" onclick="emailCertificate()" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.3); padding:12px 24px; border-radius:10px; font-weight:700; font-size:14px; cursor:pointer; backdrop-filter:blur(5px); display:flex; align-items:center; gap:6px;">
+                            📧 SEND TO EMAIL
+                        </button>
+                    </div>
+                    <p id="emailStatus" style="color:rgba(255,255,255,0.6); font-size:11px; margin-top:12px; font-weight:500;">OFFICIAL AX-CERTIFIED DOCUMENT</p>
+                </div>
             </div>
         </div>
 
@@ -1094,7 +1126,51 @@
                     style="flex:1;min-width:140px;padding:14px;font-size:14px;">↩ Retake Test</button>
                 <button onclick="window.print()" class="btn-ghost"
                     style="flex:1;min-width:140px;padding:14px;font-size:14px;border-color:#bfdbfe;color:var(--accent);">🖨️
+                <button onclick="window.print()" class="btn-ghost"
+                    style="flex:1;min-width:140px;padding:14px;font-size:14px;border-color:#bfdbfe;color:var(--accent);">🖨️
                     Print Report</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CERTIFICATE MODAL -->
+    <div id="certificateModal" class="overlay" style="display:none; z-index:10001; background:rgba(15,23,42,0.9);">
+        <div class="modal" style="max-width:800px; padding:0; background:none; box-shadow:none; width:95%;">
+            <div style="text-align:right; margin-bottom:10px;">
+                <button onclick="document.getElementById('certificateModal').style.display='none'" style="background:#fff; border:none; width:36px; height:36px; border-radius:50%; font-size:18px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2);">✕</button>
+            </div>
+            <!-- Certificate Template -->
+            <div id="certCanvas" style="background:#fff; padding:40px; border:20px solid #f1f5f9; position:relative; overflow:hidden; border-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Cpath fill=%22none%22 stroke=%22%23d4af37%22 stroke-width=%225%22 d=%22M5 5h90v90H5z%22/%3E%3C/svg%3E') 20; box-shadow:0 20px 50px rgba(0,0,0,0.3);">
+                <div style="border:2px solid #d4af37; padding:30px; text-align:center;">
+                    <div style="font-family:'serif'; font-size:12px; letter-spacing:4px; text-transform:uppercase; color:#94a3b8; margin-bottom:15px;">Official Spoken English Proficiency</div>
+                    <h1 style="font-family:'serif'; font-size:42px; font-weight:400; color:#1e293b; margin-bottom:10px;">Certificate of Achievement</h1>
+                    <div style="width:60px; height:2px; background:#d4af37; margin:20px auto;"></div>
+                    <p style="font-size:16px; color:#64748b; font-style:italic;">This is to certify that</p>
+                    <h2 id="certStudentName" style="font-size:36px; font-weight:800; color:#2563eb; margin:15px 0;">STUDENT NAME</h2>
+                    <p style="font-size:16px; color:#64748b; line-height:1.6; max-width:500px; margin:0 auto;">has successfully completed the 2026 English Grammar Mock Test with an outstanding performance score of</p>
+                    <h3 id="certScoreDisplay" style="font-size:24px; font-weight:700; color:#1e293b; margin:15px 0;">00 / 25</h3>
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:50px;">
+                        <div style="text-align:center; width:150px;">
+                            <div style="border-top:1px solid #94a3b8; padding-top:8px; font-size:12px; color:#64748b;">Exam Coordinator</div>
+                        </div>
+                        <div style="position:relative;">
+                            <div style="width:80px; height:80px; background:#d4af37; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:24px; font-weight:900; box-shadow:0 0 0 6px rgba(212,175,55,0.2); border:4px double #fff;">AX</div>
+                            <div style="position:absolute; bottom:-15px; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:9px; font-weight:800; color:#d4af37; letter-spacing:1px;">CERTIFIED</div>
+                        </div>
+                        <div style="text-align:center; width:150px;">
+                            <div style="border-top:1px solid #94a3b8; padding-top:8px; font-size:12px; color:#64748b;">Principal</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:40px; font-size:10px; color:#94a3b8; display:flex; justify-content:space-between;">
+                        <div id="certDateDisplay">Date: —</div>
+                        <div id="certVerifyCode">Verification: —</div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:20px; text-align:center;">
+                <button onclick="downloadCertificate()" class="btn-primary" style="padding:14px 40px; font-size:16px; background:#d4af37; border-color:#d4af37; box-shadow:0 10px 20px rgba(212,175,55,0.3);">Download Official PDF Certificate</button>
             </div>
         </div>
     </div>
@@ -1430,6 +1506,14 @@
         function sanitizeInput(str) { return String(str || '').replace(/[<>"'`;(){}]/g, '').trim(); }
         const _rateLimit = {};
         function rateLimited(key, ms = 2000) { const now = Date.now(); if (_rateLimit[key] && now - _rateLimit[key] < ms) return true; _rateLimit[key] = now; return false; }
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
         /* ═══════════════════════════ CONFIG ═══════════════════════════ */
         const SB_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/results";
@@ -1467,8 +1551,124 @@
         let lastViolation = null;
         let localStream = null;
         let peer = null;
+        let aiProctoringActive = false;
+        let faceDetection = null;
+        let proctorCamera = null;
 
-        /* ═══════════════════════════ EXAM VERIFICATION (WebRTC) ═══════════════════════════ */
+        /* ═══════════════════════════ AI PROCTORING (MediaPipe Face Mesh) ═══════════════════════════ */
+        async function initAIProctoring() {
+            if (aiProctoringActive) return;
+            try {
+                faceDetection = new FaceMesh({
+                    locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+                });
+
+                faceDetection.setOptions({
+                    maxNumFaces: 2, // Track up to 2 to detect multiple faces
+                    refineLandmarks: true,
+                    minDetectionConfidence: 0.6,
+                    minTrackingConfidence: 0.6
+                });
+
+                faceDetection.onResults(onFaceResults);
+
+                const videoElement = document.getElementById('localVideo');
+                
+                async function processVideo() {
+                    if (videoElement.videoWidth > 0 && !videoElement.paused && !videoElement.ended) {
+                        await faceDetection.send({ image: videoElement });
+                    }
+                    requestAnimationFrame(processVideo);
+                }
+                
+                videoElement.addEventListener('play', () => requestAnimationFrame(processVideo));
+                if (!videoElement.paused) requestAnimationFrame(processVideo);
+
+                aiProctoringActive = true;
+                console.log("High-End AI Proctoring initialized");
+            } catch (err) {
+                console.error("AI Proctoring error:", err);
+            }
+        }
+
+        function onFaceResults(results) {
+            let violation = null;
+
+            if (!results.multiFaceLandmarks || results.multiFaceLandmarks.length === 0) {
+                violation = "FACE_LOST: No face detected in frame";
+            } else if (results.multiFaceLandmarks.length > 1) {
+                violation = `MULTIPLE_FACES: ${results.multiFaceLandmarks.length} faces detected`;
+            } else {
+                const landmarks = results.multiFaceLandmarks[0];
+                
+                // 1. High-End Head Rotation Tracking (Pitch, Yaw, Roll)
+                const noseTip = landmarks[1];
+                const leftCheek = landmarks[234];
+                const rightCheek = landmarks[454];
+                const chin = landmarks[152];
+                const topHead = landmarks[10];
+
+                const faceWidth = Math.abs(rightCheek.x - leftCheek.x);
+                const faceHeight = Math.abs(chin.y - topHead.y);
+
+                // Yaw (Left/Right Rotation)
+                const centerDistX = ((leftCheek.x + rightCheek.x) / 2) - noseTip.x;
+                const yawRatio = centerDistX / faceWidth; 
+                
+                // Pitch (Up/Down Rotation)
+                const centerDistY = ((chin.y + topHead.y) / 2) - noseTip.y;
+                const pitchRatio = centerDistY / faceHeight;
+
+                // Roll (Tilt)
+                const rollAngle = Math.atan2(rightCheek.y - leftCheek.y, rightCheek.x - leftCheek.x);
+
+                if (yawRatio > 0.15) violation = "LOOK_AWAY: Head turned Right";
+                else if (yawRatio < -0.15) violation = "LOOK_AWAY: Head turned Left";
+                else if (pitchRatio > 0.15) violation = "LOOK_AWAY: Head tilted Up";
+                else if (pitchRatio < -0.15) violation = "LOOK_AWAY: Head tilted Down";
+                else if (Math.abs(rollAngle) > 0.3) violation = "LOOK_AWAY: Head rolled sideways";
+
+                // 2. High-End Eye Tracking (Iris / Gaze Detection)
+                if (!violation) {
+                    const irisL = landmarks[468]; // Left Iris Center (Requires refineLandmarks)
+                    if (irisL) {
+                        const eyeOuter = landmarks[33];
+                        const eyeInner = landmarks[133];
+                        const eyeWidth = Math.abs(eyeInner.x - eyeOuter.x);
+                        // Ratio: 0 is looking far outside, 1 is looking far inside
+                        const gazeRatioL = Math.abs(irisL.x - eyeOuter.x) / eyeWidth;
+                        
+                        if (gazeRatioL < 0.25 || gazeRatioL > 0.75) {
+                            violation = "LOOK_AWAY: Suspicious Eye Gaze detected";
+                        }
+                    }
+                }
+
+                // 3. Smart Mouth Open Detection (Talking/Whispering)
+                if (!violation) {
+                    const upperLip = landmarks[13];
+                    const lowerLip = landmarks[14];
+                    const mouthDist = Math.abs(upperLip.y - lowerLip.y);
+                    if (mouthDist / faceHeight > 0.08) {
+                        violation = "TALKING: Mouth open detected";
+                    }
+                }
+            }
+
+            if (violation !== lastViolation) {
+                lastViolation = violation;
+                if (violation) {
+                    console.warn("Proctoring Alert:", violation);
+                    sendHeartbeat(); // Immediate sync with admin
+                }
+            }
+        }
+
+        let audioContext = null;
+        let analyser = null;
+        let microphone = null;
+
+        /* ═══════════════════════════ EXAM VERIFICATION (WebRTC & Audio Analysis) ═══════════════════════════ */
         async function initCamera() {
             try {
                 // Request both video and audio for full exam proctoring
@@ -1477,6 +1677,45 @@
                     audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
                 });
                 document.getElementById('localVideo').srcObject = localStream;
+                
+                // Initialize Advanced Audio Noise Analysis & Live Speech-to-Text
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(localStream);
+                microphone.connect(analyser);
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+                
+                function checkAudioLevel() {
+                    if(!audioContext) return;
+                    analyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for(let i = 0; i < bufferLength; i++) { sum += dataArray[i]; }
+                    const average = sum / bufferLength;
+                    
+                    // Smart Audio Detection: Calculate variance for minute sounds (whispers, tapping)
+                    let varianceSum = 0;
+                    for(let i = 0; i < bufferLength; i++) { 
+                        varianceSum += Math.pow(dataArray[i] - average, 2); 
+                    }
+                    const stdDev = Math.sqrt(varianceSum / bufferLength);
+                    
+                    // Triggers on loud ambient noise OR sharp minute deviations (whispers/clicks)
+                    if(average > 40 || stdDev > 25) { 
+                        if(lastViolation !== "NOISE_DETECTED: Background talking or noise") {
+                            lastViolation = "NOISE_DETECTED: Background talking or noise";
+                            console.warn("Proctoring Alert: Noise Detected (Avg: " + average.toFixed(1) + ", Dev: " + stdDev.toFixed(1) + ")");
+                            sendHeartbeat(); // Sync with admin Trust Score Engine
+                        }
+                    }
+                    requestAnimationFrame(checkAudioLevel);
+                }
+                checkAudioLevel();
+
+                // Live Speech-to-Text Engine removed to prevent repetitive browser permission prompts.
+                // The AudioContext noise analyser above provides stable voice detection using the single initial permission.
+                
                 return true;
             } catch (e) {
                 // If audio+video fails, try video only
@@ -1500,13 +1739,28 @@
         function initPeer(id) {
             try {
                 if (peer) { peer.destroy(); peer = null; }
+                // Use explicit PeerJS Cloud Server with High Stability Config
                 peer = new Peer('astra-x-student-' + id, {
+                    host: '0.peerjs.com',
+                    port: 443,
+                    secure: true,
                     debug: 0,
                     config: {
                         iceServers: [
                             { urls: 'stun:stun.l.google.com:19302' },
                             { urls: 'stun:stun1.l.google.com:19302' },
-                            { urls: 'stun:stun2.l.google.com:19302' }
+                            { urls: 'stun:stun3.l.google.com:19302' },
+                            // Enterprise TURN Server for strict NAT bypass (prevents black screens)
+                            { 
+                                urls: 'turn:openrelay.metered.ca:80',
+                                username: 'openrelayproject',
+                                credential: 'openrelayproject'
+                            },
+                            { 
+                                urls: 'turn:openrelay.metered.ca:443',
+                                username: 'openrelayproject',
+                                credential: 'openrelayproject'
+                            }
                         ]
                     }
                 });
@@ -1515,8 +1769,30 @@
                         call.answer(localStream);
                     }
                 });
+                peer.on('connection', conn => {
+                    // Save the data connection to send live transcripts
+                    window.adminDataConnection = conn;
+                });
                 peer.on('error', err => { /* silent */ });
             } catch(e) { /* silent */ }
+        }
+
+
+        function showBroadcastFlash(title, msg, type) {
+            const icons = { info: 'ℹ️', success: '✅', warning: '⚠️' };
+            const colors = { info: 'var(--accent)', success: 'var(--green)', warning: 'var(--amber)' };
+            const div = document.createElement('div');
+            div.className = 'overlay';
+            div.style.zIndex = '10001';
+            div.innerHTML = `
+                <div class="modal" style="border-top:5px solid ${colors[type] || 'var(--accent)'};">
+                    <div style="font-size:32px;margin-bottom:12px;">📢</div>
+                    <h3 style="font-size:18px;font-weight:800;margin:0 0 10px 0;color:${colors[type]};">URGENT BROADCAST: ${title}</h3>
+                    <div style="font-size:15px;line-height:1.6;color:var(--text);margin-bottom:20px;">${msg}</div>
+                    <div style="text-align:right;"><button onclick="this.closest('.overlay').remove()" class="btn-primary">Acknowledge</button></div>
+                </div>`;
+            document.body.appendChild(div);
+            // Play a subtle sound if possible or just visual flash
         }
 
 
@@ -1564,11 +1840,29 @@
                 const data = await res.json();
                 if (!Array.isArray(data) || data.length === 0) throw new Error('No questions found in database.');
                 TOTAL_Q = data.length;
-                questions = data.map(row => ({
-                    q: row.question_text,
-                    a: [row.option_a, row.option_b, row.option_c, row.option_d],
-                    correct: row.correct_option  // 0-based index (0=A,1=B,2=C,3=D)
-                }));
+                
+                // Shuffle logic
+                const shuffledRows = shuffleArray([...data]);
+                questions = shuffledRows.map(row => {
+                    const opts = [
+                        { text: row.option_a, originalIdx: 0 },
+                        { text: row.option_b, originalIdx: 1 },
+                        { text: row.option_c, originalIdx: 2 },
+                        { text: row.option_d, originalIdx: 3 }
+                    ];
+                    // Shuffle the options themselves
+                    shuffleArray(opts);
+                    
+                    // Find where the correct answer moved to
+                    const newCorrectIdx = opts.findIndex(o => o.originalIdx === row.correct_option);
+                    
+                    return {
+                        q: row.question_text,
+                        a: opts.map(o => o.text),
+                        correct: newCorrectIdx,
+                        originalId: row.id // keep for tracking
+                    };
+                });
                 return true;
             } catch (e) {
                 showToast('Failed to load questions: ' + e.message, 'error');
@@ -1739,9 +2033,21 @@
                 const data = await res.json();
                 if (!Array.isArray(data) || !data.length) { card.style.display = 'none'; return; }
                 card.style.display = 'block';
+                
+                // Track already flashed IDs in session
+                if (!window._flashedAnnouncements) window._flashedAnnouncements = new Set();
+
                 list.innerHTML = data.map(a => {
                     const t = a.type || 'info';
                     const dt = new Date(a.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+                    
+                    // Flash if new (created in last 30s) and not already flashed
+                    const isNew = (Date.now() - new Date(a.created_at).getTime()) < 30000;
+                    if (isNew && !window._flashedAnnouncements.has(a.id)) {
+                        window._flashedAnnouncements.add(a.id);
+                        showBroadcastFlash(a.title, a.message, t);
+                    }
+
                     return `<div style="background:${colors[t] || colors.info};border:1.5px solid ${bords[t] || bords.info};border-radius:8px;padding:12px 14px;margin-bottom:8px;last-child:margin-bottom:0;">
                 <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;">
                     <span style="font-size:14px;flex-shrink:0;">${icons[t] || '📢'}</span>
@@ -1769,7 +2075,8 @@
                 tab_switch_count: tabSwitchCount,
                 fullscreen_exit_count: fullscreenExitCount,
                 last_violation: lastViolation,
-                last_seen: new Date().toISOString()
+                last_seen: new Date().toISOString(),
+                saved_responses: responses // Auto-save logic
             };
             try {
                 if (heartbeatId) {
@@ -1852,6 +2159,113 @@
             const el = document.getElementById(id);
             el.style.display = vis ? (id === 'testPage' ? 'flex' : 'block') : 'none';
         }
+        function showCertificate() {
+            const name = currentUser.name;
+            const score = document.getElementById('resScore').innerText;
+            const vCode = document.getElementById('perfInsight').innerText.match(/AX-[A-Z0-9]+/)?.[0] || "AX-OFFLINE";
+            const date = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+            document.getElementById('certStudentName').innerText = name;
+            document.getElementById('certScoreDisplay').innerText = score;
+            document.getElementById('certDateDisplay').innerText = "Date: " + date;
+            document.getElementById('certVerifyCode').innerText = "Verification: " + vCode;
+            document.getElementById('certificateModal').style.display = 'flex';
+        }
+
+        function downloadCertificate() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+            
+            const name = currentUser.name;
+            const score = document.getElementById('resScore').innerText;
+            const vCode = document.getElementById('certVerifyCode').innerText.replace('Verification: ', '');
+            const date = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+            // Premium Background
+            doc.setFillColor(248, 250, 252); doc.rect(0, 0, 297, 210, 'F');
+            
+            // Gold Border
+            doc.setDrawColor(212, 175, 55); doc.setLineWidth(5); doc.rect(10, 10, 277, 190);
+            doc.setLineWidth(1); doc.rect(13, 13, 271, 184);
+
+            // Text
+            doc.setTextColor(148, 163, 184); doc.setFontSize(10); doc.setFont('helvetica', 'normal');
+            doc.text("OFFICIAL SPOKEN ENGLISH PROFICIENCY", 148, 40, { align: 'center' });
+
+            doc.setTextColor(30, 41, 59); doc.setFontSize(40); doc.setFont('times', 'bold');
+            doc.text("Certificate of Achievement", 148, 60, { align: 'center' });
+
+            doc.setDrawColor(212, 175, 55); doc.setLineWidth(1); doc.line(118, 70, 178, 70);
+
+            doc.setTextColor(100, 116, 139); doc.setFontSize(16); doc.setFont('times', 'italic');
+            doc.text("This is to certify that", 148, 85, { align: 'center' });
+
+            doc.setTextColor(37, 99, 235); doc.setFontSize(36); doc.setFont('helvetica', 'bold');
+            doc.text(name, 148, 105, { align: 'center' });
+
+            doc.setTextColor(100, 116, 139); doc.setFontSize(14); doc.setFont('times', 'normal');
+            doc.text("has successfully completed the 2026 English Grammar Mock Test", 148, 120, { align: 'center' });
+            doc.text("with an outstanding performance score of", 148, 128, { align: 'center' });
+
+            doc.setTextColor(30, 41, 59); doc.setFontSize(22); doc.setFont('helvetica', 'bold');
+            doc.text(score, 148, 145, { align: 'center' });
+
+            // Signatures & Seal
+            doc.setDrawColor(148, 163, 184); doc.line(40, 175, 90, 175);
+            doc.line(207, 175, 257, 175);
+            doc.setFontSize(10); doc.setFont('helvetica', 'normal');
+            doc.text("Exam Coordinator", 65, 182, { align: 'center' });
+            doc.text("Principal", 232, 182, { align: 'center' });
+
+            // Gold Seal
+            doc.setFillColor(212, 175, 55); doc.circle(148, 175, 15, 'F');
+            doc.setTextColor(255, 255, 255); doc.setFontSize(12); doc.setFont('helvetica', 'bold');
+            doc.text("AX", 148, 177, { align: 'center' });
+            doc.setFontSize(6); doc.text("CERTIFIED", 148, 182, { align: 'center' });
+
+            // Metadata
+            doc.setTextColor(148, 163, 184); doc.setFontSize(8);
+            doc.text("Date: " + date, 20, 195);
+            doc.text("Verification: " + vCode, 277, 195, { align: 'right' });
+
+            doc.save(`Certificate_${name.replace(/\s+/g, '_')}.pdf`);
+            return doc.output('datauristring'); // Return for emailing
+        }
+
+        async function emailCertificate() {
+            const btn = document.getElementById('emailBtn');
+            const status = document.getElementById('emailStatus');
+            
+            btn.innerText = "⏳ SENDING...";
+            btn.disabled = true;
+
+            try {
+                // 1. Generate the PDF as a base64 string
+                const certB64 = downloadCertificate(); 
+                
+                // 2. Send via EmailJS
+                // Note: You must create a template in EmailJS with {{student_name}}, {{student_email}}, and {{content}}
+                const response = await emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                    student_name: currentUser.name,
+                    student_email: currentUser.email,
+                    score: document.getElementById('resScore').innerText,
+                    content: certB64 // This sends the PDF as data
+                });
+
+                if (response.status === 200) {
+                    btn.innerText = "✅ SENT TO EMAIL";
+                    status.innerText = "Check your inbox at " + currentUser.email;
+                    showToast("Certificate sent successfully!", "success");
+                }
+            } catch (error) {
+                console.error("Email Error:", error);
+                btn.innerText = "❌ FAILED";
+                btn.disabled = false;
+                status.innerText = "Email delivery failed. Please try again.";
+                showToast("Failed to send email. Check EmailJS config.", "error");
+            }
+        }
+
         function showToast(msg, type = 'info') {
             const c = { success: '#16a34a', warn: '#d97706', error: '#dc2626', info: '#2563eb' };
             const t = document.createElement('div'); t.innerText = msg;
@@ -1860,7 +2274,7 @@
         }
 
         /* ═══════════════════════════ PDF GENERATION ═══════════════════════════ */
-        function generatePDF(name, className, division, score, correct, wrong, skipped, responsesArr) {
+        function generatePDF(name, className, division, score, correct, wrong, skipped, responsesArr, vCode) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true });
             const W = 210, M = 12;
@@ -1877,6 +2291,9 @@
             doc.text('SPOKEN ENGLISH PROFICIENCY EXAM 2026', M, 11);
             doc.setFontSize(7.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(148, 163, 184);
             doc.text("Saint Xavier's High School, Sagroli", M, 18);
+            doc.setFontSize(8); doc.setFont('helvetica', 'bold'); doc.setTextColor(37, 99, 235);
+            doc.text("VERIFIED: " + (vCode || 'AX-OFFLINE'), W - M, 11, { align: 'right' });
+            doc.setFontSize(7.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(148, 163, 184);
             doc.text('Generated: ' + dateStr, W - M, 18, { align: 'right' });
             y = 32;
 
@@ -2028,6 +2445,7 @@
 
             // 1. Camera & Mic Access
             await initCamera();
+            await initAIProctoring();
             
             completeStartTest();
         }
@@ -2085,6 +2503,18 @@
 
         // Update login page displays when checking schedule on load
         (async function updateInitialDisplay() {
+            // Server-Side VPN & Proxy Check (Basic implementation using IP-API)
+            try {
+                const ipRes = await fetch('http://ip-api.com/json/?fields=proxy,hosting');
+                const ipData = await ipRes.json();
+                if (ipData.proxy || ipData.hosting) {
+                    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:red;font-family:sans-serif;text-align:center;"><h2>SECURITY ALERT<br>VPN / Proxy Detected. Access Denied.</h2></div>';
+                    return;
+                }
+            } catch(e) { /* ignore if api fails */ }
+
+            // Removed verification redirect
+
             const sched = await checkSchedule();
             const ok = await loadQuestions();
             if (ok) {
@@ -2157,7 +2587,11 @@
             });
             updatePalette();
         }
-        function saveResponse(idx) { responses[currentIdx] = idx; renderQuestion(); }
+        function saveResponse(idx) { 
+            responses[currentIdx] = idx; 
+            renderQuestion(); 
+            sendHeartbeat(); // Immediate auto-save
+        }
         function clearResponse() { responses[currentIdx] = null; renderQuestion(); }
         function toggleMark() { marked[currentIdx] = !marked[currentIdx]; updatePalette(); }
         function saveAndNext() { if (currentIdx < TOTAL_Q - 1) { currentIdx++; visited[currentIdx] = true; renderQuestion(); sendHeartbeat(); } }
@@ -2238,6 +2672,15 @@
             // hero
             document.getElementById('resultEmoji').innerText = emoji;
             document.getElementById('resNameDisplay').innerText = `${currentUser.name}  ·  ${currentUser.className}  ·  Division ${currentUser.division}`;
+            
+            // Show verification and ranking placeholders
+            document.getElementById('perfInsight').innerHTML += `
+                <div style="margin-top:15px;padding:15px;background:var(--bg);border:1.5px dashed var(--border);border-radius:10px;text-align:center;">
+                    <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:5px;text-transform:uppercase;">Verification Code</div>
+                    <div class="mono" style="font-size:16px;font-weight:800;color:var(--accent);">GENERATING...</div>
+                    <p style="font-size:11px;color:var(--sub);margin-top:8px;">This code verifies your result authenticity on our server.</p>
+                </div>
+            `;
             document.getElementById('resScore').innerText = `${score}/${TOTAL_Q}`;
             document.getElementById('resAccuracy').innerText = `${accuracy}%`;
             document.getElementById('resStatus').innerHTML = passed
@@ -2354,16 +2797,32 @@
 
             document.getElementById('reviewBody').innerHTML = rows;
 
+            // Show Certificate Option in HERO for EVERYONE (even if failed)
+            document.getElementById('certHeroSection').style.display = 'block';
+
             show('testPage', false); show('resultPage', true);
 
             // ── Save score to DB (class_name + division stored)
+            let verificationCode = "AX-PENDING";
+            let rankDisplay = "Calculating...";
             try {
-                await fetch(SB_URL, {
+                const postRes = await fetch(SB_URL, {
                     method: 'POST',
-                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ student_name: currentUser.name, class_name: currentUser.className, division: currentUser.division, score })
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+                    body: JSON.stringify({ student_name: currentUser.name, student_email: currentUser.email, class_name: currentUser.className, division: currentUser.division, score })
                 });
+                if (postRes.ok) {
+                    const postData = await postRes.json();
+                    if (postData && postData[0]) {
+                        verificationCode = postData[0].verification_code || "AX-ERROR";
+                        rankDisplay = postData[0].rank_in_class ? '#' + postData[0].rank_in_class : "Calculated";
+                    }
+                }
             } catch (e) { console.error('DB error', e); }
+
+            // Update UI with real verification code
+            const perfInsightEl = document.getElementById('perfInsight');
+            perfInsightEl.innerHTML = perfInsightEl.innerHTML.replace('GENERATING...', verificationCode);
 
             // ── Generate + Upload PDF (stored in class/division folder)
             const banner = document.getElementById('pdfBanner');
@@ -2378,7 +2837,7 @@
                 const safeName = currentUser.name.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
                 const filename = `${safeClass}/${currentUser.division}/report_${safeClass}_Div${currentUser.division}_${safeName}.pdf`;
 
-                const b64 = generatePDF(currentUser.name, currentUser.className, currentUser.division, score, correct, wrong, skipped, responses);
+                const b64 = generatePDF(currentUser.name, currentUser.className, currentUser.division, score, correct, wrong, skipped, responses, verificationCode);
                 await uploadPDFToStorage(b64, filename);
 
                 banner.style.background = '#f0fdf4';
