@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -1375,7 +1375,45 @@
                                     <div style="font-size:13px;font-weight:600;">Delete All Records</div>
                                     <div style="font-size:12px;color:var(--sub);">Permanently removes all student
                                         submissions from database</div>
-                                </div><button onclick="showClearAll()" class="btn-danger"
+                                </div>
+
+            <!-- ══ BROADCAST ══ -->
+            <div id="panel-broadcast" class="panel">
+                <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;">
+                    <div>
+                        <div class="card" style="padding:24px;margin-bottom:24px;">
+                            <h3 style="font-size:16px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+                                <span style="font-size:20px;">📢</span> Create Global Broadcast
+                            </h3>
+                            <div style="margin-bottom:15px;">
+                                <label class="sec-label" style="display:block;margin-bottom:6px;">Broadcast Title</label>
+                                <input type="text" id="bcTitle" placeholder="e.g., Important Instruction, Time Warning" class="inp">
+                            </div>
+                            <div style="margin-bottom:15px;">
+                                <label class="sec-label" style="display:block;margin-bottom:6px;">Type</label>
+                                <select id="bcType" class="inp">
+                                    <option value="info">ℹ️ Information (Blue)</option>
+                                    <option value="warning">⚠️ Warning (Amber)</option>
+                                    <option value="success">✅ Announcement (Green)</option>
+                                </select>
+                            </div>
+                            <div style="margin-bottom:20px;">
+                                <label class="sec-label" style="display:block;margin-bottom:6px;">Message Body</label>
+                                <textarea id="bcMsg" placeholder="This message will flash on all active student screens..." class="inp" style="height:100px;resize:none;"></textarea>
+                            </div>
+                            <button onclick="createBroadcast()" class="btn-primary" style="width:100%;padding:14px;font-weight:800;">🚀 Launch Broadcast to All Students</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card" style="padding:20px;">
+                            <h3 style="font-size:14px;font-weight:800;margin-bottom:15px;">Recent Broadcasts</h3>
+                            <div id="bcListBody">
+                                <!-- List of recent announcements -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><button onclick="showClearAll()" class="btn-danger"
                                     style="flex-shrink:0;margin-left:12px;">Delete All</button>
                             </div>
                             <div
@@ -2146,6 +2184,51 @@
         /* ══ CLOCK ══ */
         function startClock() { const el = document.getElementById('liveClock'); const tick = () => { el.innerText = new Date().toLocaleTimeString('en-IN'); }; tick(); setInterval(tick, 1000); }
 
+        /* ══ BROADCAST ══ */
+        async function loadBroadcasts() {
+            try {
+                const res = await fetch(`${SB_ANN_URL}?select=*&order=created_at.desc&limit=10`, { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } });
+                const data = await res.json();
+                const body = document.getElementById('bcListBody');
+                if (!data.length) { body.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px;font-size:13px;">No broadcasts yet.</p>'; return; }
+                body.innerHTML = data.map(a => {
+                    const dt = new Date(a.created_at).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' });
+                    return `<div style="padding:12px;border-bottom:1px solid var(--border);position:relative;">
+                        <div style="font-size:12px;font-weight:800;color:var(--accent);margin-bottom:4px;">${a.title}</div>
+                        <p style="font-size:11px;color:var(--sub);margin:0;line-height:1.4;">${a.message}</p>
+                        <div style="font-size:10px;color:var(--muted);margin-top:6px;">${dt}</div>
+                        <button onclick="deleteBroadcast(${a.id})" style="position:absolute;top:10px;right:10px;background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;">🗑</button>
+                    </div>`;
+                }).join('');
+            } catch (e) { }
+        }
+
+        async function createBroadcast() {
+            const title = document.getElementById('bcTitle').value.trim();
+            const msg = document.getElementById('bcMsg').value.trim();
+            const type = document.getElementById('bcType').value;
+            if (!title || !msg) return toast('Please enter title and message.', 'warn');
+            
+            try {
+                const res = await fetch(SB_ANN_URL, {
+                    method: 'POST',
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, message: msg, type, is_active: true })
+                });
+                if (!res.ok) throw new Error('Post failed');
+                toast('Broadcast launched successfully!', 'success');
+                document.getElementById('bcTitle').value = "";
+                document.getElementById('bcMsg').value = "";
+                loadBroadcasts();
+            } catch (e) { toast('Error: ' + e.message, 'error'); }
+        }
+
+        async function deleteBroadcast(id) {
+            if (!confirm('Delete this broadcast?')) return;
+            await fetch(`${SB_ANN_URL}?id=eq.${id}`, { method: 'DELETE', headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } });
+            loadBroadcasts();
+        }
+
         /* ══ TOAST ══ */
         function toast(msg, type = 'info') {
             const c = { success: '#16a34a', warn: '#d97706', error: '#dc2626', info: '#2563eb' };
@@ -2326,6 +2409,7 @@
                     <div style="height:3px;border-radius:999px;background:${pass ? 'var(--green)' : 'var(--red)'};width:${pct}%;"></div>
                 </div>
             </td>
+            <td style="text-align:center;"><span class="badge-class" style="font-size:11px;background:var(--bg);color:var(--accent);border:1px solid var(--border);">${item.rank_in_class ? '#' + item.rank_in_class : '—'}</span></td>
             <td style="text-align:center;color:var(--sub);">${pct}%</td>
             <td style="text-align:center;"><span class="${pass ? 'badge-pass' : 'badge-fail'}">${pass ? 'PASS' : 'FAIL'}</span></td>
             <td style="color:var(--sub);font-size:12px;">${dt}</td>
@@ -2364,10 +2448,19 @@
                 <div style="font-size:1.4rem;font-weight:800;color:${pass ? 'var(--green)' : 'var(--red)'};">${pass ? 'PASS ✓' : 'FAIL ✗'}</div>
             </div>
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
+                <div class="sec-label" style="margin-bottom:4px;">Rank / Percentile</div>
+                <div class="mono" style="font-size:1.4rem;font-weight:800;color:var(--purple);">${r.rank_in_class ? '#' + r.rank_in_class : '—'}</div>
+                <div style="font-size:11px;color:var(--sub);">${r.percentile ? r.percentile + 'th percentile' : 'Calculating...'}</div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
                 <div class="sec-label" style="margin-bottom:4px;">Class / Division</div>
                 <div style="font-size:13px;font-weight:700;margin-top:4px;">${r.class_name || '—'}</div>
                 <div style="font-size:12px;color:var(--sub);">Division ${r.division || '—'}</div>
             </div>
+        </div>
+        <div style="margin-bottom:16px;padding:12px;background:var(--white);border:1.5px dashed var(--accent);border-radius:10px;text-align:center;">
+             <div class="sec-label" style="margin-bottom:4px;font-size:10px;letter-spacing:1px;text-transform:uppercase;">Certified Verification Code</div>
+             <div class="mono" style="font-size:18px;font-weight:800;color:var(--accent);">${r.verification_code || 'AX-PENDING'}</div>
         </div>
         <div style="font-size:13px;color:var(--sub);margin-bottom:16px;padding:10px 14px;background:var(--bg);border-radius:7px;border:1px solid var(--border);">
             <strong style="color:var(--text);">Submitted:</strong> ${dt}
@@ -3092,6 +3185,7 @@
                                     <span class="badge-fail" style="font-size:10px;padding:1px 6px;background:#fff7ed;color:#c2410c;border-color:#fdba74;" title="Full-screen Exits">FS: ${fsCount}</span>
                                 </div>
                                 ${violationAlert}
+                                ${s.last_violation && s.last_violation.includes('face') ? `<div style="font-size:10px;color:var(--red);font-weight:800;background:#fee2e2;padding:2px 6px;border-radius:4px;margin-top:3px;">🤖 AI: ${s.last_violation}</div>` : ''}
                             </div>
                         </td>
                         <td style="font-size:12px;color:var(--sub);">${agoTxt}</td>
@@ -3144,13 +3238,28 @@
         function initAdminPeer() {
             return new Promise((resolve) => {
                 if (adminPeer && !adminPeer.destroyed) { resolve(); return; }
+                // Use explicit PeerJS Cloud Server with High Stability Config
                 adminPeer = new Peer('astra-x-admin-' + Date.now(), {
+                    host: '0.peerjs.com',
+                    port: 443,
+                    secure: true,
                     debug: 0,
                     config: {
                         iceServers: [
                             { urls: 'stun:stun.l.google.com:19302' },
                             { urls: 'stun:stun1.l.google.com:19302' },
-                            { urls: 'stun:stun2.l.google.com:19302' }
+                            { urls: 'stun:stun3.l.google.com:19302' },
+                            // Enterprise TURN Server for strict NAT bypass (prevents black screens)
+                            { 
+                                urls: 'turn:openrelay.metered.ca:80',
+                                username: 'openrelayproject',
+                                credential: 'openrelayproject'
+                            },
+                            { 
+                                urls: 'turn:openrelay.metered.ca:443',
+                                username: 'openrelayproject',
+                                credential: 'openrelayproject'
+                            }
                         ]
                     }
                 });
@@ -3158,7 +3267,17 @@
                 adminPeer.on('error', err => {
                     console.error('Admin Peer Error:', err);
                     if (err.type === 'peer-unavailable') { /* student not online yet */ }
-                    else { adminPeer = null; }
+                    else if (err.type === 'network' || err.type === 'server-error') {
+                        setTimeout(() => { if (adminPeer && adminPeer.disconnected) adminPeer.reconnect(); }, 5000);
+                    } else { adminPeer = null; }
+                });
+                adminPeer.on('disconnected', () => {
+                    console.log('Admin Peer disconnected. Forcing infinite reconnect...');
+                    if (!adminPeer.destroyed) adminPeer.reconnect();
+                });
+                adminPeer.on('close', () => {
+                    console.log('Admin Peer closed. Will re-initialize on next refresh...');
+                    adminPeer = null;
                 });
                 // Timeout fallback
                 setTimeout(resolve, 3000);
@@ -3177,6 +3296,22 @@
                 console.error('Recording panel refresh error:', e);
             }
         }
+
+        // Optimization: Intersection Observer for pausing off-screen videos (keeps connection alive, saves GPU/CPU)
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const videoEl = entry.target.querySelector('video');
+                const sid = entry.target.id.replace('rec-card-', '');
+                if (entry.isIntersecting) {
+                    if (videoEl && videoEl.srcObject) videoEl.play().catch(e=>console.warn(e));
+                    if (audioAnalysers[sid]) audioAnalysers[sid].paused = false;
+                } else {
+                    if (videoEl && !videoEl.paused) videoEl.pause();
+                    if (audioAnalysers[sid]) audioAnalysers[sid].paused = true;
+                    // Note: WebRTC connections are kept ALIVE so no footage breaks
+                }
+            });
+        }, { root: null, rootMargin: '100px', threshold: 0 });
 
         function startRecordingAutoRefresh() {
             if (recordingRefreshTimer) clearInterval(recordingRefreshTimer);
@@ -3257,15 +3392,15 @@
                         <div style="position:absolute;top:8px;right:8px;">
                             <button id="rec-audio-btn-${s.id}" onclick="toggleAudio(${s.id})" style="background:rgba(0,0,0,0.6);border:1.5px solid rgba(255,255,255,0.2);color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);transition:all 0.2s;">🔇</button>
                         </div>
-                        <div style="position:absolute;bottom:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:center;">
+                        <div style="position:absolute;bottom:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:center;z-index:10;">
                             <span style="background:rgba(0,0,0,0.6);color:white;font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;backdrop-filter:blur(4px);">${s.student_name}</span>
                             <span id="rec-time-${s.id}" style="background:rgba(0,0,0,0.6);color:#aaa;font-size:10px;padding:2px 6px;border-radius:4px;backdrop-filter:blur(4px);">${agoTxt}</span>
                         </div>
+                        <!-- Live Subtitles/Transcript -->
+                        <div id="rec-transcript-${s.id}" style="position:absolute;bottom:35px;left:5%;right:5%;background:rgba(0,0,0,0.7);color:var(--amber);font-size:12px;font-weight:700;padding:6px 10px;border-radius:6px;text-align:center;display:none;backdrop-filter:blur(4px);border:1px solid rgba(245,158,11,0.3);z-index:5;">
+                            ...
+                        </div>
                     </div>
-                    <!-- Audio Fluctuation Graph -->
-                    <div style="height:32px;background:#0a0a0a;position:relative;border-bottom:1px solid var(--border);overflow:hidden;">
-                        <canvas id="rec-audio-viz-${s.id}" width="400" height="32" style="width:100%;height:100%;display:block;opacity:0.8;"></canvas>
-                        <div style="position:absolute;top:4px;left:8px;font-size:8px;color:rgba(255,255,255,0.3);pointer-events:none;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Live Audio Signal</div>
                     </div>
                     <div style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);">
                         <div style="display:flex;align-items:center;gap:6px;">
@@ -3282,8 +3417,11 @@
                         <button onclick="kickStudent(${s.id}, '${s.student_name.replace(/'/g, "\\'")}')" class="btn-danger" style="padding:7px 12px;font-size:11px;">⛔ Kick</button>
                     </div>
                 </div>`;
-                    grid.appendChild(temp.firstElementChild);
-                    connectToStudentCamera(s.id);
+                    const newCard = temp.firstElementChild;
+                    grid.appendChild(newCard);
+                    videoObserver.observe(newCard); // Attach observer
+                    // Force immediate connection to maintain all live footages simultaneously
+                    connectToStudentCamera(s.id); 
                 } else {
                     // Update existing card status
                     const timeEl = document.getElementById('rec-time-' + sid);
@@ -3320,11 +3458,6 @@
                     videoEl.style.display = 'block';
                     videoEl.muted = true; // Default to muted for grid stability
                     if (placeholderEl) placeholderEl.style.display = 'none';
-                    
-                    // Initialize audio visualizer if the stream has audio tracks
-                    if (remoteStream.getAudioTracks().length > 0) {
-                        initAudioVisualizer(remoteStream, heartbeatId);
-                    }
                 });
 
                 call.on('close', () => {
@@ -3333,9 +3466,14 @@
                         placeholderEl.style.display = 'block';
                         placeholderEl.innerHTML = '<div style="font-size:28px;margin-bottom:8px;">📡</div><div style="font-size:11px;color:#888;">Disconnected</div>';
                     }
-                    if (audioAnalysers[sid]) {
-                        try { audioAnalysers[sid].ctx.close(); } catch(e) {}
-                        delete audioAnalysers[sid];
+                    delete activeCalls[sid];
+                });
+
+                call.on('close', () => {
+                    videoEl.style.display = 'none';
+                    if (placeholderEl) {
+                        placeholderEl.style.display = 'block';
+                        placeholderEl.innerHTML = '<div style="font-size:28px;margin-bottom:8px;">📡</div><div style="font-size:11px;color:#888;">Disconnected</div>';
                     }
                     delete activeCalls[sid];
                 });
@@ -3347,66 +3485,29 @@
                     }
                     delete activeCalls[sid];
                 });
+
+                // Establish Data Connection for Live Transcripts
+                const dataConn = adminPeer.connect(studentPeerId);
+                dataConn.on('data', data => {
+                    if (data && data.type === 'transcript') {
+                        const transcriptEl = document.getElementById('rec-transcript-' + heartbeatId);
+                        if (transcriptEl) {
+                            transcriptEl.style.display = 'block';
+                            transcriptEl.innerText = '🎙️ ' + data.text;
+                            
+                            // Hide after 5 seconds of silence
+                            if (transcriptEl.hideTimeout) clearTimeout(transcriptEl.hideTimeout);
+                            transcriptEl.hideTimeout = setTimeout(() => {
+                                transcriptEl.style.display = 'none';
+                            }, 5000);
+                        }
+                    }
+                });
+                dataConn.on('error', () => {}); // Handle silently
+
             } catch (e) {
                 console.warn('Failed to connect to student ' + heartbeatId, e);
             }
-        }
-
-        let audioAnalysers = {};
-        function initAudioVisualizer(stream, heartbeatId) {
-            const sid = String(heartbeatId);
-            const canvas = document.getElementById('rec-audio-viz-' + sid);
-            if (!canvas) return;
-
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                const audioCtx = new AudioContext();
-                const source = audioCtx.createMediaStreamSource(stream);
-                const analyser = audioCtx.createAnalyser();
-                
-                analyser.fftSize = 128; 
-                const bufferLength = analyser.frequencyBinCount;
-                const dataArray = new Uint8Array(bufferLength);
-                
-                source.connect(analyser);
-                const ctx = canvas.getContext('2d');
-                
-                function draw() {
-                    if (!audioAnalysers[sid]) {
-                        try { audioCtx.close(); } catch(e) {}
-                        return;
-                    }
-                    requestAnimationFrame(draw);
-                    
-                    analyser.getByteFrequencyData(dataArray);
-                    
-                    const width = canvas.width;
-                    const height = canvas.height;
-                    ctx.fillStyle = '#0a0a0a';
-                    ctx.fillRect(0, 0, width, height);
-                    
-                    const barWidth = (width / bufferLength) * 2;
-                    let x = 0;
-                    
-                    for(let i = 0; i < bufferLength; i++) {
-                        const val = dataArray[i];
-                        const barHeight = (val / 255) * height * 0.8;
-                        
-                        // Dynamic color based on amplitude
-                        const opacity = 0.3 + (val / 255) * 0.7;
-                        ctx.fillStyle = `rgba(37, 99, 235, ${opacity})`;
-                        
-                        // Center the bars vertically
-                        const y = (height - barHeight) / 2;
-                        ctx.fillRect(x, y, barWidth - 1, barHeight);
-                        
-                        x += barWidth;
-                    }
-                }
-                
-                audioAnalysers[sid] = { ctx: audioCtx, analyser: analyser };
-                draw();
-            } catch (e) { console.warn('Audio viz error:', e); }
         }
 
         function toggleAudio(id) {
@@ -3802,4 +3903,4 @@
     </script>
 </body>
 
-</html>                
+</html>
