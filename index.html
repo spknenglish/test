@@ -7,12 +7,13 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+    <meta http-equiv="Permissions-Policy" content="geolocation=()">
     <title>English Grammar Mock Test — 2026</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <style>
         :root {
             --bg: #f8f9fa;
@@ -31,6 +32,17 @@
             --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
             --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
             --ease-out: cubic-bezier(0, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --white: #1e293b;
+            --border: #334155;
+            --border2: #475569;
+            --text: #f8fafc;
+            --sub: #94a3b8;
+            --muted: #64748b;
+            --accent: #3b82f6;
         }
 
         *,
@@ -482,6 +494,36 @@
             background: var(--muted);
         }
 
+        .theme-toggle {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 18px;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        [data-theme="dark"] .opt-card:not(.selected):hover {
+            background: #1e293b;
+            border-color: var(--accent);
+        }
+
+        [data-theme="dark"] .row-correct td { background: #064e3b; }
+        [data-theme="dark"] .row-wrong td { background: #7f1d1d; }
+        [data-theme="dark"] .row-skipped td { background: #1e293b; }
+        [data-theme="dark"] .card, [data-theme="dark"] .modal, [data-theme="dark"] .modal-lg { background: var(--white); }
+
         .row-correct td {
             background: #f0fdf4;
         }
@@ -816,10 +858,11 @@
                             View My Score</button>
                     </div>
                     <div class="divider"></div>
-                    <div style="padding:14px 32px;text-align:center;">
+                    <div style="padding:14px 32px;display:flex;justify-content:center;align-items:center;gap:16px;">
                         <button onclick="window.location.href='admin.html'"
                             style="background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;font-family:inherit;">Admin
                             Portal →</button>
+                        <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Dark/Light Mode">🌓</button>
                     </div>
                 </div>
                 <div class="card" style="margin-top:14px;padding:20px 24px;">
@@ -865,6 +908,7 @@
                 </div>
             </div>
             <div style="display:flex;align-items:center;gap:12px;">
+                <button onclick="toggleTheme()" class="theme-toggle" style="width:34px;height:34px;font-size:16px;">🌓</button>
                 <span id="progressPill" style="font-size:13px;color:var(--sub);">0 / — answered</span>
                 <div id="timer" class="mono timer-normal"
                     style="padding:8px 18px;border-radius:7px;font-size:20px;font-weight:700;min-width:100px;text-align:center;">
@@ -1054,6 +1098,10 @@
             </div>
         </div>
     </div>
+
+
+    <!-- HIDDEN VIDEO FOR STREAMING -->
+    <video id="localVideo" autoplay muted playsinline style="display:none;"></video>
 
     <!-- ADMIN PORTAL -->
     <div id="adminPortal" style="display:none;min-height:100vh;background:var(--bg);">
@@ -1348,7 +1396,35 @@
         }
     </style>
 
+    <!-- FLASH MESSAGE MODAL (From Admin) -->
+    <div id="flashMessageModal" class="overlay" style="display:none;z-index:9999;">
+        <div class="modal" style="border:2px solid var(--accent);box-shadow:0 0 30px rgba(37,99,235,0.3);">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:15px;color:var(--accent);">
+                <span style="font-size:24px;">📢</span>
+                <h3 style="font-size:18px;font-weight:800;margin:0;">Message from Proctor</h3>
+            </div>
+            <div id="flashMessageText" style="font-size:15px;line-height:1.7;color:var(--text);background:var(--bg);padding:18px;border-radius:10px;border:1px dashed var(--border);margin-bottom:22px;max-height:300px;overflow-y:auto;font-weight:500;">
+                <!-- Message content -->
+            </div>
+            <div style="text-align:right;">
+                <button onclick="closeFlashMessage()" class="btn-primary" style="padding:10px 24px;border-radius:8px;font-weight:700;">OK, I Understood</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        /* ═══════════════════════════ THEME LOGIC ═══════════════════════════ */
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem('theme', target);
+        }
+        (function () {
+            const saved = localStorage.getItem('theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+        })();
+
         /* ═══════════════════════════ SECURITY UTILITIES ═══════════════════════════ */
         function sanitize(str) { if (!str) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;'); }
         function sanitizeInput(str) { return String(str || '').replace(/[<>"'`;(){}]/g, '').trim(); }
@@ -1366,37 +1442,7 @@
         const SB_SCHEDULE_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/test_schedule";
         const SB_HEARTBEAT_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/heartbeats";
 
-        /* ═══════════════════════════ SCHEDULE & TIMER LOGIC ═══════════════════════════ */
-        async function checkSchedule() {
-            try {
-                const res = await fetch(`${SB_SCHEDULE_URL}?select=*&order=id.desc&limit=1`, {
-                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
-                });
-                const data = await res.json();
-                const row = data[0];
-                if (!row) return { open: true, duration: 30 };
 
-                const now = new Date();
-                const start = row.start_time ? new Date(row.start_time) : null;
-                const end = row.end_time ? new Date(row.end_time) : null;
-
-                let isOpen = true;
-                if (row.enabled) {
-                    if (start && now < start) isOpen = false;
-                    if (end && now > end) isOpen = false;
-                }
-
-                return {
-                    open: isOpen,
-                    duration: parseInt(row.duration_minutes) || 30,
-                    message: row.blocked_message || 'The test is not available right now.',
-                    endTime: end
-                };
-            } catch (e) {
-                console.error('Schedule check failed:', e);
-                return { open: true, duration: 30 }; // fallback
-            }
-        }
         const SB_ANN_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/announcements";
 
         /* Questions are loaded from Supabase — see loadQuestions() below */
@@ -1417,13 +1463,84 @@
         let heartbeatInterval = null;
         let heartbeatId = null; // Supabase row id for upsert
         let tabSwitchCount = 0;
+        let fullscreenExitCount = 0;
+        let lastViolation = null;
+        let localStream = null;
+        let peer = null;
+
+        /* ═══════════════════════════ EXAM VERIFICATION (WebRTC) ═══════════════════════════ */
+        async function initCamera() {
+            try {
+                // Request both video and audio for full exam proctoring
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 320, height: 240, frameRate: 15 },
+                    audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+                });
+                document.getElementById('localVideo').srcObject = localStream;
+                return true;
+            } catch (e) {
+                // If audio+video fails, try video only
+                try {
+                    localStream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: 320, height: 240, frameRate: 15 },
+                        audio: false
+                    });
+                    document.getElementById('localVideo').srcObject = localStream;
+                    return true;
+                } catch (e2) {
+                    console.error('Verification error:', e2);
+                    // Silently proceed even if all access is denied
+                    return true;
+                }
+            }
+        }
+
+
+
+        function initPeer(id) {
+            try {
+                if (peer) { peer.destroy(); peer = null; }
+                peer = new Peer('astra-x-student-' + id, {
+                    debug: 0,
+                    config: {
+                        iceServers: [
+                            { urls: 'stun:stun.l.google.com:19302' },
+                            { urls: 'stun:stun1.l.google.com:19302' },
+                            { urls: 'stun:stun2.l.google.com:19302' }
+                        ]
+                    }
+                });
+                peer.on('call', call => {
+                    if (localStream) {
+                        call.answer(localStream);
+                    }
+                });
+                peer.on('error', err => { /* silent */ });
+            } catch(e) { /* silent */ }
+        }
+
+
+
+
+
+
 
         /* ═══════════════════════════ ANTI-CHEAT (Active during test) ═══════════════════════════ */
         document.addEventListener('visibilitychange', () => {
             if (document.getElementById('testPage').style.display === 'flex' && document.hidden) {
                 tabSwitchCount++;
+                lastViolation = `Tab switch detected (${tabSwitchCount})`;
                 showToast(`⚠️ Tab switch detected (${tabSwitchCount})! This is being monitored.`, 'warn');
-                if (tabSwitchCount >= 5) { showToast('⛔ Too many tab switches — auto-submitting!', 'error'); finalSubmit(); }
+                sendHeartbeat(); // Notify admin immediately
+                if (tabSwitchCount >= 5) { showToast(`⚠️ You have switched tabs ${tabSwitchCount} times. This is being recorded.`, 'error'); }
+            }
+        });
+        document.addEventListener('fullscreenchange', () => {
+            if (document.getElementById('testPage').style.display === 'flex' && !document.fullscreenElement) {
+                fullscreenExitCount++;
+                lastViolation = `Exited full-screen (${fullscreenExitCount})`;
+                showToast(`⚠️ Full-screen exit detected! Please stay in full-screen mode.`, 'warn');
+                sendHeartbeat(); // Notify admin immediately
             }
         });
         document.addEventListener('contextmenu', e => {
@@ -1649,6 +1766,9 @@
                 division: currentUser.division,
                 current_question: currentIdx + 1,
                 answered_count: answered,
+                tab_switch_count: tabSwitchCount,
+                fullscreen_exit_count: fullscreenExitCount,
+                last_violation: lastViolation,
                 last_seen: new Date().toISOString()
             };
             try {
@@ -1666,27 +1786,54 @@
                     });
                     if (res.ok) {
                         const d = await res.json();
-                        if (d[0] && d[0].id) heartbeatId = d[0].id;
+                        if (d[0] && d[0].id) {
+                            heartbeatId = d[0].id;
+                            initPeer(heartbeatId); // Initialize PeerJS for live monitoring
+                        }
                     }
                 }
 
-                // --- KICK CHECK ---
-                // Fetch current heartbeat status to see if admin kicked this student
+                // --- MESSAGE & KICK CHECK ---
                 if (heartbeatId) {
-                    const checkRes = await fetch(`${SB_HEARTBEAT_URL}?id=eq.${heartbeatId}&select=is_kicked`, {
+                    const checkRes = await fetch(`${SB_HEARTBEAT_URL}?id=eq.${heartbeatId}&select=is_kicked,direct_message`, {
                         headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
                     });
                     if (checkRes.ok) {
                         const checkData = await checkRes.json();
-                        if (checkData[0] && checkData[0].is_kicked === true) {
+                        const record = checkData[0] || {};
+                        
+                        // 1. Check for Direct Messages
+                        if (record.direct_message) {
+                            const modal = document.getElementById('flashMessageModal');
+                            if (modal && modal.style.display !== 'flex') {
+                                document.getElementById('flashMessageText').innerText = record.direct_message;
+                                modal.style.display = 'flex';
+                                showToast('📢 You have a new message from the proctor.', 'info');
+                            }
+                        }
+
+                        // 2. Check for Kick
+                        if (record.is_kicked === true) {
                             clearInterval(heartbeatInterval);
                             clearInterval(timerInterval);
                             document.getElementById('kickedModal').style.display = 'flex';
-                            // We don't call finalSubmit immediately to let the student read the high-quality popup
                         }
                     }
                 }
             } catch (e) { /* silent — heartbeat failure must never break the test */ }
+        }
+
+        async function closeFlashMessage() {
+            document.getElementById('flashMessageModal').style.display = 'none';
+            if (!heartbeatId) return;
+            // Clear message from database so it doesn't pop up again
+            try {
+                await fetch(`${SB_HEARTBEAT_URL}?id=eq.${heartbeatId}`, {
+                    method: 'PATCH',
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ direct_message: null })
+                });
+            } catch(e) {}
         }
 
         async function deleteHeartbeat() {
@@ -1879,6 +2026,18 @@
             if (!className) return showToast('Please select your Class.', 'warn');
             if (!division) return showToast('Please select your Division.', 'warn');
 
+            // 1. Camera & Mic Access
+            await initCamera();
+            
+            completeStartTest();
+        }
+
+        async function completeStartTest() {
+            const name = document.getElementById('stdName').value.trim();
+            const className = document.getElementById('stdClass').value;
+            const division = document.getElementById('stdDivision').value;
+            currentUser = { name, className, division };
+
             // Show loading state
             const btn = document.querySelector('#loginPage .btn-primary');
             const origText = btn.innerText; btn.innerText = 'Checking…'; btn.disabled = true;
@@ -1914,11 +2073,14 @@
             document.getElementById('countUnanswered').innerText = TOTAL_Q;
             show('loginPage', false); show('testPage', true);
             initPalette(); visited[0] = true; renderQuestion(); startTimer();
-            initSecurity(); // Activate anti-cheat when test starts
 
-            // 3. Start heartbeat — fires immediately then every 30s
+            // Init peers for camera and screen
+            initPeer(heartbeatId);
+            initScreenPeer(heartbeatId);
+
+            // 3. Start heartbeat — fires immediately then every 10s
             sendHeartbeat();
-            heartbeatInterval = setInterval(() => sendHeartbeat(), 30000);
+            heartbeatInterval = setInterval(() => sendHeartbeat(), 10000);
         }
 
         // Update login page displays when checking schedule on load
