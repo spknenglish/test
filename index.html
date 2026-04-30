@@ -1671,9 +1671,32 @@
         /* ═══════════════════════════ EXAM VERIFICATION (WebRTC & Audio Analysis) ═══════════════════════════ */
         async function initCamera() {
             try {
+                // Professional Auto Handler: Dynamic Bandwidth Scaling
+                let activeStudents = 0;
+                try {
+                    const twoMinAgo = new Date(Date.now() - 2 * 60 * 1000).toISOString();
+                    const res = await fetch(`${SB_HEARTBEAT_URL}?select=id&last_seen=gte.${twoMinAgo}`, {
+                        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        activeStudents = data.length;
+                    }
+                } catch(e) { console.warn('Could not fetch active student count for scaling'); }
+
+                // Determine constraint tiers based on active load
+                let videoConstraints = { width: 1280, height: 720, frameRate: 30 }; // < 20 students
+                if (activeStudents >= 20 && activeStudents <= 50) {
+                    videoConstraints = { width: 854, height: 480, frameRate: 30 }; // 20-50 students
+                } else if (activeStudents > 50) {
+                    videoConstraints = { width: 320, height: 240, frameRate: 15 }; // > 50 students
+                }
+                
+                console.log(`Auto Handler: ${activeStudents} active students detected. Setting resolution to ${videoConstraints.height}p @ ${videoConstraints.frameRate}fps`);
+
                 // Request both video and audio for full exam proctoring
                 localStream = await navigator.mediaDevices.getUserMedia({
-                    video: { width: 320, height: 240, frameRate: 15 },
+                    video: videoConstraints,
                     audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
                 });
                 document.getElementById('localVideo').srcObject = localStream;
@@ -1718,7 +1741,7 @@
                 
                 return true;
             } catch (e) {
-                // If audio+video fails, try video only
+                // If audio+video fails, try video only with extreme fallback limits
                 try {
                     localStream = await navigator.mediaDevices.getUserMedia({
                         video: { width: 320, height: 240, frameRate: 15 },
@@ -1773,7 +1796,20 @@
                     // Save the data connection to send live transcripts
                     window.adminDataConnection = conn;
                 });
-                peer.on('error', err => { /* silent */ });
+                peer.on('disconnected', () => {
+                    console.log('Peer disconnected from server. Forcing infinite reconnect...');
+                    peer.reconnect();
+                });
+                peer.on('close', () => {
+                    console.log('Peer connection destroyed. Re-initializing...');
+                    setTimeout(() => initPeer(id), 3000); // Re-initialize after 3s to prevent loop crashing
+                });
+                peer.on('error', err => { 
+                    console.warn('Peer error:', err);
+                    if (err.type === 'network' || err.type === 'server-error') {
+                        setTimeout(() => { if (peer && peer.disconnected) peer.reconnect(); }, 5000);
+                    }
+                });
             } catch(e) { /* silent */ }
         }
 
