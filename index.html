@@ -1,0 +1,2814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=()">
+    <title>English Grammar Mock Test — 2026</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --border2: #d1d5db;
+            --text: #111827;
+            --sub: #6b7280;
+            --muted: #9ca3af;
+            --accent: #2563eb;
+            --green: #16a34a;
+            --red: #dc2626;
+            --amber: #d97706;
+            --purple: #7c3aed;
+            --orange: #ea580c;
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+            --ease-out: cubic-bezier(0, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --white: #1e293b;
+            --border: #334155;
+            --border2: #475569;
+            --text: #f8fafc;
+            --sub: #94a3b8;
+            --muted: #64748b;
+            --accent: #3b82f6;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        /* ── PALETTE BUTTONS ── */
+        .pal-btn {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1.5px solid var(--border2);
+            background: var(--white);
+            color: var(--sub);
+            cursor: pointer;
+            transition: all 0.25s var(--ease-smooth);
+            will-change: transform, box-shadow;
+        }
+
+        .pal-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: scale(1.08);
+            box-shadow: 0 3px 10px rgba(37, 99, 235, 0.15);
+        }
+
+        .pal-btn:active {
+            transform: scale(0.95);
+        }
+
+        .pal-btn.visited {
+            background: #eff6ff;
+            border-color: #93c5fd;
+            color: var(--accent);
+        }
+
+        .pal-btn.answered {
+            background: var(--green);
+            border-color: var(--green);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+        }
+
+        .pal-btn.marked {
+            background: var(--purple);
+            border-color: var(--purple);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+            animation: pulseGlow 2s infinite;
+        }
+
+        .pal-btn.marked-answered {
+            background: var(--purple);
+            border-color: var(--amber);
+            color: #fff;
+            box-shadow: 0 0 0 2px var(--amber);
+        }
+
+        .pal-btn.active-pal {
+            box-shadow: 0 0 0 2.5px var(--orange);
+            transform: scale(1.05);
+        }
+
+        /* ── OPTION CARDS ── */
+        .opt-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-smooth);
+            background: var(--white);
+            will-change: transform, box-shadow;
+        }
+
+        .opt-card:hover {
+            border-color: var(--accent);
+            background: #eff6ff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.1);
+        }
+
+        .opt-card:active {
+            transform: translateY(0) scale(0.99);
+        }
+
+        .opt-card.selected {
+            border-color: var(--accent);
+            background: #eff6ff;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.12);
+        }
+
+        .opt-radio {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid var(--border2);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s var(--ease-smooth);
+        }
+
+        .opt-card.selected .opt-radio {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .opt-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: popIn 0.3s var(--ease-spring);
+        }
+
+        /* ── TIMER ── */
+        .timer-normal {
+            background: var(--white);
+            color: var(--text);
+            border: 1.5px solid var(--border2);
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .timer-warn {
+            background: #fffbeb;
+            color: var(--amber);
+            border: 1.5px solid #fcd34d;
+            animation: pulseWarn 1.2s ease infinite;
+            box-shadow: 0 0 12px rgba(217, 119, 6, 0.15);
+        }
+
+        .timer-danger {
+            background: #fef2f2;
+            color: var(--red);
+            border: 1.5px solid #fca5a5;
+            animation: pulseDanger 0.6s ease infinite;
+            box-shadow: 0 0 16px rgba(220, 38, 38, 0.2);
+        }
+
+        @keyframes pulseWarn {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: 0.85;
+                transform: scale(1.02)
+            }
+        }
+
+        @keyframes pulseDanger {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: 0.75;
+                transform: scale(1.04)
+            }
+        }
+
+        /* ── INPUTS ── */
+        .inp {
+            width: 100%;
+            border: 1.5px solid var(--border2);
+            border-radius: 8px;
+            padding: 11px 14px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .inp:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .inp::placeholder {
+            color: var(--muted);
+        }
+
+        /* ── BUTTONS ── */
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.25s var(--ease-smooth);
+            will-change: transform;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-ghost {
+            background: var(--white);
+            color: var(--sub);
+            border: 1.5px solid var(--border2);
+            border-radius: 8px;
+            padding: 11px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.25s var(--ease-smooth);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-ghost:active {
+            transform: translateY(0);
+        }
+
+        .btn-green {
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.25s var(--ease-smooth);
+        }
+
+        .btn-green:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3);
+        }
+
+        .btn-danger {
+            background: #fef2f2;
+            color: var(--red);
+            border: 1.5px solid #fca5a5;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.25s var(--ease-smooth);
+        }
+
+        .btn-danger:hover {
+            background: #fee2e2;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.12);
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: box-shadow 0.3s var(--ease-smooth);
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+        }
+
+        /* ── BADGES ── */
+        .badge-pass {
+            background: #dcfce7;
+            color: var(--green);
+            border: 1px solid #bbf7d0;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .badge-fail {
+            background: #fee2e2;
+            color: var(--red);
+            border: 1px solid #fecaca;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .admin-tab {
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            color: var(--sub);
+            background: none;
+            font-family: inherit;
+            transition: all 0.25s var(--ease-smooth);
+        }
+
+        .admin-tab.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 3px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .admin-tab:not(.active):hover {
+            border-color: var(--border2);
+            color: var(--text);
+        }
+
+        /* ── OVERLAYS & MODALS ── */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: fadeIn 0.2s var(--ease-out);
+        }
+
+        .modal {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            animation: modalPop 0.35s var(--ease-spring);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-lg {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 780px;
+            overflow: hidden;
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            animation: modalPop 0.35s var(--ease-spring);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ── PROGRESS ── */
+        .prog-track {
+            height: 3px;
+            background: var(--border);
+        }
+
+        .prog-fill {
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #60a5fa);
+            transition: width 0.5s var(--ease-smooth);
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--muted);
+        }
+
+        .theme-toggle {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 18px;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        [data-theme="dark"] .opt-card:not(.selected):hover {
+            background: #1e293b;
+            border-color: var(--accent);
+        }
+
+        [data-theme="dark"] .row-correct td { background: #064e3b; }
+        [data-theme="dark"] .row-wrong td { background: #7f1d1d; }
+        [data-theme="dark"] .row-skipped td { background: #1e293b; }
+        [data-theme="dark"] .card, [data-theme="dark"] .modal, [data-theme="dark"] .modal-lg { background: var(--white); }
+
+        .row-correct td {
+            background: #f0fdf4;
+        }
+
+        .row-wrong td {
+            background: #fff5f5;
+        }
+
+        .row-skipped td {
+            background: #fafafa;
+        }
+
+        .sec-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ── KEYFRAME ANIMATIONS ── */
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes modalPop {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25)
+            }
+
+            50% {
+                box-shadow: 0 2px 16px rgba(124, 58, 237, 0.45)
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0
+            }
+
+            100% {
+                background-position: 200% 0
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0
+            }
+
+            50% {
+                transform: scale(1.05)
+            }
+
+            70% {
+                transform: scale(0.95)
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.4s var(--ease-out) forwards;
+        }
+
+        .slide-in {
+            animation: slideInRight 0.35s var(--ease-out) forwards;
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.5s var(--ease-smooth);
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:900px) {
+            main {
+                flex-direction: column !important;
+            }
+
+            aside {
+                width: 100% !important;
+                border-left: none !important;
+                border-top: 1px solid var(--border);
+                flex-shrink: 0;
+            }
+
+            #palette {
+                grid-template-columns: repeat(8, 1fr) !important;
+            }
+        }
+
+        @media(max-width:600px) {
+            header {
+                padding: 0 12px !important;
+                height: auto !important;
+                min-height: 56px;
+                flex-wrap: wrap;
+                gap: 6px;
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
+            }
+
+            #headerName {
+                font-size: 13px !important;
+            }
+
+            #headerRoll {
+                font-size: 11px !important;
+            }
+
+            #timer {
+                font-size: 16px !important;
+                padding: 6px 12px !important;
+                min-width: 80px !important;
+            }
+
+            #progressPill {
+                font-size: 12px !important;
+            }
+
+            main>div:first-child {
+                padding: 16px !important;
+            }
+
+            #qText {
+                font-size: 1rem !important;
+                padding: 14px 16px !important;
+            }
+
+            .opt-card {
+                padding: 11px 13px !important;
+                gap: 10px !important;
+            }
+
+            #palette {
+                grid-template-columns: repeat(7, 1fr) !important;
+            }
+
+            .btn-primary,
+            .btn-ghost,
+            .btn-green,
+            .btn-danger {
+                font-size: 13px !important;
+                padding: 10px 14px !important;
+            }
+
+            #resultStats {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            #analyticsRow {
+                grid-template-columns: 1fr !important;
+            }
+
+            #resultHero {
+                padding: 32px 16px 28px !important;
+            }
+
+            #resultHero>div>div:last-child {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+
+            .stat-card {
+                padding: 14px !important;
+            }
+
+            .modal {
+                max-width: 100% !important;
+                margin: 8px !important;
+            }
+
+            .modal-lg {
+                max-width: 100% !important;
+                max-height: 96vh !important;
+            }
+        }
+
+        @media(max-width:400px) {
+            #palette {
+                grid-template-columns: repeat(5, 1fr) !important;
+            }
+
+            .pal-btn {
+                font-size: 11px !important;
+            }
+
+            #resultStats {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            #resultHero>div>div:last-child {
+                grid-template-columns: 1fr 1fr 1fr !important;
+                gap: 8px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+    <div id="loginPage" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;">
+        <div style="width:100%;max-width:960px;display:grid;grid-template-columns:420px 1fr;gap:20px;align-items:start;"
+            class="fade-up" id="loginGrid">
+            <style>
+                @media(max-width:740px) {
+                    #loginGrid {
+                        grid-template-columns: 1fr !important;
+                        max-width: 420px !important;
+                    }
+
+                    #schedSideCol {
+                        display: block !important;
+                    }
+                }
+            </style>
+            <!-- LEFT: form + instructions -->
+            <div>
+                <div class="card" style="overflow:hidden;">
+                    <div style="height:4px;background:var(--accent);"></div>
+                    <div style="padding:32px 32px 24px;">
+                        <div style="text-align:center;margin-bottom:28px;">
+                            <div style="font-size:36px;margin-bottom:12px;">🎓</div>
+                            <h1 style="font-size:1.5rem;font-weight:800;">SPOKEN ENGLISH Test 2026</h1>
+                            <p style="color:var(--sub);font-size:14px;margin-top:4px;"> Spoken English Proficiency Exam
+                            </p>
+                            <div style="display:flex;justify-content:center;gap:16px;margin-top:14px;">
+                                <span id="loginTimerDisplay" style="font-size:12px;color:var(--muted);">⏱ — min</span>
+                                <span id="loginQCountDisplay" style="font-size:12px;color:var(--muted);">❓ —
+                                    Questions</span>
+                                <span style="font-size:12px;color:var(--muted);">MCQ</span>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:14px;">
+                            <label class="sec-label" style="display:block;margin-bottom:6px;">Full Name</label>
+                            <input type="text" id="stdName" placeholder="Enter your full name" class="inp"
+                                oninput="this.value = this.value.toUpperCase()">
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+                            <div>
+                                <label class="sec-label" style="display:block;margin-bottom:6px;">Class</label>
+                                <select id="stdClass" class="inp" style="cursor:pointer;">
+                                    <option value="">— Select Class —</option>
+                                    <option value="Class 5">Class 5</option>
+                                    <option value="Class 6">Class 6</option>
+                                    <option value="Class 7">Class 7</option>
+                                    <option value="Class 8">Class 8</option>
+                                    <option value="Class 9">Class 9</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="sec-label" style="display:block;margin-bottom:6px;">Division</label>
+                                <select id="stdDivision" class="inp" style="cursor:pointer;">
+                                    <option value="">— Select Division —</option>
+                                    <option value="A">Division A</option>
+                                    <option value="B">Division B</option>
+                                    <option value="C">Division C</option>
+                                    <option value="D">Division D</option>
+                                    <option value="E">Division E</option>
+                                    <option value="F">Division F</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button onclick="startTest()" class="btn-primary" style="width:100%;padding:13px;">Start Test
+                            →</button>
+                        <button onclick="viewScore()"
+                            style="width:100%;margin-top:10px;background:#f0fdf4;color:var(--green);border:1.5px solid #bbf7d0;border-radius:8px;padding:12px;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;">📊
+                            View My Score</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div style="padding:14px 32px;display:flex;justify-content:center;align-items:center;gap:16px;">
+                        <button onclick="window.location.href='admin.html'"
+                            style="background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;font-family:inherit;">Admin
+                            Portal →</button>
+                        <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Dark/Light Mode">🌓</button>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:14px;padding:20px 24px;">
+                    <p class="sec-label" style="margin-bottom:10px;">Instructions</p>
+                    <ul style="list-style:none;font-size:13px;color:var(--sub);line-height:2.1;">
+                        <li>• Each correct answer carries <strong style="color:var(--text);">+1 mark</strong></li>
+                        <li>• The Duration for the Test is <span id="instrTimerDisplay">30</span> minutes</li>
+                        <li>• You can review &amp; change answers before submission</li>
+                        <li>• Use the palette to jump between questions</li>
+                        <li>• Test auto-submits when time expires</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- RIGHT: schedule status banner + announcements -->
+            <div id="schedSideCol" style="position:sticky;top:24px;display:flex;flex-direction:column;gap:14px;">
+                <div id="schedStatusCard" style="display:none;"></div>
+                <!-- Announcements from Supabase -->
+                <div id="annSideCard" style="display:none;">
+                    <div class="card" style="overflow:hidden;">
+                        <div
+                            style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+                            <span style="font-size:15px;">📢</span>
+                            <span style="font-size:13px;font-weight:700;">Announcements</span>
+                        </div>
+                        <div id="annSideList" style="padding:12px;max-height:420px;overflow-y:auto;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEST PAGE -->
+    <div id="testPage" style="display:none;min-height:100vh;flex-direction:column;">
+        <header
+            style="background:var(--white);border-bottom:1px solid var(--border);height:60px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <div
+                    style="background:#eff6ff;border:1px solid #bfdbfe;color:var(--accent);padding:3px 10px;border-radius:5px;font-size:11px;font-weight:700;letter-spacing:1px;">
+                    ● LIVE</div>
+                <div>
+                    <div id="headerName" style="font-size:14px;font-weight:700;"></div>
+                    <div id="headerRoll" style="font-size:12px;color:var(--sub);"></div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <button onclick="toggleTheme()" class="theme-toggle" style="width:34px;height:34px;font-size:16px;">🌓</button>
+                <span id="progressPill" style="font-size:13px;color:var(--sub);">0 / — answered</span>
+                <div id="timer" class="mono timer-normal"
+                    style="padding:8px 18px;border-radius:7px;font-size:20px;font-weight:700;min-width:100px;text-align:center;">
+                    —:—</div>
+            </div>
+        </header>
+        <div class="prog-track no-print">
+            <div id="progressBar" class="prog-fill" style="width:0%"></div>
+        </div>
+        <main style="display:flex;flex:1;overflow:hidden;">
+            <div style="flex:1;overflow-y:auto;padding:32px 40px;background:var(--bg);">
+                <div style="max-width:720px;margin:0 auto;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+                        <span id="qBadge"
+                            style="font-size:12px;font-weight:700;color:var(--accent);background:#eff6ff;border:1px solid #bfdbfe;padding:4px 12px;border-radius:999px;">Question
+                            1 of —</span>
+                        <button id="markBtn" onclick="toggleMark()"
+                            style="background:var(--white);border:1.5px solid #ddd6fe;color:var(--purple);padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.12s;">🔖
+                            Mark for Review</button>
+                    </div>
+                    <div id="qText"
+                        style="font-size:1.1rem;font-weight:500;line-height:1.75;color:var(--text);background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:20px 22px;margin-bottom:20px;">
+                    </div>
+                    <div id="options" style="display:grid;gap:10px;"></div>
+                    <div
+                        style="display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
+                        <button onclick="clearResponse()" class="btn-danger">✕ Clear</button>
+                        <div style="display:flex;gap:8px;">
+                            <button onclick="prevQuestion()" class="btn-ghost">← Prev</button>
+                            <button onclick="saveAndNext()" class="btn-primary">Save &amp; Next →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside
+                style="width:260px;background:var(--white);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;">
+                <div style="padding:18px;border-bottom:1px solid var(--border);">
+                    <p class="sec-label" style="margin-bottom:12px;">Question Palette</p>
+                    <div id="palette" style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;"></div>
+                </div>
+                <div style="padding:14px 18px;border-bottom:1px solid var(--border);">
+                    <p class="sec-label" style="margin-bottom:8px;">Legend</p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;color:var(--sub);">
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <div style="width:11px;height:11px;background:var(--green);border-radius:3px;"></div>
+                            Answered
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <div style="width:11px;height:11px;background:var(--purple);border-radius:3px;"></div>Marked
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <div
+                                style="width:11px;height:11px;background:#eff6ff;border:1px solid #93c5fd;border-radius:3px;">
+                            </div>Visited
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <div
+                                style="width:11px;height:11px;background:var(--white);border:1px solid var(--border2);border-radius:3px;">
+                            </div>Not visited
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:14px 18px;border-bottom:1px solid var(--border);">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <div
+                            style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px;text-align:center;">
+                            <div id="countAnswered" style="font-size:22px;font-weight:800;color:var(--green);">0</div>
+                            <div style="font-size:11px;color:var(--sub);margin-top:2px;">Answered</div>
+                        </div>
+                        <div
+                            style="background:#fff5f5;border:1px solid #fecaca;border-radius:8px;padding:10px;text-align:center;">
+                            <div id="countUnanswered" style="font-size:22px;font-weight:800;color:var(--red);">—</div>
+                            <div style="font-size:11px;color:var(--sub);margin-top:2px;">Remaining</div>
+                        </div>
+                        <div
+                            style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:8px;padding:10px;text-align:center;">
+                            <div id="countMarked" style="font-size:22px;font-weight:800;color:var(--purple);">0</div>
+                            <div style="font-size:11px;color:var(--sub);margin-top:2px;">Marked</div>
+                        </div>
+                        <div
+                            style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px;text-align:center;">
+                            <div id="countVisited" style="font-size:22px;font-weight:800;color:var(--accent);">0</div>
+                            <div style="font-size:11px;color:var(--sub);margin-top:2px;">Visited</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:16px 18px;margin-top:auto;">
+                    <button onclick="confirmSubmit()" class="btn-green"
+                        style="width:100%;padding:14px;font-size:15px;font-weight:800;border-radius:8px;">Submit Test
+                        ✓</button>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- RESULT PAGE -->
+    <div id="resultPage" style="display:none;min-height:100vh;background:#f1f5f9;padding:0 0 48px;">
+
+        <!-- ── HERO BANNER ── -->
+        <div id="resultHero"
+            style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#1d4ed8 100%);padding:48px 24px 36px;text-align:center;position:relative;overflow:hidden;">
+            <div
+                style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(37,99,235,0.25) 0%,transparent 70%);pointer-events:none;">
+            </div>
+            <div style="position:relative;z-index:1;max-width:700px;margin:0 auto;">
+                <div style="font-size:56px;margin-bottom:10px;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.3));"
+                    id="resultEmoji">🏆</div>
+                <div id="resStatusBadge" style="display:inline-block;margin-bottom:14px;"></div>
+                <h2 style="font-size:1.9rem;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:-0.5px;">
+                    Performance Report</h2>
+                <p id="resNameDisplay" style="color:#94a3b8;font-size:14px;margin-bottom:28px;"></p>
+                <!-- Big 3 KPIs -->
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:480px;margin:0 auto;">
+                    <div
+                        style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:20px 12px;backdrop-filter:blur(8px);">
+                        <div
+                            style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;margin-bottom:6px;">
+                            Score</div>
+                        <div id="resScore" class="mono"
+                            style="font-size:2.2rem;font-weight:800;color:#fff;line-height:1;"></div>
+                    </div>
+                    <div
+                        style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:20px 12px;backdrop-filter:blur(8px);">
+                        <div
+                            style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;margin-bottom:6px;">
+                            Accuracy</div>
+                        <div id="resAccuracy" class="mono"
+                            style="font-size:2.2rem;font-weight:800;color:#fbbf24;line-height:1;"></div>
+                    </div>
+                    <div
+                        style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:20px 12px;backdrop-filter:blur(8px);">
+                        <div
+                            style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;margin-bottom:6px;">
+                            Result</div>
+                        <div id="resStatus" style="font-size:1.6rem;font-weight:800;line-height:1;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="max-width:820px;margin:0 auto;padding:0 16px;">
+
+            <!-- ── 5-STAT STRIP ── -->
+            <div id="resultStats"
+                style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:-24px;margin-bottom:20px;position:relative;z-index:10;">
+            </div>
+
+            <!-- ── ANALYTICS CARDS ROW ── -->
+            <div id="analyticsRow" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+            </div>
+
+            <!-- ── TOPIC BREAKDOWN ── -->
+            <div id="topicBreakdown" style="margin-bottom:20px;"></div>
+
+            <!-- ── PERFORMANCE INSIGHT ── -->
+            <div id="perfInsight" style="margin-bottom:20px;"></div>
+
+            <!-- ── PDF Banner ── -->
+            <div id="pdfBanner"
+                style="display:none;margin-bottom:16px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);font-size:13px;font-weight:600;align-items:center;gap:10px;">
+            </div>
+
+            <!-- ── DETAILED ANSWER REVIEW (unchanged) ── -->
+            <div class="card" style="overflow:hidden;margin-bottom:20px;">
+                <div
+                    style="padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+                    <h3 style="font-size:15px;font-weight:700;">📋 Detailed Answer Review</h3>
+                    <div style="display:flex;gap:8px;font-size:12px;">
+                        <span style="background:#dcfce7;color:var(--green);padding:3px 10px;border-radius:999px;">✓
+                            Correct</span>
+                        <span style="background:#fee2e2;color:var(--red);padding:3px 10px;border-radius:999px;">✗
+                            Wrong</span>
+                        <span style="background:#f3f4f6;color:var(--sub);padding:3px 10px;border-radius:999px;">—
+                            Skipped</span>
+                    </div>
+                </div>
+                <div style="padding:16px;" id="reviewBody"></div>
+            </div>
+
+            <!-- ── ACTION BUTTONS ── -->
+            <div style="display:flex;gap:10px;flex-wrap:wrap;" class="no-print">
+                <button onclick="location.reload()" class="btn-ghost"
+                    style="flex:1;min-width:140px;padding:14px;font-size:14px;">↩ Retake Test</button>
+                <button onclick="window.print()" class="btn-ghost"
+                    style="flex:1;min-width:140px;padding:14px;font-size:14px;border-color:#bfdbfe;color:var(--accent);">🖨️
+                    Print Report</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- HIDDEN VIDEO FOR STREAMING -->
+    <video id="localVideo" autoplay muted playsinline style="display:none;"></video>
+
+    <!-- ADMIN PORTAL -->
+    <div id="adminPortal" style="display:none;min-height:100vh;background:var(--bg);">
+        <header
+            style="background:var(--white);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;">
+            <div>
+                <h2 style="font-size:1.1rem;font-weight:800;">Admin Control Center</h2>
+                <p style="font-size:12px;color:var(--sub);margin-top:2px;">English Grammar Mock Test 2026 — Live
+                    Dashboard</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <span id="adminClock" class="mono"
+                    style="font-size:13px;color:var(--sub);background:var(--bg);border:1px solid var(--border);padding:6px 12px;border-radius:6px;"></span>
+                <button onclick="location.reload()" class="btn-danger" style="padding:8px 14px;">Logout</button>
+            </div>
+        </header>
+        <div style="padding:28px 32px;max-width:1360px;margin:0 auto;">
+            <div
+                style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;">
+                <div class="stat-card">
+                    <div class="sec-label" style="margin-bottom:8px;">Total Submissions</div>
+                    <div class="mono" id="adminTotal" style="font-size:2rem;font-weight:800;color:var(--accent);">0
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="sec-label" style="margin-bottom:8px;">Passed</div>
+                    <div class="mono" id="adminPassed" style="font-size:2rem;font-weight:800;color:var(--green);">0
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="sec-label" style="margin-bottom:8px;">Failed</div>
+                    <div class="mono" id="adminFailed" style="font-size:2rem;font-weight:800;color:var(--red);">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="sec-label" style="margin-bottom:8px;">Avg Score</div>
+                    <div class="mono" id="adminAvg" style="font-size:2rem;font-weight:800;color:var(--amber);">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="sec-label" style="margin-bottom:8px;">Top Score</div>
+                    <div class="mono" id="adminTop" style="font-size:2rem;font-weight:800;color:var(--purple);">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="sec-label" style="margin-bottom:8px;">Pass Rate</div>
+                    <div class="mono" id="adminPassRate" style="font-size:2rem;font-weight:800;color:var(--green);">—
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;">
+                <button class="admin-tab active" id="tab-records" onclick="switchTab('records')">Records</button>
+                <button class="admin-tab" id="tab-leaderboard" onclick="switchTab('leaderboard')">Leaderboard</button>
+                <button class="admin-tab" id="tab-analytics" onclick="switchTab('analytics')">Analytics</button>
+                <button class="admin-tab" id="tab-reports" onclick="switchTab('reports')">📄 PDF Reports</button>
+            </div>
+            <!-- Records panel -->
+            <div id="panel-records">
+                <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+                    <input type="text" id="adminSearch" oninput="filterTable()" placeholder="Search by name…"
+                        class="inp" style="flex:1;min-width:180px;padding:9px 13px;">
+                    <select id="adminFilterClass" onchange="filterTable()" class="inp"
+                        style="width:auto;padding:9px 13px;">
+                        <option value="all">All Classes</option>
+                        <option value="Class 5">Class 5</option>
+                        <option value="Class 6">Class 6</option>
+                        <option value="Class 7">Class 7</option>
+                        <option value="Class 8">Class 8</option>
+                        <option value="Class 9">Class 9</option>
+                    </select>
+                    <select id="adminFilterDiv" onchange="filterTable()" class="inp"
+                        style="width:auto;padding:9px 13px;">
+                        <option value="all">All Divisions</option>
+                        <option value="A">Division A</option>
+                        <option value="B">Division B</option>
+                        <option value="C">Division C</option>
+                        <option value="D">Division D</option>
+                        <option value="E">Division E</option>
+                        <option value="F">Division F</option>
+                    </select>
+                    <select id="adminFilter" onchange="filterTable()" class="inp" style="width:auto;padding:9px 13px;">
+                        <option value="all">All Results</option>
+                        <option value="pass">Pass Only</option>
+                        <option value="fail">Fail Only</option>
+                    </select>
+                    <button onclick="exportCSV()" class="btn-ghost"
+                        style="padding:9px 16px;border-color:#bbf7d0;color:var(--green);">⬇ Export CSV</button>
+                    <button onclick="loadAdminData()" class="btn-ghost" style="padding:9px 16px;">↻ Refresh</button>
+                    <button onclick="confirmClearAll()" class="btn-danger" style="padding:9px 16px;">🗑 Clear
+                        All</button>
+                </div>
+                <div class="card" style="overflow:hidden;">
+                    <div style="overflow-x:auto;">
+                        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                            <thead>
+                                <tr style="background:var(--bg);">
+                                    <th style="padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);cursor:pointer;"
+                                        class="sec-label" onclick="sortTable('class')">Class ↕</th>
+                                    <th style="padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);cursor:pointer;"
+                                        class="sec-label" onclick="sortTable('division')">Div ↕</th>
+                                    <th style="padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);cursor:pointer;"
+                                        class="sec-label" onclick="sortTable('name')">Name ↕</th>
+                                    <th style="padding:12px 16px;text-align:center;border-bottom:1px solid var(--border);cursor:pointer;"
+                                        class="sec-label" onclick="sortTable('score')">Score ↕</th>
+                                    <th style="padding:12px 16px;text-align:center;border-bottom:1px solid var(--border);"
+                                        class="sec-label">%</th>
+                                    <th style="padding:12px 16px;text-align:center;border-bottom:1px solid var(--border);"
+                                        class="sec-label">Status</th>
+                                    <th style="padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);"
+                                        class="sec-label">Submitted</th>
+                                    <th style="padding:12px 16px;text-align:right;border-bottom:1px solid var(--border);"
+                                        class="sec-label">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div id="adminEmpty"
+                        style="display:none;padding:40px;text-align:center;color:var(--muted);font-size:14px;">No
+                        records found.</div>
+                </div>
+            </div>
+            <!-- Leaderboard panel -->
+            <div id="panel-leaderboard" style="display:none;">
+                <div class="card" style="overflow:hidden;">
+                    <div style="padding:18px 22px;border-bottom:1px solid var(--border);">
+                        <h3 style="font-size:15px;font-weight:700;">🏆 Class Leaderboard</h3>
+                    </div>
+                    <div id="leaderboardBody" style="padding:16px;"></div>
+                </div>
+            </div>
+            <!-- Analytics panel -->
+            <div id="panel-analytics" style="display:none;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+                    <div class="card" style="padding:22px;">
+                        <h4 style="font-size:14px;font-weight:700;margin-bottom:14px;">Score Distribution</h4>
+                        <div id="scoreDistChart" style="display:flex;flex-direction:column;gap:7px;"></div>
+                    </div>
+                    <div class="card" style="padding:22px;">
+                        <h4 style="font-size:14px;font-weight:700;margin-bottom:14px;">Score Brackets</h4>
+                        <div id="scoreBrackets" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"></div>
+                    </div>
+                </div>
+                <div class="card" style="padding:22px;">
+                    <h4 style="font-size:14px;font-weight:700;margin-bottom:14px;">Class Summary</h4>
+                    <div id="classSummary"></div>
+                </div>
+            </div>
+            <!-- PDF Reports panel -->
+            <div id="panel-reports" style="display:none;">
+                <div
+                    style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+                    <div>
+                        <h3 style="font-size:15px;font-weight:700;">📄 PDF Report Archive</h3>
+                        <p style="font-size:13px;color:var(--sub);margin-top:3px;">Auto-generated reports saved on
+                            submission</p>
+                    </div>
+                    <button onclick="loadPdfList()" class="btn-ghost" style="padding:9px 16px;">↻ Refresh</button>
+                </div>
+                <div class="card" style="overflow:hidden;">
+                    <div id="pdfListBody" style="padding:16px;">
+                        <p style="color:var(--muted);text-align:center;padding:24px;font-size:13px;">Loading reports…
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <div id="confirmModal" style="display:none;" class="overlay">
+        <div class="modal" style="padding:32px;text-align:center;">
+            <div style="font-size:40px;margin-bottom:14px;">⚠️</div>
+            <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;">Submit Test?</h3>
+            <p id="confirmMsg" style="color:var(--sub);font-size:14px;line-height:1.7;margin-bottom:22px;"></p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <button onclick="closeConfirm()" class="btn-ghost" style="padding:12px;">← Go Back</button>
+                <button onclick="finalSubmit()" class="btn-green" style="padding:12px;">Submit Now ✓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Score Viewer Modal -->
+    <div id="scoreModal" style="display:none;" class="overlay">
+        <div class="modal">
+            <div style="padding:22px 26px;border-bottom:1px solid var(--border);">
+                <h3 style="font-size:1.1rem;font-weight:800;">📊 Score Lookup</h3>
+                <p style="font-size:13px;color:var(--sub);margin-top:3px;">Enter the exact name, class &amp; division
+                    from your test</p>
+            </div>
+            <div style="padding:22px 26px;">
+                <div style="margin-bottom:12px;">
+                    <label class="sec-label" style="display:block;margin-bottom:6px;">Full Name</label>
+                    <input type="text" id="svName" placeholder="Enter your name" class="inp"
+                        oninput="this.value = this.value.toUpperCase()">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                    <div>
+                        <label class="sec-label" style="display:block;margin-bottom:6px;">Class</label>
+                        <select id="svClass" class="inp" style="cursor:pointer;">
+                            <option value="">— Select Class —</option>
+                            <option value="Class 5">Class 5</option>
+                            <option value="Class 6">Class 6</option>
+                            <option value="Class 7">Class 7</option>
+                            <option value="Class 8">Class 8</option>
+                            <option value="Class 9">Class 9</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="sec-label" style="display:block;margin-bottom:6px;">Division</label>
+                        <select id="svDivision" class="inp" style="cursor:pointer;">
+                            <option value="">— Select Division —</option>
+                            <option value="A">Division A</option>
+                            <option value="B">Division B</option>
+                            <option value="C">Division C</option>
+                            <option value="D">Division D</option>
+                            <option value="E">Division E</option>
+                            <option value="F">Division F</option>
+                        </select>
+                    </div>
+                </div>
+                <button id="fetchBtn" onclick="fetchScore()" class="btn-green"
+                    style="width:100%;padding:13px;font-size:14px;">Fetch My Score →</button>
+                <button onclick="closeScoreModal()"
+                    style="width:100%;margin-top:8px;background:none;border:none;font-size:13px;color:var(--muted);padding:8px;cursor:pointer;font-family:inherit;">Cancel</button>
+            </div>
+            <div id="scoreResult"
+                style="display:none;border-top:1px solid var(--border);padding:22px 26px;max-height:400px;overflow-y:auto;">
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Viewer Modal (Admin + Candidate) -->
+    <div id="pdfViewerModal" style="display:none;" class="overlay">
+        <div class="modal-lg">
+            <div
+                style="padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+                <div>
+                    <h3 style="font-size:15px;font-weight:700;" id="pdfViewerTitle">Report Viewer</h3>
+                    <p style="font-size:12px;color:var(--sub);margin-top:2px;" id="pdfViewerSub"></p>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <a id="pdfDownloadLink" href="#" download style="display:none;" class="btn-primary"
+                        style="padding:8px 14px;font-size:13px;">⬇ Download</a>
+                    <button id="pdfAdminDeleteBtn" style="display:none;" onclick="deletePdfFromViewer()"
+                        class="btn-danger" style="padding:8px 14px;font-size:13px;">🗑 Delete</button>
+                    <button onclick="closePdfViewer()" class="btn-ghost" style="padding:8px 14px;font-size:13px;">✕
+                        Close</button>
+                </div>
+            </div>
+            <div style="flex:1;overflow:auto;padding:16px;background:var(--bg);">
+                <iframe id="pdfViewerFrame"
+                    style="width:100%;height:600px;border:none;border-radius:8px;background:var(--white);"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Terminated Modal (Kicked) -->
+    <div id="kickedModal" style="display:none;" class="overlay">
+        <div class="modal" style="padding:40px;text-align:center;border-color:var(--red);max-width:420px;">
+            <div class="live-pulse"
+                style="width:60px;height:60px;background:#fee2e2;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 0 0 10px rgba(220,38,38,0.05);animation:pulse-red 2s infinite;">
+                ⛔</div>
+            <h3 style="font-size:1.4rem;font-weight:800;color:var(--red);margin-bottom:12px;">Session Terminated</h3>
+            <p style="color:var(--text);font-size:15px;font-weight:600;margin-bottom:8px;">Administrative Action
+                Required</p>
+            <p style="color:var(--sub);font-size:13px;line-height:1.7;margin-bottom:24px;">Your test session has been
+                terminated by the administrator for security reasons. Your current progress will be submitted
+                automatically.</p>
+            <div
+                style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;margin-bottom:24px;text-align:left;display:flex;gap:12px;align-items:center;">
+                <div style="font-size:18px;">👮</div>
+                <div style="font-size:12px;color:#b91c1c;font-weight:600;line-height:1.4;">This action is logged. Please
+                    contact your supervisor for further clarification.</div>
+            </div>
+            <button onclick="finalSubmit()" class="btn-primary"
+                style="width:100%;padding:14px;background:var(--red);border-color:var(--red);font-size:14px;">View
+                Results & Exit</button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(220, 38, 38, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+            }
+        }
+    </style>
+
+    <!-- FLASH MESSAGE MODAL (From Admin) -->
+    <div id="flashMessageModal" class="overlay" style="display:none;z-index:9999;">
+        <div class="modal" style="border:2px solid var(--accent);box-shadow:0 0 30px rgba(37,99,235,0.3);">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:15px;color:var(--accent);">
+                <span style="font-size:24px;">📢</span>
+                <h3 style="font-size:18px;font-weight:800;margin:0;">Message from Proctor</h3>
+            </div>
+            <div id="flashMessageText" style="font-size:15px;line-height:1.7;color:var(--text);background:var(--bg);padding:18px;border-radius:10px;border:1px dashed var(--border);margin-bottom:22px;max-height:300px;overflow-y:auto;font-weight:500;">
+                <!-- Message content -->
+            </div>
+            <div style="text-align:right;">
+                <button onclick="closeFlashMessage()" class="btn-primary" style="padding:10px 24px;border-radius:8px;font-weight:700;">OK, I Understood</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ═══════════════════════════ THEME LOGIC ═══════════════════════════ */
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem('theme', target);
+        }
+        (function () {
+            const saved = localStorage.getItem('theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+        })();
+
+        /* ═══════════════════════════ SECURITY UTILITIES ═══════════════════════════ */
+        function sanitize(str) { if (!str) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;'); }
+        function sanitizeInput(str) { return String(str || '').replace(/[<>"'`;(){}]/g, '').trim(); }
+        const _rateLimit = {};
+        function rateLimited(key, ms = 2000) { const now = Date.now(); if (_rateLimit[key] && now - _rateLimit[key] < ms) return true; _rateLimit[key] = now; return false; }
+
+        /* ═══════════════════════════ CONFIG ═══════════════════════════ */
+        const SB_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/results";
+        const SB_KEY = "sb_publishable_4FYpyHkIfITcoOP_7UBO4A_d6hTnc3T";
+        const SB_STORAGE_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/object";
+        const SB_STORAGE_LIST = "https://kxmrpfvhdvmgywttzmag.supabase.co/storage/v1/object/list/reports";
+        const BUCKET = "reports";
+        let TOTAL_Q = 25; // Updated dynamically
+        const PASS_MARK = 9;
+        const SB_SCHEDULE_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/test_schedule";
+        const SB_HEARTBEAT_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/heartbeats";
+
+
+        const SB_ANN_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/announcements";
+
+        /* Questions are loaded from Supabase — see loadQuestions() below */
+        let questions = [];
+        const SB_QUESTIONS_URL = "https://kxmrpfvhdvmgywttzmag.supabase.co/rest/v1/questions";
+
+        /* ═══════════════════════════ STATE ═══════════════════════════ */
+        let currentUser = { name: "", className: "", division: "" };
+        let currentIdx = 0;
+        let responses = [];
+        let visited = [];
+        let marked = [];
+        let timeRemaining = 30 * 60; // Default, updated from settings
+        let timerInterval;
+        let adminData = [];
+        let sortCol = null, sortAsc = true;
+        let currentPdfFile = null;
+        let heartbeatInterval = null;
+        let heartbeatId = null; // Supabase row id for upsert
+        let tabSwitchCount = 0;
+        let fullscreenExitCount = 0;
+        let lastViolation = null;
+        let localStream = null;
+        let peer = null;
+
+        /* ═══════════════════════════ EXAM VERIFICATION (WebRTC) ═══════════════════════════ */
+        async function initCamera() {
+            try {
+                // Request both video and audio for full exam proctoring
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 320, height: 240, frameRate: 15 },
+                    audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+                });
+                document.getElementById('localVideo').srcObject = localStream;
+                return true;
+            } catch (e) {
+                // If audio+video fails, try video only
+                try {
+                    localStream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: 320, height: 240, frameRate: 15 },
+                        audio: false
+                    });
+                    document.getElementById('localVideo').srcObject = localStream;
+                    return true;
+                } catch (e2) {
+                    console.error('Verification error:', e2);
+                    // Silently proceed even if all access is denied
+                    return true;
+                }
+            }
+        }
+
+
+
+        function initPeer(id) {
+            try {
+                if (peer) { peer.destroy(); peer = null; }
+                peer = new Peer('astra-x-student-' + id, {
+                    debug: 0,
+                    config: {
+                        iceServers: [
+                            { urls: 'stun:stun.l.google.com:19302' },
+                            { urls: 'stun:stun1.l.google.com:19302' },
+                            { urls: 'stun:stun2.l.google.com:19302' }
+                        ]
+                    }
+                });
+                peer.on('call', call => {
+                    if (localStream) {
+                        call.answer(localStream);
+                    }
+                });
+                peer.on('error', err => { /* silent */ });
+            } catch(e) { /* silent */ }
+        }
+
+
+
+
+
+
+
+        /* ═══════════════════════════ ANTI-CHEAT (Active during test) ═══════════════════════════ */
+        document.addEventListener('visibilitychange', () => {
+            if (document.getElementById('testPage').style.display === 'flex' && document.hidden) {
+                tabSwitchCount++;
+                lastViolation = `Tab switch detected (${tabSwitchCount})`;
+                showToast(`⚠️ Tab switch detected (${tabSwitchCount})! This is being monitored.`, 'warn');
+                sendHeartbeat(); // Notify admin immediately
+                if (tabSwitchCount >= 5) { showToast(`⚠️ You have switched tabs ${tabSwitchCount} times. This is being recorded.`, 'error'); }
+            }
+        });
+        document.addEventListener('fullscreenchange', () => {
+            if (document.getElementById('testPage').style.display === 'flex' && !document.fullscreenElement) {
+                fullscreenExitCount++;
+                lastViolation = `Exited full-screen (${fullscreenExitCount})`;
+                showToast(`⚠️ Full-screen exit detected! Please stay in full-screen mode.`, 'warn');
+                sendHeartbeat(); // Notify admin immediately
+            }
+        });
+        document.addEventListener('contextmenu', e => {
+            if (document.getElementById('testPage').style.display === 'flex') { e.preventDefault(); showToast('Right-click disabled during test.', 'warn'); }
+        });
+        document.addEventListener('copy', e => {
+            if (document.getElementById('testPage').style.display === 'flex') { e.preventDefault(); showToast('Copy is disabled during test.', 'warn'); }
+        });
+        document.addEventListener('paste', e => {
+            if (document.getElementById('testPage').style.display === 'flex') { e.preventDefault(); showToast('Paste is disabled during test.', 'warn'); }
+        });
+
+
+        /* ═══════════════════════════ LOAD QUESTIONS FROM SUPABASE ═══════════════════════════ */
+        async function loadQuestions() {
+            try {
+                const res = await fetch(`${SB_QUESTIONS_URL}?select=*&order=sort_order.asc`, {
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const data = await res.json();
+                if (!Array.isArray(data) || data.length === 0) throw new Error('No questions found in database.');
+                TOTAL_Q = data.length;
+                questions = data.map(row => ({
+                    q: row.question_text,
+                    a: [row.option_a, row.option_b, row.option_c, row.option_d],
+                    correct: row.correct_option  // 0-based index (0=A,1=B,2=C,3=D)
+                }));
+                return true;
+            } catch (e) {
+                showToast('Failed to load questions: ' + e.message, 'error');
+                return false;
+            }
+        }
+
+        /* ═══════════════════════════ SCHEDULE CHECK ═══════════════════════════ */
+        async function checkSchedule() {
+            try {
+                const res = await fetch(`${SB_SCHEDULE_URL}?select=*&order=id.desc&limit=1`, {
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                });
+                if (!res.ok) return { open: true }; // fail-safe: allow test if can't read schedule
+                const data = await res.json();
+                const row = data[0] || null;
+                if (!row || !row.enabled) return { open: true, endTime: null, duration: row ? row.duration_minutes : 30 };
+                const now = new Date(), start = new Date(row.start_time), end = new Date(row.end_time);
+                if (now >= start && now <= end) return { open: true, endTime: end, duration: row.duration_minutes || 30 };
+                return { open: false, endTime: null, duration: row.duration_minutes || 30, message: row.blocked_message || 'The test is not available right now. Please check the schedule.' };
+            } catch (e) {
+                return { open: true, endTime: null, duration: 30 }; // fail-safe on network error
+            }
+        }
+
+        /* ═══════════════════════════ SCHEDULE STATUS BANNER ═══════════════════════════ */
+        let _schedCountdownTimer = null;
+
+        async function loadScheduleStatus() {
+            const card = document.getElementById('schedStatusCard');
+            if (!card) return;
+            try {
+                const res = await fetch(`${SB_SCHEDULE_URL}?select=*&order=id.desc&limit=1`, {
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                });
+                if (!res.ok) { card.style.display = 'none'; return; }
+                const data = await res.json();
+                const row = data[0] || null;
+                _renderScheduleBanner(row);
+            } catch (e) {
+                card.style.display = 'none';
+            }
+        }
+
+        function _renderScheduleBanner(row) {
+            const card = document.getElementById('schedStatusCard');
+            if (!card) return;
+            if (_schedCountdownTimer) { clearInterval(_schedCountdownTimer); _schedCountdownTimer = null; }
+
+            // No schedule active → test is open, show a subtle green banner
+            if (!row || !row.enabled) {
+                card.style.display = 'block';
+                card.innerHTML = `
+            <div style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
+                <div style="font-size:20px;flex-shrink:0;">🟢</div>
+                <div>
+                    <div style="font-size:13px;font-weight:700;color:#15803d;">Test is Open</div>
+                    <div style="font-size:12px;color:#6b7280;margin-top:2px;">You can start the test at any time.</div>
+                </div>
+            </div>`;
+                return;
+            }
+
+            const now = new Date();
+            const start = new Date(row.start_time);
+            const end = new Date(row.end_time);
+
+            if (now >= start && now <= end) {
+                // Currently open — show open + closing time
+                card.style.display = 'block';
+                const closesIn = Math.max(0, Math.floor((end - now) / 1000));
+                card.innerHTML = `
+            <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
+                <div style="font-size:20px;flex-shrink:0;">🟢</div>
+                <div style="flex:1;">
+                    <div style="font-size:13px;font-weight:700;color:#1d4ed8;">Test is Open Now</div>
+                    <div style="font-size:12px;color:#6b7280;margin-top:2px;">
+                        Window closes: <strong style="color:#1d4ed8;">${end.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</strong>
+                    </div>
+                    <div style="font-size:11px;color:#9ca3af;margin-top:4px;">
+                        Closing in: <span id="schedClosingCountdown" style="font-family:'IBM Plex Mono',monospace;font-weight:700;color:#2563eb;">—</span>
+                    </div>
+                </div>
+            </div>`;
+                // Live countdown to close
+                let sec = closesIn;
+                const tick = () => {
+                    const el = document.getElementById('schedClosingCountdown');
+                    if (!el) { clearInterval(_schedCountdownTimer); return; }
+                    if (sec <= 0) { el.innerText = 'Closing…'; clearInterval(_schedCountdownTimer); setTimeout(loadScheduleStatus, 2000); return; }
+                    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+                    el.innerText = h > 0 ? `${h}h ${m}m ${s}s` : m > 0 ? `${m}m ${s}s` : `${s}s`;
+                    sec--;
+                };
+                tick();
+                _schedCountdownTimer = setInterval(tick, 1000);
+
+            } else if (now < start) {
+                // Scheduled but not yet open — show scheduled open time with live countdown
+                card.style.display = 'block';
+                const opensIn = Math.max(0, Math.floor((start - now) / 1000));
+                card.innerHTML = `
+            <div style="background:#fffbeb;border:1.5px solid #fcd34d;border-radius:10px;padding:14px 18px;">
+                <div style="display:flex;align-items:flex-start;gap:12px;">
+                    <div style="font-size:20px;flex-shrink:0;">⏳</div>
+                    <div style="flex:1;">
+                        <div style="font-size:13px;font-weight:700;color:#92400e;">Test Not Open Yet</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:3px;">
+                            Opens at: <strong style="color:#b45309;">${start.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</strong>
+                        </div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:1px;">
+                            Closes at: <strong style="color:#b45309;">${end.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</strong>
+                        </div>
+                        <div style="margin-top:10px;background:#fef3c7;border:1px solid #fde68a;border-radius:7px;padding:9px 12px;">
+                            <div style="font-size:10px;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;color:#92400e;margin-bottom:4px;">Opens in</div>
+                            <div id="schedOpenCountdown" style="font-family:'IBM Plex Mono',monospace;font-size:1.35rem;font-weight:800;color:#b45309;letter-spacing:1px;">—</div>
+                        </div>
+                        ${row.blocked_message ? `<div style="margin-top:8px;font-size:12px;color:#6b7280;font-style:italic;">${row.blocked_message}</div>` : ''}
+                    </div>
+                </div>
+            </div>`;
+                // Live countdown to open
+                let sec = opensIn;
+                const tick = () => {
+                    const el = document.getElementById('schedOpenCountdown');
+                    if (!el) { clearInterval(_schedCountdownTimer); return; }
+                    if (sec <= 0) { el.innerText = 'Opening…'; clearInterval(_schedCountdownTimer); setTimeout(loadScheduleStatus, 2000); return; }
+                    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+                    el.innerText = h > 0
+                        ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+                        : `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                    sec--;
+                };
+                tick();
+                _schedCountdownTimer = setInterval(tick, 1000);
+
+            } else {
+                // Window has passed — show closed banner
+                card.style.display = 'block';
+                card.innerHTML = `
+            <div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
+                <div style="font-size:20px;flex-shrink:0;">🔴</div>
+                <div>
+                    <div style="font-size:13px;font-weight:700;color:#b91c1c;">Test Window Closed</div>
+                    <div style="font-size:12px;color:#6b7280;margin-top:2px;">
+                        The scheduled window ended at <strong style="color:#b91c1c;">${end.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</strong>.
+                    </div>
+                    ${row.blocked_message ? `<div style="font-size:12px;color:#9ca3af;margin-top:3px;">${row.blocked_message}</div>` : ''}
+                </div>
+            </div>`;
+            }
+        }
+
+        /* ═══════════════════════════ ANNOUNCEMENTS (student view) ═══════════════════════════ */
+        async function loadAnnouncements() {
+            const card = document.getElementById('annSideCard');
+            const list = document.getElementById('annSideList');
+            if (!card || !list) return;
+            const icons = { info: 'ℹ️', success: '✅', warning: '⚠️' };
+            const colors = { info: '#eff6ff', success: '#f0fdf4', warning: '#fffbeb' };
+            const bords = { info: '#bfdbfe', success: '#bbf7d0', warning: '#fde68a' };
+            const txtClr = { info: '#1e40af', success: '#15803d', warning: '#92400e' };
+            try {
+                const res = await fetch(`${SB_ANN_URL}?select=*&is_active=eq.true&order=created_at.desc&limit=10`, {
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                });
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!Array.isArray(data) || !data.length) { card.style.display = 'none'; return; }
+                card.style.display = 'block';
+                list.innerHTML = data.map(a => {
+                    const t = a.type || 'info';
+                    const dt = new Date(a.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+                    return `<div style="background:${colors[t] || colors.info};border:1.5px solid ${bords[t] || bords.info};border-radius:8px;padding:12px 14px;margin-bottom:8px;last-child:margin-bottom:0;">
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;">
+                    <span style="font-size:14px;flex-shrink:0;">${icons[t] || '📢'}</span>
+                    <span style="font-size:13px;font-weight:700;color:${txtClr[t] || txtClr.info};">${a.title}</span>
+                </div>
+                <p style="font-size:13px;color:var(--sub);line-height:1.55;margin:0 0 6px 21px;">${a.message}</p>
+                <p style="font-size:11px;color:var(--muted);margin:0 0 0 21px;">${dt}</p>
+            </div>`;
+                }).join('');
+            } catch (e) {
+                card.style.display = 'none';
+            }
+        }
+
+        /* ═══════════════════════════ HEARTBEAT ═══════════════════════════ */
+        async function sendHeartbeat() {
+            if (!currentUser.name) return;
+            const answered = responses.filter(r => r !== null).length;
+            const payload = {
+                student_name: currentUser.name,
+                class_name: currentUser.className,
+                division: currentUser.division,
+                current_question: currentIdx + 1,
+                answered_count: answered,
+                tab_switch_count: tabSwitchCount,
+                fullscreen_exit_count: fullscreenExitCount,
+                last_violation: lastViolation,
+                last_seen: new Date().toISOString()
+            };
+            try {
+                if (heartbeatId) {
+                    await fetch(`${SB_HEARTBEAT_URL}?id=eq.${heartbeatId}`, {
+                        method: 'PATCH',
+                        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' }
+                        , body: JSON.stringify(payload)
+                    });
+                } else {
+                    const res = await fetch(SB_HEARTBEAT_URL, {
+                        method: 'POST',
+                        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (res.ok) {
+                        const d = await res.json();
+                        if (d[0] && d[0].id) {
+                            heartbeatId = d[0].id;
+                            initPeer(heartbeatId); // Initialize PeerJS for live monitoring
+                        }
+                    }
+                }
+
+                // --- MESSAGE & KICK CHECK ---
+                if (heartbeatId) {
+                    const checkRes = await fetch(`${SB_HEARTBEAT_URL}?id=eq.${heartbeatId}&select=is_kicked,direct_message`, {
+                        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                    });
+                    if (checkRes.ok) {
+                        const checkData = await checkRes.json();
+                        const record = checkData[0] || {};
+                        
+                        // 1. Check for Direct Messages
+                        if (record.direct_message) {
+                            const modal = document.getElementById('flashMessageModal');
+                            if (modal && modal.style.display !== 'flex') {
+                                document.getElementById('flashMessageText').innerText = record.direct_message;
+                                modal.style.display = 'flex';
+                                showToast('📢 You have a new message from the proctor.', 'info');
+                            }
+                        }
+
+                        // 2. Check for Kick
+                        if (record.is_kicked === true) {
+                            clearInterval(heartbeatInterval);
+                            clearInterval(timerInterval);
+                            document.getElementById('kickedModal').style.display = 'flex';
+                        }
+                    }
+                }
+            } catch (e) { /* silent — heartbeat failure must never break the test */ }
+        }
+
+        async function closeFlashMessage() {
+            document.getElementById('flashMessageModal').style.display = 'none';
+            if (!heartbeatId) return;
+            // Clear message from database so it doesn't pop up again
+            try {
+                await fetch(`${SB_HEARTBEAT_URL}?id=eq.${heartbeatId}`, {
+                    method: 'PATCH',
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ direct_message: null })
+                });
+            } catch(e) {}
+        }
+
+        async function deleteHeartbeat() {
+            if (!heartbeatId) return;
+            try {
+                await fetch(`${SB_HEARTBEAT_URL}?id=eq.${heartbeatId}`, {
+                    method: 'DELETE',
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                });
+            } catch (e) { }
+            heartbeatId = null;
+        }
+
+
+        function show(id, vis) {
+            const el = document.getElementById(id);
+            el.style.display = vis ? (id === 'testPage' ? 'flex' : 'block') : 'none';
+        }
+        function showToast(msg, type = 'info') {
+            const c = { success: '#16a34a', warn: '#d97706', error: '#dc2626', info: '#2563eb' };
+            const t = document.createElement('div'); t.innerText = msg;
+            Object.assign(t.style, { position: 'fixed', bottom: '24px', right: '24px', background: c[type] || c.info, color: 'white', padding: '11px 18px', borderRadius: '8px', fontWeight: '600', fontSize: '13px', zIndex: '9999', fontFamily: 'inherit', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' });
+            document.body.appendChild(t); setTimeout(() => t.remove(), 3000);
+        }
+
+        /* ═══════════════════════════ PDF GENERATION ═══════════════════════════ */
+        function generatePDF(name, className, division, score, correct, wrong, skipped, responsesArr) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true });
+            const W = 210, M = 12;
+            const accuracy = ((score / TOTAL_Q) * 100).toFixed(1);
+            const passed = score >= PASS_MARK;
+            const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+            let y = 0;
+
+            // ── HEADER
+            doc.setFillColor(15, 23, 42); doc.rect(0, 0, W, 26, 'F');
+            doc.setFillColor(37, 99, 235); doc.rect(0, 24, W, 2, 'F');
+            doc.setTextColor(255, 255, 255); doc.setFontSize(13); doc.setFont('helvetica', 'bold');
+            doc.text('SPOKEN ENGLISH PROFICIENCY EXAM 2026', M, 11);
+            doc.setFontSize(7.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(148, 163, 184);
+            doc.text("Saint Xavier's High School, Sagroli", M, 18);
+            doc.text('Generated: ' + dateStr, W - M, 18, { align: 'right' });
+            y = 32;
+
+            // ── STUDENT ROW
+            doc.setFillColor(248, 250, 252); doc.setDrawColor(226, 232, 240);
+            doc.rect(M, y, W - 2 * M, 16, 'F');
+            doc.setDrawColor(226, 232, 240); doc.line(M, y, W - M, y); doc.line(M, y + 16, W - M, y + 16);
+            doc.setTextColor(15, 23, 42); doc.setFontSize(10); doc.setFont('helvetica', 'bold');
+            doc.text(name, M + 3, y + 7);
+            doc.setFontSize(7.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(100, 116, 139);
+            doc.text(className + ' · Division ' + division + '  |  Total Qs: ' + TOTAL_Q + '  |  Pass Mark: ' + PASS_MARK, M + 3, y + 13);
+            // badge
+            const bc = passed ? [22, 163, 74] : [220, 38, 26];
+            doc.setFillColor(bc[0], bc[1], bc[2]);
+            doc.roundedRect(W - M - 20, y + 3, 20, 10, 2, 2, 'F');
+            doc.setTextColor(255, 255, 255); doc.setFontSize(8); doc.setFont('helvetica', 'bold');
+            doc.text(passed ? 'PASS' : 'FAIL', W - M - 10, y + 9.5, { align: 'center' });
+            y += 22;
+
+            // ── KPI STRIP (5 boxes)
+            const kpis = [
+                { l: 'Score', v: score + '/' + TOTAL_Q, r: 37, g: 99, b: 235 },
+                { l: 'Accuracy', v: accuracy + '%', r: 217, g: 119, b: 6 },
+                { l: 'Correct', v: String(correct), r: 22, g: 163, b: 74 },
+                { l: 'Wrong', v: String(wrong), r: 220, g: 38, b: 26 },
+                { l: 'Skipped', v: String(skipped), r: 107, g: 114, b: 128 },
+            ];
+            const kw = (W - 2 * M - 8) / 5;
+            kpis.forEach(function (k, i) {
+                const kx = M + i * (kw + 2);
+                doc.setFillColor(k.r, k.g, k.b);
+                doc.roundedRect(kx, y, kw, 16, 2, 2, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(5.5); doc.setFont('helvetica', 'bold');
+                doc.text(k.l.toUpperCase(), kx + kw / 2, y + 5, { align: 'center' });
+                doc.setFontSize(11); doc.setFont('helvetica', 'bold');
+                doc.text(k.v, kx + kw / 2, y + 13, { align: 'center' });
+            });
+            y += 22;
+
+            // ── ANSWER TABLE HEADER
+            doc.setFillColor(15, 23, 42); doc.rect(M, y, W - 2 * M, 7, 'F');
+            doc.setTextColor(255, 255, 255); doc.setFontSize(6); doc.setFont('helvetica', 'bold');
+            const cols = [M + 2, M + 12, M + 88, M + 143, M + 168, M + 180];
+            ['Q', 'Question', 'Your Answer', 'Correct Answer', 'Status', 'Pts'].forEach(function (h, i) {
+                doc.text(h, cols[i], y + 4.8);
+            });
+            y += 8;
+
+            // ── ANSWER ROWS
+            doc.setFontSize(6.8); doc.setFont('helvetica', 'normal');
+            var alt = false;
+            responsesArr.forEach(function (res, i) {
+                if (y > 282) {
+                    // footer then new page
+                    doc.setFontSize(6); doc.setFont('helvetica', 'normal'); doc.setTextColor(148, 163, 175);
+                    doc.text('Page 1  |  English Grammar Mock Test 2026', W / 2, 290, { align: 'center' });
+                    doc.addPage();
+                    y = 14;
+                    doc.setFillColor(15, 23, 42); doc.rect(M, y, W - 2 * M, 7, 'F');
+                    doc.setTextColor(255, 255, 255); doc.setFontSize(6); doc.setFont('helvetica', 'bold');
+                    ['Q', 'Question', 'Your Answer', 'Correct Answer', 'Status', 'Pts'].forEach(function (h, i) {
+                        doc.text(h, cols[i], y + 4.8);
+                    });
+                    y += 8; alt = false;
+                }
+                var ok = res === questions[i].correct, sk = res === null;
+                var rh = 6;
+                if (ok) { doc.setFillColor(240, 253, 244); }
+                else if (sk) { if (alt) { doc.setFillColor(249, 250, 251); } else { doc.setFillColor(255, 255, 255); } }
+                else { doc.setFillColor(255, 241, 242); }
+                doc.rect(M, y, W - 2 * M, rh, 'F');
+                doc.setDrawColor(226, 232, 240); doc.line(M, y + rh, W - M, y + rh);
+
+                // Q#
+                doc.setTextColor(100, 116, 139); doc.setFont('helvetica', 'bold');
+                doc.text(String(i + 1), cols[0] + 2, y + 4.3, { align: 'center' });
+                // Question
+                doc.setTextColor(15, 23, 42); doc.setFont('helvetica', 'normal');
+                var qs = questions[i].q.length > 62 ? questions[i].q.substring(0, 62) + '...' : questions[i].q;
+                doc.text(qs, cols[1], y + 4.3);
+                // Your answer
+                var ya = res !== null ? questions[i].a[res] : '(skipped)';
+                var yas = ya.length > 28 ? ya.substring(0, 28) + '...' : ya;
+                if (sk) { doc.setTextColor(148, 163, 175); } else if (ok) { doc.setTextColor(22, 163, 74); } else { doc.setTextColor(180, 28, 28); }
+                doc.text(yas, cols[2], y + 4.3);
+                // Correct
+                var ca = questions[i].a[questions[i].correct];
+                var cas = ca.length > 22 ? ca.substring(0, 22) + '...' : ca;
+                doc.setTextColor(22, 163, 74); doc.setFont('helvetica', 'bold');
+                doc.text(cas, cols[3], y + 4.3);
+                // Status
+                if (ok) { doc.setTextColor(22, 163, 74); doc.text('PASS', cols[4], y + 4.3); }
+                else if (sk) { doc.setTextColor(107, 114, 128); doc.text('SKIP', cols[4], y + 4.3); }
+                else { doc.setTextColor(220, 38, 26); doc.text('FAIL', cols[4], y + 4.3); }
+                // Points
+                doc.setFontSize(6.8); doc.setFont('helvetica', 'bold');
+                doc.setTextColor(ok ? 22 : 107, ok ? 163 : 114, ok ? 74 : 128);
+                doc.text(ok ? '+1' : '0', cols[5] + 3, y + 4.3, { align: 'center' });
+
+                doc.setFont('helvetica', 'normal'); doc.setTextColor(15, 23, 42); doc.setFontSize(6.8);
+                alt = !alt; y += rh;
+            });
+
+            // ── FOOTER
+            var pg = doc.internal.getNumberOfPages();
+            for (var p = 1; p <= pg; p++) {
+                doc.setPage(p);
+                doc.setFontSize(6); doc.setFont('helvetica', 'normal'); doc.setTextColor(148, 163, 175);
+                doc.text('Page ' + p + ' of ' + pg + '  |  English Grammar Mock Test 2026  |  Confidential', W / 2, 291, { align: 'center' });
+            }
+
+            return doc.output('datauristring').split(',')[1];
+        }
+
+        /* ═══════════════════════════ PDF UPLOAD ═══════════════════════════ */
+        async function uploadPDFToStorage(base64Data, filename) {
+            // Decode base64 to binary
+            const binary = atob(base64Data);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+            const blob = new Blob([bytes], { type: 'application/pdf' });
+
+            const res = await fetch(`${SB_STORAGE_URL}/${BUCKET}/${filename}`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SB_KEY,
+                    'Authorization': `Bearer ${SB_KEY}`,
+                    'Content-Type': 'application/pdf',
+                    'x-upsert': 'true'   // overwrite if same roll submits again
+                },
+                body: blob
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.message || res.statusText);
+            }
+            return filename;
+        }
+
+        /* ═══════════════════════════ AUTH & NAVIGATION ═══════════════════════════ */
+        async function startTest() {
+            const name = document.getElementById('stdName').value.trim();
+            const className = document.getElementById('stdClass').value;
+            const division = document.getElementById('stdDivision').value;
+            if (!name) return showToast('Please enter your Full Name.', 'warn');
+            if (!className) return showToast('Please select your Class.', 'warn');
+            if (!division) return showToast('Please select your Division.', 'warn');
+
+            // 1. Camera & Mic Access
+            await initCamera();
+            
+            completeStartTest();
+        }
+
+        async function completeStartTest() {
+            const name = document.getElementById('stdName').value.trim();
+            const className = document.getElementById('stdClass').value;
+            const division = document.getElementById('stdDivision').value;
+            currentUser = { name, className, division };
+
+            // Show loading state
+            const btn = document.querySelector('#loginPage .btn-primary');
+            const origText = btn.innerText; btn.innerText = 'Checking…'; btn.disabled = true;
+
+            // 1. Check schedule
+            const sched = await checkSchedule();
+            if (!sched.open) {
+                btn.innerText = origText; btn.disabled = false;
+                showScheduleBlock(sched.message);
+                return;
+            }
+            // Set timer based on schedule duration
+            timeRemaining = (sched.duration || 30) * 60;
+
+            // Store schedule end time so the timer can force-submit when window closes
+            window._schedEndTime = sched.endTime || null;
+
+            // 2. Load questions
+            btn.innerText = 'Loading questions…';
+            const ok = await loadQuestions();
+            btn.innerText = origText; btn.disabled = false;
+            if (!ok) return;
+
+            responses = Array(TOTAL_Q).fill(null);
+            visited = Array(TOTAL_Q).fill(false);
+            marked = Array(TOTAL_Q).fill(false);
+
+            currentUser = { name, className, division };
+            heartbeatId = null;
+            document.getElementById('headerName').innerText = name;
+            document.getElementById('headerRoll').innerText = className + ' — Div ' + division;
+            document.getElementById('progressPill').innerText = '0 / ' + TOTAL_Q + ' answered';
+            document.getElementById('countUnanswered').innerText = TOTAL_Q;
+            show('loginPage', false); show('testPage', true);
+            initPalette(); visited[0] = true; renderQuestion(); startTimer();
+
+            // Init peers for camera and screen
+            initPeer(heartbeatId);
+            initScreenPeer(heartbeatId);
+
+            // 3. Start heartbeat — fires immediately then every 10s
+            sendHeartbeat();
+            heartbeatInterval = setInterval(() => sendHeartbeat(), 10000);
+        }
+
+        // Update login page displays when checking schedule on load
+        (async function updateInitialDisplay() {
+            const sched = await checkSchedule();
+            const ok = await loadQuestions();
+            if (ok) {
+                document.getElementById('loginTimerDisplay').innerText = `⏱ ${sched.duration || 30} min`;
+                document.getElementById('loginQCountDisplay').innerText = `❓ ${TOTAL_Q} Questions`;
+                document.getElementById('instrTimerDisplay').innerText = sched.duration || 30;
+            }
+        })();
+
+        function showScheduleBlock(msg) {
+            // Remove previous block if any
+            const old = document.getElementById('scheduleBlock');
+            if (old) old.remove();
+            const div = document.createElement('div');
+            div.id = 'scheduleBlock';
+            div.innerHTML = `<div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:18px 20px;margin-top:14px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:8px;">🔒</div>
+        <div style="font-size:14px;font-weight:700;color:#dc2626;margin-bottom:6px;">Test Not Available</div>
+        <div style="font-size:13px;color:#6b7280;line-height:1.6;">${msg}</div>
+    </div>`;
+            document.querySelector('#loginPage .btn-primary').insertAdjacentElement('afterend', div);
+        }
+        function showAdminLogin() {
+            const u = prompt("Admin Username:"); if (!u) return;
+            const p = prompt("Password:");
+            if (u === "basic" && p === "2026") { show('loginPage', false); show('adminPortal', true); loadAdminData(); startAdminClock(); }
+            else showToast("Access denied.", "error");
+        }
+
+        /* ═══════════════════════════ PALETTE & QUESTION ═══════════════════════════ */
+        function initPalette() {
+            const p = document.getElementById('palette'); p.innerHTML = "";
+            for (let i = 0; i < TOTAL_Q; i++) p.innerHTML += `<button id="pal-${i}" class="pal-btn" onclick="jumpTo(${i})">${i + 1}</button>`;
+        }
+        function updatePalette() {
+            let ans = 0, mrk = 0, vis = 0;
+            for (let i = 0; i < TOTAL_Q; i++) {
+                const btn = document.getElementById(`pal-${i}`); btn.className = 'pal-btn';
+                const isA = responses[i] !== null, isM = marked[i];
+                if (isM && isA) btn.classList.add('marked-answered');
+                else if (isM) btn.classList.add('marked');
+                else if (isA) { btn.classList.add('answered'); ans++; }
+                else if (visited[i]) { btn.classList.add('visited'); vis++; }
+                if (i === currentIdx) btn.classList.add('active-pal');
+                if (isM) mrk++;
+            }
+            document.getElementById('countAnswered').innerText = ans;
+            document.getElementById('countUnanswered').innerText = TOTAL_Q - ans;
+            document.getElementById('countMarked').innerText = mrk;
+            document.getElementById('countVisited').innerText = vis;
+            document.getElementById('progressPill').innerText = ans + ' / ' + TOTAL_Q + ' answered';
+            document.getElementById('progressBar').style.width = ((ans / TOTAL_Q) * 100) + '%';
+            const mb = document.getElementById('markBtn');
+            mb.style.background = marked[currentIdx] ? '#f5f3ff' : 'var(--white)';
+            mb.style.borderColor = marked[currentIdx] ? 'var(--purple)' : '#ddd6fe';
+        }
+        function renderQuestion() {
+            const q = questions[currentIdx];
+            document.getElementById('qBadge').innerText = `Question ${currentIdx + 1} of ${TOTAL_Q || questions.length}`;
+            document.getElementById('qText').innerText = q.q;
+            const opts = document.getElementById('options'); opts.innerHTML = "";
+            const labels = ['A', 'B', 'C', 'D'];
+            q.a.forEach((opt, i) => {
+                const sel = responses[currentIdx] === i;
+                opts.innerHTML += `<div class="opt-card${sel ? ' selected' : ''}" onclick="saveResponse(${i})">
+            <div class="opt-radio">${sel ? '<div class="opt-dot"></div>' : ''}</div>
+            <span style="font-size:13px;font-weight:600;color:var(--sub);margin-right:4px;width:18px;flex-shrink:0;">${labels[i]}.</span>
+            <span style="font-size:14px;line-height:1.5;">${opt}</span>
+        </div>`;
+            });
+            updatePalette();
+        }
+        function saveResponse(idx) { responses[currentIdx] = idx; renderQuestion(); }
+        function clearResponse() { responses[currentIdx] = null; renderQuestion(); }
+        function toggleMark() { marked[currentIdx] = !marked[currentIdx]; updatePalette(); }
+        function saveAndNext() { if (currentIdx < TOTAL_Q - 1) { currentIdx++; visited[currentIdx] = true; renderQuestion(); sendHeartbeat(); } }
+        function prevQuestion() { if (currentIdx > 0) { currentIdx--; visited[currentIdx] = true; renderQuestion(); sendHeartbeat(); } }
+        function jumpTo(i) { currentIdx = i; visited[i] = true; renderQuestion(); sendHeartbeat(); }
+
+        /* ═══════════════════════════ TIMER ═══════════════════════════ */
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                // Auto-submit if the scheduled window has ended
+                if (window._schedEndTime && new Date() >= window._schedEndTime) {
+                    clearInterval(timerInterval);
+                    finalSubmit();
+                    return;
+                }
+                const m = Math.floor(timeRemaining / 60), s = timeRemaining % 60;
+                const el = document.getElementById('timer');
+                el.innerText = `${m}:${s < 10 ? '0' + s : s}`;
+                el.className = 'mono ' + (timeRemaining > 300 ? 'timer-normal' : timeRemaining > 60 ? 'timer-warn' : 'timer-danger');
+                if (timeRemaining <= 0) { clearInterval(timerInterval); finalSubmit(); }
+                timeRemaining--;
+            }, 1000);
+        }
+        function confirmSubmit() {
+            const ans = responses.filter(r => r !== null).length, rem = TOTAL_Q - ans;
+            document.getElementById('confirmMsg').innerHTML =
+                `You have answered <strong>${ans}</strong> of <strong>${TOTAL_Q}</strong> questions.` +
+                (rem > 0 ? `<br><span style="color:var(--amber);">${rem} question(s) still unanswered.</span>` : '') + '<br>Once submitted, answers cannot be changed.';
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+        function closeConfirm() { document.getElementById('confirmModal').style.display = 'none'; }
+
+        /* ═══════════════════════════ FINAL SUBMIT ═══════════════════════════ */
+        async function finalSubmit() {
+            clearInterval(timerInterval); closeConfirm();
+            // Stop heartbeat and remove session from live monitor
+            if (heartbeatInterval) { clearInterval(heartbeatInterval); heartbeatInterval = null; }
+            deleteHeartbeat();
+            let score = 0, correct = 0, wrong = 0, skipped = 0, rows = "";
+
+            const labels = ['A', 'B', 'C', 'D'];
+            responses.forEach((res, i) => {
+                const ok = res === questions[i].correct, sk = res === null;
+                if (ok) { score++; correct++; } else if (sk) skipped++; else wrong++;
+                const borderClr = ok ? '#16a34a' : sk ? '#d1d5db' : '#dc2626';
+                const bgClr = ok ? '#f0fdf4' : sk ? '#fafafa' : '#fff5f5';
+                const verdict = ok
+                    ? '<span style="background:#dcfce7;color:var(--green);font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;white-space:nowrap;">✓ Correct</span>'
+                    : sk
+                        ? '<span style="background:#f3f4f6;color:var(--sub);font-weight:600;font-size:12px;padding:3px 10px;border-radius:999px;white-space:nowrap;">— Skipped</span>'
+                        : '<span style="background:#fee2e2;color:var(--red);font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;white-space:nowrap;">✗ Wrong</span>';
+                let optsHtml = '';
+                questions[i].a.forEach((opt, oi) => {
+                    const isCorrect = oi === questions[i].correct;
+                    const isYours = oi === res;
+                    let optBg = 'transparent', optBorder = '#e5e7eb', optTxt = 'var(--text)', optIcon = '';
+                    if (isCorrect) { optBg = '#f0fdf4'; optBorder = '#86efac'; optTxt = '#15803d'; optIcon = '<span style="margin-left:6px;font-size:11px;font-weight:700;background:#16a34a;color:#fff;padding:1px 7px;border-radius:999px;flex-shrink:0;">✓ Correct</span>'; }
+                    if (isYours && !isCorrect) { optBg = '#fff5f5'; optBorder = '#fca5a5'; optTxt = 'var(--red)'; optIcon = '<span style="margin-left:6px;font-size:11px;font-weight:700;background:#dc2626;color:#fff;padding:1px 7px;border-radius:999px;flex-shrink:0;">✗ Your Answer</span>'; }
+                    if (isCorrect && isYours) { optIcon = '<span style="margin-left:6px;font-size:11px;font-weight:700;background:#16a34a;color:#fff;padding:1px 7px;border-radius:999px;flex-shrink:0;">✓ Your Answer</span>'; }
+                    optsHtml += `<div style="display:flex;align-items:center;padding:7px 12px;border-radius:7px;border:1.5px solid ${optBorder};background:${optBg};margin-bottom:5px;"><span style="font-weight:700;font-size:12px;color:${optTxt};margin-right:10px;width:18px;flex-shrink:0;">${labels[oi]}.</span><span style="font-size:13px;color:${optTxt};flex:1;">${opt}</span>${optIcon}</div>`;
+                });
+                let expText = '';
+                if (ok) expText = 'Correct! Well done. The right answer is <strong>' + questions[i].a[questions[i].correct] + '</strong>.';
+                else if (sk) expText = 'You skipped this. The correct answer is <strong>' + questions[i].a[questions[i].correct] + '</strong>.';
+                else expText = 'You selected <strong>' + questions[i].a[res] + '</strong>. The correct answer is <strong>' + questions[i].a[questions[i].correct] + '</strong>.';
+                const expBg = ok ? '#f0fdf4' : sk ? '#f9fafb' : '#fff5f5';
+                const expTxt = ok ? '#15803d' : sk ? 'var(--sub)' : '#b91c1c';
+                const expIcon = ok ? '💡' : sk ? '⏭️' : '📌';
+                rows += `<div style="border:1.5px solid ${borderClr};border-radius:10px;background:${bgClr};margin-bottom:12px;overflow:hidden;"><div style="padding:13px 16px;border-bottom:1px solid ${borderClr}33;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;"><div style="display:flex;align-items:flex-start;gap:10px;flex:1;"><span style="background:var(--accent);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:5px;flex-shrink:0;margin-top:2px;">Q${i + 1}</span><span style="font-size:14px;font-weight:600;color:var(--text);line-height:1.6;">${questions[i].q}</span></div>${verdict}</div><div style="padding:12px 16px 10px;">${optsHtml}<div style="margin-top:8px;padding:9px 13px;background:${expBg};border-radius:7px;font-size:13px;color:${expTxt};line-height:1.6;">${expIcon} ${expText}</div></div></div>`;
+            });
+
+            const accuracy = ((score / TOTAL_Q) * 100).toFixed(1), passed = score >= PASS_MARK;
+            const emoji = score >= 22 ? '🏆' : score >= 18 ? '🥇' : score >= 9 ? '🎓' : score >= 5 ? '📚' : '💪';
+            const perfLevel = accuracy >= 80 ? 'Excellent' : accuracy >= 60 ? 'Proficient' : accuracy >= 40 ? 'Developing' : 'Needs Improvement';
+            const perfClr = accuracy >= 80 ? '#16a34a' : accuracy >= 60 ? '#2563eb' : accuracy >= 40 ? '#d97706' : '#dc2626';
+            const perfBg = accuracy >= 80 ? '#dcfce7' : accuracy >= 60 ? '#dbeafe' : accuracy >= 40 ? '#fef3c7' : '#fee2e2';
+
+            // hero
+            document.getElementById('resultEmoji').innerText = emoji;
+            document.getElementById('resNameDisplay').innerText = `${currentUser.name}  ·  ${currentUser.className}  ·  Division ${currentUser.division}`;
+            document.getElementById('resScore').innerText = `${score}/${TOTAL_Q}`;
+            document.getElementById('resAccuracy').innerText = `${accuracy}%`;
+            document.getElementById('resStatus').innerHTML = passed
+                ? '<span style="color:#4ade80;font-size:1.5rem;">PASS ✓</span>'
+                : '<span style="color:#f87171;font-size:1.5rem;">FAIL ✗</span>';
+            document.getElementById('resStatusBadge').innerHTML = `<span style="background:${perfBg};color:${perfClr};font-size:12px;font-weight:800;padding:4px 16px;border-radius:999px;letter-spacing:0.5px;">${perfLevel.toUpperCase()}</span>`;
+
+            // 5-stat strip
+            const statPct = ((score / TOTAL_Q) * 100).toFixed(0);
+            const statCards = [
+                { lbl: 'Correct', val: correct, icon: '✓', bg: '#f0fdf4', bdr: '#bbf7d0', clr: '#16a34a' },
+                { lbl: 'Wrong', val: wrong, icon: '✗', bg: '#fff5f5', bdr: '#fecaca', clr: '#dc2626' },
+                { lbl: 'Skipped', val: skipped, icon: '—', bg: '#f8fafc', bdr: '#e2e8f0', clr: '#64748b' },
+                { lbl: 'Pass Mark', val: PASS_MARK + '/' + TOTAL_Q, icon: '🎯', bg: '#fefce8', bdr: '#fde68a', clr: '#d97706' },
+                { lbl: 'Rank', val: accuracy >= 80 ? 'A+' : accuracy >= 60 ? 'B+' : accuracy >= 40 ? 'C' : 'D', icon: '📊', bg: '#f5f3ff', bdr: '#ddd6fe', clr: '#7c3aed' },
+            ];
+            document.getElementById('resultStats').innerHTML = statCards.map(c => `
+        <div style="background:${c.bg};border:1.5px solid ${c.bdr};border-radius:12px;padding:16px 10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:18px;margin-bottom:4px;">${c.icon}</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:${c.clr};margin-bottom:4px;">${c.lbl}</div>
+            <div class="mono" style="font-size:1.5rem;font-weight:800;color:${c.clr};">${c.val}</div>
+        </div>`).join('');
+
+            // analytics row — score bar + circular-style gauge
+            const gap = score - PASS_MARK;
+            const gapTxt = gap >= 0 ? `<span style="color:#16a34a;font-weight:700;">+${gap} above pass mark ✓</span>` : `<span style="color:#dc2626;font-weight:700;">${Math.abs(gap)} below pass mark ✗</span>`;
+            document.getElementById('analyticsRow').innerHTML = `
+        <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">📈 Score Breakdown</div>
+            <div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:5px;"><span style="color:#16a34a;">✓ Correct</span><span style="color:#16a34a;">${correct}/${TOTAL_Q}</span></div>
+                <div style="background:#e2e8f0;border-radius:999px;height:8px;overflow:hidden;"><div style="background:linear-gradient(90deg,#16a34a,#4ade80);height:100%;border-radius:999px;width:${((correct / TOTAL_Q) * 100).toFixed(0)}%;transition:width 1s ease;"></div></div>
+            </div>
+            <div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:5px;"><span style="color:#dc2626;">✗ Wrong</span><span style="color:#dc2626;">${wrong}/${TOTAL_Q}</span></div>
+                <div style="background:#e2e8f0;border-radius:999px;height:8px;overflow:hidden;"><div style="background:linear-gradient(90deg,#dc2626,#f87171);height:100%;border-radius:999px;width:${((wrong / TOTAL_Q) * 100).toFixed(0)}%;transition:width 1s ease;"></div></div>
+            </div>
+            <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:5px;"><span style="color:#64748b;">— Skipped</span><span style="color:#64748b;">${skipped}/${TOTAL_Q}</span></div>
+                <div style="background:#e2e8f0;border-radius:999px;height:8px;overflow:hidden;"><div style="background:linear-gradient(90deg,#64748b,#94a3b8);height:100%;border-radius:999px;width:${((skipped / TOTAL_Q) * 100).toFixed(0)}%;transition:width 1s ease;"></div></div>
+            </div>
+            <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:13px;">${gapTxt}</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">🎯 Accuracy Gauge</div>
+            <div style="text-align:center;margin-bottom:16px;">
+                <div style="position:relative;display:inline-block;">
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#e2e8f0" stroke-width="10"/>
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="${perfClr}" stroke-width="10"
+                            stroke-dasharray="${(parseFloat(accuracy) / 100 * 314).toFixed(1)} 314"
+                            stroke-dashoffset="78.5" stroke-linecap="round"
+                            transform="rotate(-90 60 60)"/>
+                        <text x="60" y="56" text-anchor="middle" font-size="20" font-weight="800" fill="${perfClr}" font-family="monospace">${accuracy}%</text>
+                        <text x="60" y="72" text-anchor="middle" font-size="9" fill="#94a3b8" font-family="sans-serif">ACCURACY</text>
+                    </svg>
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;text-align:center;">
+                <div style="background:#f8fafc;border-radius:8px;padding:10px;"><div style="color:var(--muted);font-size:10px;font-weight:700;letter-spacing:0.5px;margin-bottom:3px;">PASS MARK</div><div style="font-weight:800;color:var(--text);">${PASS_MARK}/${TOTAL_Q} (${((PASS_MARK / TOTAL_Q) * 100).toFixed(0)}%)</div></div>
+                <div style="background:${passed ? '#f0fdf4' : '#fff5f5'};border-radius:8px;padding:10px;"><div style="color:var(--muted);font-size:10px;font-weight:700;letter-spacing:0.5px;margin-bottom:3px;">VERDICT</div><div style="font-weight:800;color:${passed ? '#16a34a' : '#dc2626'};">${passed ? 'PASSED ✓' : 'FAILED ✗'}</div></div>
+            </div>
+        </div>`;
+
+            // topic breakdown — categorize questions by topic
+            const topics = [
+                { name: 'Articles (Q1–5)', from: 0, to: 4 },
+                { name: 'Helping Verbs (Q6–11)', from: 5, to: 10 },
+                { name: 'Modals & Responses (Q12–15)', from: 11, to: 14 },
+                { name: 'Plural Forms (Q16–19)', from: 15, to: 18 },
+                { name: 'Odd Man Out (Q20–22)', from: 19, to: 21 },
+                { name: 'Wh-Questions (Q23–25)', from: 22, to: 24 },
+            ];
+            const topicRows = topics.map(t => {
+                let tc = 0, tw = 0, ts = 0;
+                for (let i = t.from; i <= t.to; i++) {
+                    if (responses[i] === questions[i].correct) tc++;
+                    else if (responses[i] === null) ts++;
+                    else tw++;
+                }
+                const total = t.to - t.from + 1;
+                const tpct = Math.round((tc / total) * 100);
+                const tclr = tpct >= 80 ? '#16a34a' : tpct >= 50 ? '#2563eb' : tpct > 0 ? '#d97706' : '#dc2626';
+                return `<div style="display:grid;grid-template-columns:180px 1fr 80px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9;">
+            <div style="font-size:13px;font-weight:600;color:var(--text);">${t.name}</div>
+            <div style="background:#e2e8f0;border-radius:999px;height:7px;overflow:hidden;"><div style="background:${tclr};height:100%;border-radius:999px;width:${tpct}%;"></div></div>
+            <div style="text-align:right;font-size:12px;font-weight:700;color:${tclr};">${tc}/${total} (${tpct}%)</div>
+        </div>`;
+            }).join('');
+            document.getElementById('topicBreakdown').innerHTML = `
+        <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">📚 Topic-wise Performance</div>
+            ${topicRows}
+        </div>`;
+
+            // insight panel
+            const insightLines = [];
+            if (passed) insightLines.push({ icon: '🎉', clr: '#15803d', bg: '#f0fdf4', bdr: '#bbf7d0', txt: `<strong>Congratulations!</strong> You passed with ${accuracy}% accuracy — ${score} out of ${TOTAL_Q} correct.` });
+            else insightLines.push({ icon: '⚠️', clr: '#b91c1c', bg: '#fff5f5', bdr: '#fecaca', txt: `You scored ${score}/${TOTAL_Q} (${accuracy}%). You need at least <strong>${PASS_MARK} correct</strong> to pass. You were <strong>${PASS_MARK - score} mark${PASS_MARK - score > 1 ? 's' : ''} away</strong>.` });
+            if (skipped > 0) insightLines.push({ icon: '⏭️', clr: '#92400e', bg: '#fffbeb', bdr: '#fde68a', txt: `You skipped <strong>${skipped} question${skipped > 1 ? 's' : ''}</strong>. Always attempt every question — even a guess gives you a chance.` });
+            if (wrong > 0) insightLines.push({ icon: '📌', clr: '#1e40af', bg: '#eff6ff', bdr: '#bfdbfe', txt: `You got <strong>${wrong} question${wrong > 1 ? 's' : ''} wrong</strong>. Review the highlighted questions below to understand your mistakes.` });
+            const weakTopics = topics.filter(t => {
+                let tc = 0; for (let i = t.from; i <= t.to; i++) { if (responses[i] === questions[i].correct) tc++; } return tc / (t.to - t.from + 1) < 0.5;
+            });
+            if (weakTopics.length > 0) insightLines.push({ icon: '🎯', clr: '#6b21a8', bg: '#faf5ff', bdr: '#ddd6fe', txt: `<strong>Focus areas:</strong> ${weakTopics.map(t => t.name.split(' (')[0]).join(', ')}. These topics need more practice.` });
+            document.getElementById('perfInsight').innerHTML = `
+        <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">💡 Performance Insights</div>
+            ${insightLines.map(l => `<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:${l.bg};border:1px solid ${l.bdr};border-radius:8px;margin-bottom:8px;">
+                <span style="font-size:18px;flex-shrink:0;margin-top:1px;">${l.icon}</span>
+                <span style="font-size:13px;color:${l.clr};line-height:1.65;">${l.txt}</span>
+            </div>`).join('')}
+        </div>`;
+
+            document.getElementById('reviewBody').innerHTML = rows;
+
+            show('testPage', false); show('resultPage', true);
+
+            // ── Save score to DB (class_name + division stored)
+            try {
+                await fetch(SB_URL, {
+                    method: 'POST',
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ student_name: currentUser.name, class_name: currentUser.className, division: currentUser.division, score })
+                });
+            } catch (e) { console.error('DB error', e); }
+
+            // ── Generate + Upload PDF (stored in class/division folder)
+            const banner = document.getElementById('pdfBanner');
+            banner.style.display = 'flex';
+            banner.style.background = '#eff6ff';
+            banner.style.borderColor = '#bfdbfe';
+            banner.style.color = `var(--accent)`;
+            banner.innerHTML = '<span style="font-size:16px;">⏳</span> Generating &amp; uploading your PDF report…';
+
+            try {
+                const safeClass = currentUser.className.replace(/\s+/g, '_');
+                const safeName = currentUser.name.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
+                const filename = `${safeClass}/${currentUser.division}/report_${safeClass}_Div${currentUser.division}_${safeName}.pdf`;
+
+                const b64 = generatePDF(currentUser.name, currentUser.className, currentUser.division, score, correct, wrong, skipped, responses);
+                await uploadPDFToStorage(b64, filename);
+
+                banner.style.background = '#f0fdf4';
+                banner.style.borderColor = '#bbf7d0';
+                banner.style.color = 'var(--green)';
+                banner.innerHTML = `<span style="font-size:16px;">✅</span> PDF report saved to cloud. You can view it from <strong>View My Score</strong>.`;
+            } catch (e) {
+                console.error('PDF upload error', e);
+                banner.style.background = '#fff5f5';
+                banner.style.borderColor = '#fecaca';
+                banner.style.color = 'var(--red)';
+                banner.innerHTML = `<span style="font-size:16px;">⚠️</span> PDF upload failed (${e.message}). Score was saved. Check Supabase Storage bucket "reports" is public.`;
+            }
+        }
+
+        /* ═══════════════════════════ ADMIN CORE ═══════════════════════════ */
+        async function loadAdminData() {
+            const res = await fetch(`${SB_URL}?select=*&order=created_at.desc`, { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } });
+            adminData = await res.json();
+            renderAdminStats(); renderRecordsTable(adminData); renderLeaderboard(); renderAnalytics();
+        }
+        function renderAdminStats() {
+            const total = adminData.length, passed = adminData.filter(r => r.score >= PASS_MARK).length;
+            const avg = total ? (adminData.reduce((s, r) => s + r.score, 0) / total).toFixed(1) : '—';
+            const top = total ? Math.max(...adminData.map(r => r.score)) : '—';
+            const passRate = total ? Math.round((passed / total) * 100) + '%' : '—';
+            document.getElementById('adminTotal').innerText = total;
+            document.getElementById('adminPassed').innerText = passed;
+            document.getElementById('adminFailed').innerText = total - passed;
+            document.getElementById('adminAvg').innerText = avg;
+            document.getElementById('adminTop').innerText = top !== '—' ? top + '/' + TOTAL_Q : '—';
+            document.getElementById('adminPassRate').innerText = passRate;
+        }
+        function renderRecordsTable(data) {
+            const body = document.getElementById('adminTableBody'), empty = document.getElementById('adminEmpty');
+            if (!data.length) { body.innerHTML = ''; empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            body.innerHTML = data.map(item => {
+                const pct = ((item.score / TOTAL_Q) * 100).toFixed(0), pass = item.score >= PASS_MARK;
+                const date = new Date(item.created_at).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' });
+                const safeClass = (item.class_name || 'Unknown').replace(/\s+/g, '_');
+                const safeDiv = item.division || 'A';
+                const safeName = (item.student_name || '').replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
+                const fname = `${safeClass}/${safeDiv}/report_${safeClass}_Div${safeDiv}_${safeName}.pdf`;
+                return `<tr style="border-bottom:1px solid var(--border);transition:background 0.1s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
+            <td style="padding:13px 16px;font-weight:600;color:var(--accent);">${item.class_name || '—'}</td>
+            <td style="padding:13px 16px;text-align:center;"><span style="background:#eff6ff;color:var(--accent);border:1px solid #bfdbfe;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;">Div ${item.division || '—'}</span></td>
+            <td style="padding:13px 16px;font-weight:600;">${item.student_name}</td>
+            <td style="padding:13px 16px;text-align:center;">
+                <div style="display:flex;align-items:center;gap:8px;justify-content:center;">
+                    <span class="mono" style="font-weight:700;">${item.score}/${TOTAL_Q}</span>
+                    <input type="number" id="adm-sc-${item.id}" value="${item.score}" min="0" max="${TOTAL_Q}" class="inp" style="width:52px;padding:4px 8px;font-size:13px;font-weight:700;" onclick="event.stopPropagation()">
+                </div>
+                <div style="margin-top:5px;background:var(--border);border-radius:999px;height:3px;width:80px;margin-left:auto;margin-right:auto;">
+                    <div style="height:3px;border-radius:999px;background:${pass ? 'var(--green)' : 'var(--red)'};width:${pct}%;"></div>
+                </div>
+            </td>
+            <td style="padding:13px 16px;text-align:center;color:var(--sub);">${pct}%</td>
+            <td style="padding:13px 16px;text-align:center;"><span class="${pass ? 'badge-pass' : 'badge-fail'}">${pass ? 'PASS' : 'FAIL'}</span></td>
+            <td style="padding:13px 16px;color:var(--sub);font-size:13px;">${date}</td>
+            <td style="padding:13px 16px;text-align:right;">
+                <div style="display:flex;gap:5px;justify-content:flex-end;flex-wrap:wrap;">
+                    <button onclick="updateScore(${item.id})" class="btn-ghost" style="padding:5px 10px;font-size:11px;border-color:#bfdbfe;color:var(--accent);">Save</button>
+                    <button onclick="adminViewPdf('${fname}','${item.student_name}','${item.class_name} Div ${item.division}')" class="btn-ghost" style="padding:5px 10px;font-size:11px;border-color:#ddd6fe;color:var(--purple);">📄 PDF</button>
+                    <button onclick="deleteEntry(${item.id},'${fname}')" class="btn-danger" style="padding:5px 10px;font-size:11px;">Delete</button>
+                </div>
+            </td>
+        </tr>`;
+            }).join('');
+        }
+        function renderLeaderboard() {
+            const sorted = [...adminData].sort((a, b) => b.score - a.score), medals = ['🥇', '🥈', '🥉'];
+            document.getElementById('leaderboardBody').innerHTML = !sorted.length ? '<p style="color:var(--muted);text-align:center;padding:32px;">No submissions yet.</p>' : sorted.map((r, i) => {
+                const pct = ((r.score / TOTAL_Q) * 100).toFixed(0), pass = r.score >= PASS_MARK;
+                return `<div style="display:flex;align-items:center;gap:14px;padding:14px;border-radius:8px;border:1px solid ${i === 0 ? '#fde68a' : 'var(--border)'};background:${i < 3 ? '#fafafa' : 'var(--white)'};margin-bottom:8px;">
+            <div style="font-size:${i < 3 ? '1.6rem' : '0.95rem'};width:36px;text-align:center;font-weight:800;color:var(--sub);">${i < 3 ? medals[i] : '#' + (i + 1)}</div>
+            <div style="flex:1;"><div style="font-weight:700;font-size:14px;">${r.student_name}</div><div style="color:var(--sub);font-size:12px;">${r.class_name || '—'} · Div ${r.division || '—'}</div></div>
+            <div style="text-align:right;"><div class="mono" style="font-size:1.2rem;font-weight:800;color:${pass ? 'var(--green)' : 'var(--red)'};">${r.score}/${TOTAL_Q}</div><div style="font-size:12px;color:var(--sub);">${pct}%</div></div>
+            <span class="${pass ? 'badge-pass' : 'badge-fail'}">${pass ? 'PASS' : 'FAIL'}</span>
+        </div>`;
+            }).join('');
+        }
+        function renderAnalytics() {
+            if (!adminData.length) {
+                document.getElementById('scoreDistChart').innerHTML = '<p style="color:var(--muted);font-size:13px;">No data yet.</p>';
+                document.getElementById('scoreBrackets').innerHTML = ''; document.getElementById('classSummary').innerHTML = ''; return;
+            }
+            const bins = Array(TOTAL_Q + 1).fill(0); adminData.forEach(r => bins[r.score]++);
+            const maxBin = Math.max(...bins); let distHtml = '';
+            for (let s = TOTAL_Q; s >= 0; s--) {
+                if (!bins[s]) continue; const w = maxBin ? Math.round((bins[s] / maxBin) * 100) : 0;
+                distHtml += `<div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+            <span class="mono" style="width:32px;color:var(--sub);">${s}</span>
+            <div style="flex:1;background:var(--border);border-radius:3px;height:16px;overflow:hidden;"><div style="width:${w}%;background:${s >= PASS_MARK ? 'var(--green)' : 'var(--red)'};height:100%;border-radius:3px;"></div></div>
+            <span style="color:var(--sub);width:20px;text-align:right;">${bins[s]}</span>
+        </div>`;
+            }
+            document.getElementById('scoreDistChart').innerHTML = distHtml;
+            const brackets = [
+                { label: '22–25', color: 'var(--green)', count: adminData.filter(r => r.score >= 22).length },
+                { label: '18–21', color: 'var(--purple)', count: adminData.filter(r => r.score >= 18 && r.score < 22).length },
+                { label: '9–17', color: 'var(--amber)', count: adminData.filter(r => r.score >= 9 && r.score < 18).length },
+                { label: '0–8', color: 'var(--red)', count: adminData.filter(r => r.score < 9).length }
+            ];
+            document.getElementById('scoreBrackets').innerHTML = brackets.map(b => `<div class="stat-card" style="text-align:center;padding:14px;"><div class="mono" style="font-size:1.7rem;font-weight:800;color:${b.color};">${b.count}</div><div style="font-size:12px;color:var(--sub);margin-top:4px;">${b.label}</div></div>`).join('');
+            const scores = adminData.map(r => r.score).sort((a, b) => a - b);
+            const median = scores.length % 2 === 0 ? ((scores[scores.length / 2 - 1] + scores[scores.length / 2]) / 2).toFixed(1) : scores[Math.floor(scores.length / 2)];
+            const avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
+
+            // Class + Division breakdown
+            const classMap = {};
+            adminData.forEach(r => {
+                const key = `${r.class_name || 'Unknown'} — Div ${r.division || '?'}`;
+                if (!classMap[key]) classMap[key] = { count: 0, total: 0, passed: 0 };
+                classMap[key].count++; classMap[key].total += r.score;
+                if (r.score >= PASS_MARK) classMap[key].passed++;
+            });
+            const classRows = Object.entries(classMap).sort((a, b) => a[0].localeCompare(b[0])).map(([key, v]) => `
+        <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px;font-weight:700;color:var(--accent);">${key}</td>
+            <td style="padding:10px 14px;text-align:center;" class="mono">${v.count}</td>
+            <td style="padding:10px 14px;text-align:center;" class="mono">${(v.total / v.count).toFixed(1)}</td>
+            <td style="padding:10px 14px;text-align:center;"><span class="badge-pass">${v.passed} PASS</span></td>
+            <td style="padding:10px 14px;text-align:center;"><span class="badge-fail">${v.count - v.passed} FAIL</span></td>
+        </tr>`).join('');
+
+            document.getElementById('classSummary').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:16px;">
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Avg</div><div class="mono" style="font-size:1.5rem;font-weight:800;color:var(--amber);">${avg}</div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Median</div><div class="mono" style="font-size:1.5rem;font-weight:800;color:var(--accent);">${median}</div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Highest</div><div class="mono" style="font-size:1.5rem;font-weight:800;color:var(--green);">${Math.max(...scores)}</div></div>
+        <div class="stat-card"><div class="sec-label" style="margin-bottom:6px;">Lowest</div><div class="mono" style="font-size:1.5rem;font-weight:800;color:var(--red);">${Math.min(...scores)}</div></div>
+    </div>
+    <div style="overflow-x:auto;margin-top:4px;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead><tr style="background:var(--bg);">
+                <th style="padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Class / Division</th>
+                <th style="padding:10px 14px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">Students</th>
+                <th style="padding:10px 14px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">Avg Score</th>
+                <th style="padding:10px 14px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">Passed</th>
+                <th style="padding:10px 14px;text-align:center;border-bottom:1px solid var(--border);" class="sec-label">Failed</th>
+            </tr></thead>
+            <tbody>${classRows}</tbody>
+        </table>
+    </div>`;
+        }
+
+        /* ═══════════════════════════ PDF REPORTS TAB ═══════════════════════════ */
+        async function loadPdfList() {
+            const body = document.getElementById('pdfListBody');
+            body.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px;font-size:13px;">Loading…</p>';
+            try {
+                // List all files recursively by fetching with no prefix limit
+                const res = await fetch(SB_STORAGE_LIST, {
+                    method: 'POST',
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prefix: '', limit: 1000, sortBy: { column: 'created_at', order: 'desc' } })
+                });
+                const topItems = await res.json();
+                if (!Array.isArray(topItems)) {
+                    body.innerHTML = '<p style="color:var(--red);text-align:center;padding:32px;font-size:13px;">Error loading reports.</p>';
+                    return;
+                }
+
+                // Collect all files: top-level files + files inside class/div folders
+                let allFiles = [];
+                for (const item of topItems) {
+                    if (item.id === null) {
+                        // It's a "folder" — list its contents
+                        const subRes = await fetch(SB_STORAGE_LIST, {
+                            method: 'POST',
+                            headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ prefix: item.name + '/', limit: 500, sortBy: { column: 'created_at', order: 'desc' } })
+                        });
+                        const subItems = await subRes.json();
+                        if (Array.isArray(subItems)) {
+                            for (const sub of subItems) {
+                                if (sub.id === null) {
+                                    // Two levels deep: Class_X/DivY/
+                                    const deepRes = await fetch(SB_STORAGE_LIST, {
+                                        method: 'POST',
+                                        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ prefix: item.name + '/' + sub.name + '/', limit: 500, sortBy: { column: 'created_at', order: 'desc' } })
+                                    });
+                                    const deepItems = await deepRes.json();
+                                    if (Array.isArray(deepItems)) {
+                                        deepItems.forEach(f => { if (f.id) allFiles.push({ ...f, fullPath: item.name + '/' + sub.name + '/' + f.name }); });
+                                    }
+                                } else {
+                                    allFiles.push({ ...sub, fullPath: item.name + '/' + sub.name });
+                                }
+                            }
+                        }
+                    } else {
+                        allFiles.push({ ...item, fullPath: item.name });
+                    }
+                }
+
+                if (!allFiles.length) {
+                    body.innerHTML = '<p style="color:var(--muted);text-align:center;padding:32px;font-size:13px;">No PDF reports stored yet.</p>';
+                    return;
+                }
+
+                body.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead><tr style="background:var(--bg);">
+                <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Student / Report</th>
+                <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Class & Div</th>
+                <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Size</th>
+                <th style="padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);" class="sec-label">Uploaded</th>
+                <th style="padding:11px 16px;text-align:right;border-bottom:1px solid var(--border);" class="sec-label">Actions</th>
+            </tr></thead>
+            <tbody>${allFiles.map(f => {
+                    const kb = (f.metadata?.size / 1024 || 0).toFixed(1);
+                    const dt = f.created_at ? new Date(f.created_at).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' }) : '—';
+                    // Parse class and division from path: Class_X/A/report_Class_X_DivA_Name.pdf
+                    const parts = (f.fullPath || f.name).split('/');
+                    const classLabel = parts.length >= 2 ? parts[0].replace(/_/g, ' ') : '—';
+                    const divLabel = parts.length >= 3 ? 'Div ' + parts[1] : '—';
+                    const rawName = parts[parts.length - 1].replace(/^report_/, '').replace(/\.pdf$/, '').replace(/_/g, ' ');
+                    const escapedPath = (f.fullPath || f.name).replace(/'/g, "\\'");
+                    return `<tr style="border-bottom:1px solid var(--border);transition:background 0.1s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
+                    <td style="padding:12px 16px;font-weight:600;">📄 ${rawName}</td>
+                    <td style="padding:12px 16px;"><span style="background:#eff6ff;color:var(--accent);border:1px solid #bfdbfe;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;">${classLabel}</span> <span style="background:#f5f3ff;color:var(--purple);border:1px solid #ddd6fe;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;margin-left:4px;">${divLabel}</span></td>
+                    <td style="padding:12px 16px;color:var(--sub);">${kb} KB</td>
+                    <td style="padding:12px 16px;color:var(--sub);">${dt}</td>
+                    <td style="padding:12px 16px;text-align:right;">
+                        <div style="display:flex;gap:6px;justify-content:flex-end;">
+                            <button onclick="adminViewPdf('${escapedPath}','${rawName}','')" class="btn-ghost" style="padding:5px 12px;font-size:12px;border-color:#ddd6fe;color:var(--purple);">👁 View</button>
+                            <button onclick="adminDownloadPdf('${escapedPath}')" class="btn-ghost" style="padding:5px 12px;font-size:12px;border-color:#bfdbfe;color:var(--accent);">⬇ Download</button>
+                            <button onclick="adminDeletePdf('${escapedPath}')" class="btn-danger" style="padding:5px 12px;font-size:12px;">🗑 Delete</button>
+                        </div>
+                    </td>
+                </tr>`;
+                }).join('')}</tbody>
+        </table>`;
+            } catch (e) {
+                body.innerHTML = `<p style="color:var(--red);text-align:center;padding:24px;font-size:13px;">Error loading reports: ${e.message}</p>`;
+            }
+        }
+
+        function getPdfPublicUrl(filename) {
+            return `${SB_STORAGE_URL}/public/${BUCKET}/${filename}`;
+        }
+
+        // Admin: view PDF (with download + delete buttons)
+        function adminViewPdf(filename, name, classDiv) {
+            currentPdfFile = filename;
+            document.getElementById('pdfViewerTitle').innerText = `PDF Report — ${name}`;
+            document.getElementById('pdfViewerSub').innerText = classDiv || '';
+            document.getElementById('pdfViewerFrame').src = getPdfPublicUrl(filename);
+            const dl = document.getElementById('pdfDownloadLink');
+            dl.href = getPdfPublicUrl(filename);
+            dl.download = filename.split('/').pop(); // just the filename part for download
+            dl.style.display = 'inline-flex';
+            document.getElementById('pdfAdminDeleteBtn').style.display = 'inline-flex';
+            document.getElementById('pdfViewerModal').style.display = 'flex';
+        }
+        // Admin: download directly
+        function adminDownloadPdf(filename) {
+            const a = Object.assign(document.createElement('a'), { href: getPdfPublicUrl(filename), download: filename, target: '_blank' });
+            a.click();
+        }
+        // Admin: delete from viewer
+        async function deletePdfFromViewer() {
+            if (!currentPdfFile) return;
+            if (!confirm(`Permanently delete this report?\n${currentPdfFile}`)) return;
+            await adminDeletePdf(currentPdfFile);
+            closePdfViewer();
+        }
+        // Admin: delete PDF from storage
+        async function adminDeletePdf(filename) {
+            try {
+                const res = await fetch(`${SB_STORAGE_URL}/${BUCKET}/${filename}`, {
+                    method: 'DELETE',
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                });
+                if (res.ok) { showToast('PDF deleted.', 'success'); loadPdfList(); }
+                else showToast('Delete failed.', 'error');
+            } catch (e) { showToast('Delete error: ' + e.message, 'error'); }
+        }
+        function closePdfViewer() {
+            document.getElementById('pdfViewerModal').style.display = 'none';
+            document.getElementById('pdfViewerFrame').src = '';
+            currentPdfFile = null;
+        }
+
+        /* ═══════════════════════════ ADMIN RECORD ACTIONS ═══════════════════════════ */
+        async function updateScore(id) {
+            const val = parseInt(document.getElementById(`adm-sc-${id}`).value);
+            if (isNaN(val) || val < 0 || val > TOTAL_Q) return showToast('Score must be 0–' + TOTAL_Q, 'warn');
+            await fetch(`${SB_URL}?id=eq.${id}`, { method: 'PATCH', headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ score: val }) });
+            showToast('Score updated.', 'success'); await loadAdminData();
+        }
+        async function deleteEntry(id, pdfFilename) {
+            if (!confirm("Delete this record permanently? This will also delete the PDF report.")) return;
+            await fetch(`${SB_URL}?id=eq.${id}`, { method: 'DELETE', headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } });
+            // Also delete the PDF
+            if (pdfFilename) {
+                await fetch(`${SB_STORAGE_URL}/${BUCKET}/${pdfFilename}`, { method: 'DELETE', headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } });
+            }
+            showToast('Record and PDF deleted.', 'success'); await loadAdminData();
+        }
+        function confirmClearAll() { document.getElementById('clearAllModal').style.display = 'flex'; }
+        async function clearAllRecords() {
+            document.getElementById('clearAllModal').style.display = 'none';
+            await fetch(`${SB_URL}?id=gt.0`, { method: 'DELETE', headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } });
+            showToast('All records deleted.', 'success'); await loadAdminData();
+        }
+
+        /* ═══════════════════════════ SEARCH / SORT / FILTER ═══════════════════════════ */
+        function filterTable() {
+            const q = document.getElementById('adminSearch').value.trim().toLowerCase();
+            const f = document.getElementById('adminFilter').value;
+            const fc = document.getElementById('adminFilterClass').value;
+            const fd = document.getElementById('adminFilterDiv').value;
+            renderRecordsTable(adminData.filter(r => {
+                const mQ = !q || r.student_name.toLowerCase().includes(q);
+                const mF = f === 'all' || (f === 'pass' && r.score >= PASS_MARK) || (f === 'fail' && r.score < PASS_MARK);
+                const mC = fc === 'all' || (r.class_name === fc);
+                const mD = fd === 'all' || (r.division === fd);
+                return mQ && mF && mC && mD;
+            }));
+        }
+        function sortTable(col) {
+            if (sortCol === col) sortAsc = !sortAsc; else { sortCol = col; sortAsc = true; }
+            renderRecordsTable([...adminData].sort((a, b) => {
+                const va = col === 'score' ? a.score : col === 'class' ? a.class_name : col === 'division' ? a.division : a.student_name;
+                const vb = col === 'score' ? b.score : col === 'class' ? b.class_name : col === 'division' ? b.division : b.student_name;
+                return sortAsc ? (va > vb ? 1 : -1) : (va < vb ? 1 : -1);
+            }));
+        }
+        function exportCSV() {
+            if (!adminData.length) return showToast('No data to export.', 'warn');
+            const h = 'Class,Division,Name,Score,Percentage,Status,Submitted At\n';
+            const rows = adminData.map(r => `"${r.class_name || ''}","${r.division || ''}","${r.student_name}",${r.score},${((r.score / TOTAL_Q) * 100).toFixed(1)}%,${r.score >= PASS_MARK ? 'PASS' : 'FAIL'},"${new Date(r.created_at).toLocaleString('en-IN')}"`).join('\n');
+            const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([h + rows], { type: 'text/csv' })), download: `results_${new Date().toISOString().slice(0, 10)}.csv` });
+            a.click(); showToast('CSV exported!', 'success');
+        }
+        function switchTab(name) {
+            ['records', 'leaderboard', 'analytics', 'reports'].forEach(t => {
+                document.getElementById('panel-' + t).style.display = t === name ? 'block' : 'none';
+                document.getElementById('tab-' + t).className = 'admin-tab' + (t === name ? ' active' : '');
+            });
+            if (name === 'reports') loadPdfList();
+        }
+        function startAdminClock() {
+            const el = document.getElementById('adminClock');
+            const tick = () => { el.innerText = new Date().toLocaleTimeString('en-IN'); }; tick(); setInterval(tick, 1000);
+        }
+
+        /* ═══════════════════════════ SCORE VIEWER (Candidate) ═══════════════════════════ */
+        function viewScore() {
+            const name = document.getElementById('stdName').value.trim();
+            const cls = document.getElementById('stdClass').value;
+            const div = document.getElementById('stdDivision').value;
+            if (name) document.getElementById('svName').value = name;
+            if (cls) document.getElementById('svClass').value = cls;
+            if (div) document.getElementById('svDivision').value = div;
+            document.getElementById('scoreResult').style.display = 'none';
+            document.getElementById('scoreModal').style.display = 'flex';
+        }
+        function closeScoreModal() { document.getElementById('scoreModal').style.display = 'none'; }
+
+        async function fetchScore() {
+            const name = document.getElementById('svName').value.trim();
+            const cls = document.getElementById('svClass').value;
+            const div = document.getElementById('svDivision').value;
+            if (!name || !cls || !div) return showToast('Enter your Name, Class and Division.', 'warn');
+            const btn = document.getElementById('fetchBtn'); btn.innerText = 'Fetching…'; btn.disabled = true;
+            try {
+                const res = await fetch(`${SB_URL}?class_name=eq.${encodeURIComponent(cls)}&division=eq.${encodeURIComponent(div)}&order=created_at.desc`, { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } });
+                const data = await res.json();
+                const record = data.find(r => r.student_name.trim().toLowerCase() === name.toLowerCase());
+                const divEl = document.getElementById('scoreResult'); divEl.style.display = 'block';
+
+                if (!record) {
+                    divEl.innerHTML = `<div style="text-align:center;"><div style="font-size:36px;margin-bottom:10px;">🔍</div><p style="color:var(--red);font-weight:700;font-size:15px;">No record found</p><p style="color:var(--sub);font-size:13px;margin-top:6px;">Name, Class and Division must exactly match what you entered during the test.</p></div>`;
+                } else {
+                    const score = record.score, pct = ((score / TOTAL_Q) * 100).toFixed(1), pass = score >= PASS_MARK;
+                    const dt = new Date(record.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+
+                    const safeClass = (record.class_name || 'Unknown').replace(/\s+/g, '_');
+                    const safeDiv = record.division || 'A';
+                    const safeName = (record.student_name || '').replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
+                    const pdfFname = `${safeClass}/${safeDiv}/report_${safeClass}_Div${safeDiv}_${safeName}.pdf`;
+                    const pdfUrl = getPdfPublicUrl(pdfFname);
+
+                    divEl.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
+                    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px;text-align:center;"><div class="sec-label" style="margin-bottom:4px;">Score</div><div class="mono" style="font-size:1.6rem;font-weight:800;color:var(--accent);">${score}/${TOTAL_Q}</div></div>
+                    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px;text-align:center;"><div class="sec-label" style="margin-bottom:4px;">Accuracy</div><div class="mono" style="font-size:1.6rem;font-weight:800;color:var(--amber);">${pct}%</div></div>
+                    <div style="background:${pass ? '#f0fdf4' : '#fff5f5'};border:1px solid ${pass ? '#bbf7d0' : '#fecaca'};border-radius:8px;padding:14px;text-align:center;"><div class="sec-label" style="margin-bottom:4px;">Status</div><div style="font-size:1.3rem;font-weight:800;color:${pass ? 'var(--green)' : 'var(--red)'};">${pass ? 'PASS ✓' : 'FAIL ✗'}</div></div>
+                </div>
+                <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:8px;">Submitted: ${dt}</p>
+                <p style="font-size:12px;color:var(--accent);text-align:center;font-weight:600;margin-bottom:14px;">${record.class_name} · Division ${record.division}</p>
+                <div style="border-top:1px solid var(--border);padding-top:14px;">
+                    <button onclick="candidateViewPdf('${pdfUrl}','${record.student_name}','${record.class_name}','${record.division}')" style="width:100%;background:#f5f3ff;color:var(--purple);border:1.5px solid #ddd6fe;border-radius:8px;padding:11px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;">📄 View My PDF Report</button>
+                    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px;">View only — contact your teacher to download</p>
+                </div>`;
+                }
+            } catch (e) {
+                document.getElementById('scoreResult').innerHTML = '<p style="text-align:center;color:var(--red);font-weight:600;">Network error. Please try again.</p>';
+                document.getElementById('scoreResult').style.display = 'block';
+            }
+            btn.innerText = 'Fetch My Score →'; btn.disabled = false;
+        }
+
+        // Candidate: view-only PDF (no download link, no delete button)
+        function candidateViewPdf(url, name, className, division) {
+            document.getElementById('pdfViewerTitle').innerText = `My Report — ${name}`;
+            document.getElementById('pdfViewerSub').innerText = `${className} · Division ${division}`;
+            document.getElementById('pdfViewerFrame').src = url;
+            document.getElementById('pdfDownloadLink').style.display = 'none';   // NO download for candidate
+            document.getElementById('pdfAdminDeleteBtn').style.display = 'none'; // NO delete for candidate
+            document.getElementById('pdfViewerModal').style.display = 'flex';
+        }
+
+        /* ═══════════════════════════ KEYBOARD ═══════════════════════════ */
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { closeScoreModal(); closeConfirm(); closePdfViewer(); }
+            if (document.getElementById('testPage').style.display === 'flex') {
+                if (e.key === 'ArrowRight') saveAndNext();
+                if (e.key === 'ArrowLeft') prevQuestion();
+                if (['1', '2', '3', '4'].includes(e.key)) saveResponse(parseInt(e.key) - 1);
+            }
+        });
+
+        // Fetch and display schedule status on the front page as soon as the document loads
+        window.addEventListener('load', () => { loadScheduleStatus(); loadAnnouncements(); });
+    </script>
+</body>
+
+</html>
